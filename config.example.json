@@ -1,0 +1,6 @@
+{
+    "sniff_no_exit": false,
+    "sniff_interface": "ens192",
+    "sniff_filter": "tcp port 8080",
+    "sniff_save_path": "playlist_raw.json"
+}
