@@ -3,5 +3,12 @@
     "sniff_interface": "ens192",
     "sniff_filter": "tcp port 8080",
     "sniff_save_path": "playlist_raw.json",
-    "useragent": "okhttp/3.3.1"
+    "useragent": "okhttp/3.3.1",
+    "playlist_watcher_no_exit": false,
+    "playlist_watcher_interval": 5,
+    "playlist_epg_url": "http://epg.51zmt.top:8000/e.xml.gz",
+    "playlist_udpxy_url": "http://127.0.0.1:8080/rtp/",
+    "playlist_tvg_img_url": "http://127.0.0.1/img/",
+    "playlist_save_path": "playlist.m3u",
+    "playlist_mc_save_path": "playlist_mc.m3u"
 }

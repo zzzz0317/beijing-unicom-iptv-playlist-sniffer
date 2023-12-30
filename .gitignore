@@ -1,3 +1,8 @@
 config.json
 playlist_raw.json
+tvg_mapper.json
 user_token.log
+last_raw_playlist_hash.txt
+playlist.m3u
+playlist_mc.m3u
+*.pyc
