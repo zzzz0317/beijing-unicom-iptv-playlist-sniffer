@@ -117,5 +117,7 @@ while True:
         print("Writting multicast playlist to", config_playlist_mc_save_path)
         with open(config_playlist_mc_save_path, "w", encoding="utf-8") as f_multicast_m3u:
             f_multicast_m3u.write(result_multicast)
+    if not config_playlist_watcher_no_exit:
+            sys.exit(0)
 
     time.sleep(config_playlist_watcher_interval)
