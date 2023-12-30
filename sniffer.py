@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import random
+import time
 from scapy.all import *
 import urllib.request
 import traceback
@@ -85,6 +86,9 @@ def packet_callback(packet):
                 user_token = json.loads(payload[1])
                 user_token = user_token["UserToken"]
                 print("user_token:", user_token)
+                with open(os.path.join(DIR_SCRIPT, "user_token.log"), "a", encoding="utf-8") as f_user_token_log:
+                    txt = f"{time.time()}\t{sip}:{sport}->{dip}:{dport}\t{user_token}\n"
+                    f_user_token_log.write(txt)
                 get_raw_playlist(dip, dport, user_token)
         except Exception as e:
             print("packet_callback_err:", e.__class__.__name__, e)
