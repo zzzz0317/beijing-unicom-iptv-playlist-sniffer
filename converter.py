@@ -90,7 +90,7 @@ while True:
             zz_playlist.append({"channel_id": channel_id, "igmp_ip_port": igmp_ip_port, "channel_name": channel_name})
         need_update_playlist = False
         # print(zz_playlist)
-        m3u_header = "#EXTM3U name=\"bj-unicom-iptv\"" if epg_disable else "#EXTM3U name=\"bj-unicom-iptv\" x-tvg-url=\"{config_playlist_epg_url}\""
+        m3u_header = "#EXTM3U name=\"bj-unicom-iptv\"" if epg_disable else f"#EXTM3U name=\"bj-unicom-iptv\" x-tvg-url=\"{config_playlist_epg_url}\""
         line_unicast = [m3u_header]
         line_multicast = [m3u_header]
         for channel in zz_playlist:
