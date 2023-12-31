@@ -22,6 +22,7 @@ config_playlist_watcher_no_exit = config.get("playlist_watcher_no_exit", False)
 config_playlist_watcher_interval = config.get("playlist_watcher_interval", 5)
 config_playlist_epg_url = config.get("playlist_epg_url", "")
 config_playlist_tvg_img_url = config.get("playlist_tvg_img_url", "")
+config_playlist_tvg_id_is_channel_id = config.get("playlist_tvg_id_is_channel_id", False)
 config_playlist_udpxy_url = config.get("playlist_udpxy_url", "http://127.0.0.1:8080/rtp/")
 config_playlist_save_path = config.get("playlist_save_path", "playlist.m3u")
 config_playlist_mc_save_path = config.get("playlist_mc_save_path", "playlist_mc.m3u")
@@ -95,13 +96,16 @@ while True:
         for channel in zz_playlist:
             tvg_mapper_channel = tvg_mapper.get(channel["channel_name"], {})
             info_line = f'#EXTINF:-1 channel-number="{channel["channel_id"]}"'
+            tvg_id = channel["channel_id"]
             if not epg_disable:
                 tvg_img_url = tvg_mapper_channel.get("tvg_logo", "")
                 if config_playlist_tvg_img_url != "" and tvg_img_url != "":
                     tvg_img_url = config_playlist_tvg_img_url + tvg_img_url
                 else:
                     tvg_img_url = ""
-                info_line = info_line + f' tvg-id="{tvg_mapper_channel.get("tvg_id", "")}" tvg-name="{tvg_mapper_channel.get("tvg_name", "")}" tvg-logo="{tvg_img_url}" group-title="{tvg_mapper_channel.get("group_title", "")}"'
+                if not config_playlist_tvg_id_is_channel_id:
+                    tvg_id = tvg_mapper_channel.get("tvg_id", "")
+                info_line = info_line + f' tvg-id="{tvg_id}" tvg-name="{tvg_mapper_channel.get("tvg_name", "")}" tvg-logo="{tvg_img_url}" group-title="{tvg_mapper_channel.get("group_title", "")}"'
             info_line = info_line + "," + channel["channel_name"]
             uc_url_line = config_playlist_udpxy_url + channel["igmp_ip_port"]
             mc_url_line = "rtp://" + channel["igmp_ip_port"]
