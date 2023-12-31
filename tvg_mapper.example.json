@@ -113,6 +113,48 @@
     "tvg_logo": "tb1/ws/beijing.png",
     "group_title": "卫视"
   },
+  "BRTV文艺高清": {
+    "tvg_id": "1873",
+    "tvg_name": "BTV文艺",
+    "tvg_logo": "tb1/sheng/BTV文艺.png",
+    "group_title": "北京"
+  },
+  "BRTV纪实科教高清": {
+    "tvg_id": "1874",
+    "tvg_name": "BTV科教",
+    "tvg_logo": "tb1/sheng/BTV科教.png",
+    "group_title": "北京"
+  },
+  "BRTV影视高清": {
+    "tvg_id": "1875",
+    "tvg_name": "BTV影视",
+    "tvg_logo": "tb1/sheng/BTV影视.png",
+    "group_title": "北京"
+  },
+  "BRTV财经高清": {
+    "tvg_id": "1876",
+    "tvg_name": "BTV财经",
+    "tvg_logo": "tb1/sheng/BTV财经.png",
+    "group_title": "北京"
+  },
+  "BRTV体育休闲高清": {
+    "tvg_id": "1877",
+    "tvg_name": "BTV体育",
+    "tvg_logo": "tb1/sheng/BTV体育.png",
+    "group_title": "北京"
+  },
+  "BRTV生活高清": {
+    "tvg_id": "1878",
+    "tvg_name": "BTV生活",
+    "tvg_logo": "tb1/sheng/BTV生活.png",
+    "group_title": "北京"
+  },
+  "BRTV新闻高清": {
+    "tvg_id": "1880",
+    "tvg_name": "BTV新闻",
+    "tvg_logo": "tb1/sheng/BTV新闻.png",
+    "group_title": "北京"
+  },
   "BRTV卡酷少儿高清": {
     "tvg_id": "67",
     "tvg_name": "卡酷动画",
@@ -370,6 +412,48 @@
     "tvg_name": "北京卫视",
     "tvg_logo": "tb1/ws/beijing.png",
     "group_title": "卫视"
+  },
+  "BRTV文艺": {
+    "tvg_id": "1873",
+    "tvg_name": "BTV文艺",
+    "tvg_logo": "tb1/sheng/BTV文艺.png",
+    "group_title": "北京"
+  },
+  "BRTV纪实科教": {
+    "tvg_id": "1874",
+    "tvg_name": "BTV科教",
+    "tvg_logo": "tb1/sheng/BTV科教.png",
+    "group_title": "北京"
+  },
+  "BRTV影视": {
+    "tvg_id": "1875",
+    "tvg_name": "BTV影视",
+    "tvg_logo": "tb1/sheng/BTV影视.png",
+    "group_title": "北京"
+  },
+  "BRTV财经": {
+    "tvg_id": "1876",
+    "tvg_name": "BTV财经",
+    "tvg_logo": "tb1/sheng/BTV财经.png",
+    "group_title": "北京"
+  },
+  "BRTV体育休闲": {
+    "tvg_id": "1877",
+    "tvg_name": "BTV体育",
+    "tvg_logo": "tb1/sheng/BTV体育.png",
+    "group_title": "北京"
+  },
+  "BRTV生活": {
+    "tvg_id": "1878",
+    "tvg_name": "BTV生活",
+    "tvg_logo": "tb1/sheng/BTV生活.png",
+    "group_title": "北京"
+  },
+  "BRTV新闻": {
+    "tvg_id": "1880",
+    "tvg_name": "BTV新闻",
+    "tvg_logo": "tb1/sheng/BTV新闻.png",
+    "group_title": "北京"
   },
   "BRTV卡酷少儿": {
     "tvg_id": "67",
@@ -636,15 +720,15 @@
     "group_title": "地方"
   },
   "CCTV-4欧洲高清": {
-    "tvg_id": "4",
-    "tvg_name": "CCTV4",
-    "tvg_logo": "tb1/CCTV/CCTV4.png",
+    "tvg_id": "22",
+    "tvg_name": "CCTV4EUO",
+    "tvg_logo": "tb1/CCTV/CCTV4EUO.png",
     "group_title": "央视"
   },
   "CCTV-4美洲高清": {
-    "tvg_id": "4",
-    "tvg_name": "CCTV4",
-    "tvg_logo": "tb1/CCTV/CCTV4.png",
+    "tvg_id": "23",
+    "tvg_name": "CCTV4AME",
+    "tvg_logo": "tb1/CCTV/CCTV4AME.png",
     "group_title": "央视"
   },
   "CGTN英语": {
