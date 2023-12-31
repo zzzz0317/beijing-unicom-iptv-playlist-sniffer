@@ -23,6 +23,7 @@ config_playlist_watcher_interval = config.get("playlist_watcher_interval", 5)
 config_playlist_epg_url = config.get("playlist_epg_url", "")
 config_playlist_tvg_img_url = config.get("playlist_tvg_img_url", "")
 config_playlist_tvg_id_is_channel_id = config.get("playlist_tvg_id_is_channel_id", False)
+config_playlist_ignore_channel_list = config.get("playlist_ignore_channel_list", [])
 config_playlist_udpxy_url = config.get("playlist_udpxy_url", "http://127.0.0.1:8080/rtp/")
 config_playlist_save_path = config.get("playlist_save_path", "playlist.m3u")
 config_playlist_mc_save_path = config.get("playlist_mc_save_path", "playlist_mc.m3u")
@@ -94,6 +95,9 @@ while True:
         line_unicast = [m3u_header]
         line_multicast = [m3u_header]
         for channel in zz_playlist:
+            if channel["channel_name"] in config_playlist_ignore_channel_list:
+                print("Ignore channel:", channel["channel_name"])
+                continue
             tvg_mapper_channel = tvg_mapper.get(channel["channel_name"], {})
             info_line = f'#EXTINF:-1 channel-number="{channel["channel_id"]}"'
             tvg_id = channel["channel_id"]
