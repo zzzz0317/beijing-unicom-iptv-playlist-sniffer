@@ -3,6 +3,7 @@ import sys
 import json
 import random
 import time
+import argparse
 from scapy.all import *
 import urllib.request
 import traceback
@@ -14,6 +15,10 @@ marker_char = 'abcdefghijklmnopqrstuvwxyz0123456789'
 marker = random.sample(marker_char, 32)
 marker = "".join(marker)
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--no-exit', action='store_true', help='Override no exit')
+args = parser.parse_args()
+
 CONFIG_PATH = os.path.join(DIR_SCRIPT, "config.json")
 if os.path.exists(CONFIG_PATH):
     with open(CONFIG_PATH, "r", encoding="utf-8") as f_config_json:
@@ -22,6 +27,8 @@ else:
     config = {}
 
 config_sniff_no_exit = config.get("sniff_no_exit", False)
+if args.no_exit:
+    config_sniff_no_exit = True
 config_sniff_interface = config.get("sniff_interface", "eth0")
 config_sniff_filter = config.get("sniff_filter", "tcp port 8080")
 config_sniff_save_path = config.get("sniff_save_path", "playlist_raw.json")

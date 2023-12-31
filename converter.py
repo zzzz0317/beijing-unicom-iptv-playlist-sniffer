@@ -2,13 +2,16 @@ import os
 import sys
 import json
 import time
-import urllib.request
-import traceback
+import argparse
 
 from util import calculate_file_hash
 
 DIR_SCRIPT = os.path.dirname(os.path.realpath(sys.argv[0]))
 DIR_RUNNING = os.getcwd()
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--no-exit', action='store_true', help='Override no exit')
+args = parser.parse_args()
 
 CONFIG_PATH = os.path.join(DIR_SCRIPT, "config.json")
 if os.path.exists(CONFIG_PATH):
@@ -19,6 +22,8 @@ else:
 
 
 config_playlist_watcher_no_exit = config.get("playlist_watcher_no_exit", False)
+if args.no_exit:
+    config_playlist_watcher_no_exit = True
 config_playlist_watcher_interval = config.get("playlist_watcher_interval", 5)
 config_playlist_epg_url = config.get("playlist_epg_url", "")
 config_playlist_tvg_img_url = config.get("playlist_tvg_img_url", "")
