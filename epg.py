@@ -96,12 +96,14 @@ root = ET.Element(
     }
 )
 
+print("Generating EPG channel list")
 for k in channel_list:
     channel = channel_list[k]
     elem_channel = ET.SubElement(root, "channel", attrib={"id": channel["channel_num"]})
     display_name = ET.SubElement(elem_channel, "display-name", attrib={"lang": "zh"})
     display_name.text = channel["channel_name"]
 
+print("Generating EPG programme list")
 for programme in programme_list:
     elem_programme = ET.SubElement(
         root,
@@ -116,6 +118,7 @@ for programme in programme_list:
     title.text = programme["title"]
     desc1 = ET.SubElement(elem_programme, "desc", attrib={"lang": "zh"})
 
+print("Writting EPG file to:", config_epg_save_path)
 tree = ET.ElementTree(root)
 tree.write(
     config_epg_save_path,
