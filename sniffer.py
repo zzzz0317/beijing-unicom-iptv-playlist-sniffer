@@ -8,6 +8,8 @@ from scapy.all import *
 import urllib.request
 import traceback
 
+from util import get_time_str
+
 DIR_SCRIPT = os.path.dirname(os.path.realpath(sys.argv[0]))
 DIR_RUNNING = os.getcwd()
 
@@ -94,7 +96,7 @@ def packet_callback(packet):
                 user_token = user_token["UserToken"]
                 print("user_token:", user_token)
                 with open(os.path.join(DIR_SCRIPT, "user_token.log"), "a", encoding="utf-8") as f_user_token_log:
-                    txt = f"{time.time()}\t{sip}:{sport}->{dip}:{dport}\t{user_token}\n"
+                    txt = f"{get_time_str()}\t{sip}:{sport}->{dip}:{dport}\t{user_token}\n"
                     f_user_token_log.write(txt)
                 get_raw_playlist(dip, dport, user_token)
         except Exception as e:
