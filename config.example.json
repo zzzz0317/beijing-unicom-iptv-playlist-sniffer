@@ -9,7 +9,6 @@
     "playlist_epg_url": "http://epg.51zmt.top:8000/e.xml.gz",
     "playlist_udpxy_url": "http://127.0.0.1:8080/rtp/",
     "playlist_tvg_img_url": "http://127.0.0.1/img/",
-    "playlist_tvg_id_is_channel_id": true,
     "playlist_ignore_channel_list": [
         "4K测试",
         "高清测试",
@@ -37,5 +36,6 @@
         "粤荟萃"
     ],
     "playlist_save_path": "playlist.m3u",
-    "playlist_mc_save_path": "playlist_mc.m3u"
+    "playlist_mc_save_path": "playlist_mc.m3u",
+    "epg_url": "http://210.13.21.3"
 }
