@@ -111,6 +111,8 @@ while True:
                     tmp_epg_data["tvg-id"] = channel["channel_id"]
                 if not "tvg-name" in tvg_mapper_channel.keys():
                     tmp_epg_data["tvg-name"] = channel["channel_name"]
+                if "tvg-logo" in tvg_mapper_channel.keys():
+                    tmp_epg_data["tvg-logo"] = config_playlist_tvg_img_url + tmp_epg_data["tvg-logo"]
                 info_line = info_line + f' tvg-id="{tmp_epg_data.pop("tvg-id")}" tvg-name="{tmp_epg_data.pop("tvg-name")}"'
                 for k in tmp_epg_data.keys():
                     info_line = info_line + f' {k}="{tmp_epg_data[k]}"'
