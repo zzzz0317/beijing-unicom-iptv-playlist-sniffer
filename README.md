@@ -5,8 +5,23 @@
 不再依赖他人更新的节目单，机顶盒每次启动时工具嗅探到新的 `user_token` 后自动执行节目单更新，实现节目单自由！
 
 ## 准备工作
-1. 将机顶盒流量转发至执行脚本的机器(交换机ACL或镜像口)，以下使用 CSS610 做示范
-![SwOS 示例](docs/img/swos-lite.png)
+
+1. 将机顶盒流量转发至执行脚本的机器(交换机ACL或镜像口)，不同交换机有不同配置，以下仅供参考。
+
+### Router OS 镜像配置示例
+
+* Switch -> Rule -> New
+
+![Router OS 示例](docs/img/ros-crs309-1.png)
+
+* Action
+
+![Router OS 示例](docs/img/ros-crs309-2.png)
+
+### SwOS Lite 镜像配置示例
+
+![SwOS Lite 示例](docs/img/swos-lite-css610.png)
+
 2. 开启混杂模式
 
 ## 大概的使用说明
