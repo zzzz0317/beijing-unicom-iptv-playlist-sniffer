@@ -75,6 +75,10 @@
     "tvg-logo": "WeiShi/BeiJing.png",
     "group-title": "卫视"
   },
+  "BRTV北京卫视超高清HDR": {
+    "tvg-logo": "WeiShi/BeiJing.png",
+    "group-title": "卫视"
+  },
   "BRTV文艺高清": {
     "tvg-logo": "BRTV/BRTV_WenYi.png",
     "group-title": "北京"
@@ -106,6 +110,10 @@
   "BRTV卡酷少儿高清": {
     "tvg-logo": "BRTV/BRTV_KakuShaoEr.png",
     "group-title": "卫视"
+  },
+  "BTV国际频道": { 
+    "tvg-logo": "BRTV/BRTV_International.png",
+    "group-title": "北京"
   },
   "4K超清": {
     "tvg-logo": "QiTa/CETV-4.png",
@@ -336,6 +344,10 @@
     "group-title": "卫视"
   },
   "河南卫视": {
+    "tvg-logo": "WeiShi/HeNan.png",
+    "group-title": "卫视"
+  },
+  "河南卫视高清": {
     "tvg-logo": "WeiShi/HeNan.png",
     "group-title": "卫视"
   },
