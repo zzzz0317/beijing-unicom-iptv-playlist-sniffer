@@ -35,4 +35,4 @@
 ## TODO
 - [x] ~~抓EPG~~
 - [ ] 写详细的使用说明
-- [ ] 发布节目单
+- [x] ~~发布节目单~~: https://github.com/zzzz0317/beijing-unicom-iptv-playlist/
