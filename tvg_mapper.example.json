@@ -542,5 +542,20 @@
   "4K测试": {
     "tvg-logo": "QiTa/CETV-4.png",
     "group-title": "地方"
+  },
+  "通州融媒": {
+    "group-title": "区县"
+  },
+  "密云电视台": {
+    "group-title": "区县"
+  },
+  "门头沟电视台": {
+    "group-title": "区县"
+  },
+  "延庆电视台": {
+    "group-title": "区县"
+  },
+  "朝阳融媒": {
+    "group-title": "区县"
   }
 }

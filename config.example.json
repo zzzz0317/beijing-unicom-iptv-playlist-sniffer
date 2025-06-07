@@ -48,6 +48,28 @@
     "CETV3",
     "直播室101"
   ],
+  "playlist_additional": {
+    "通州融媒": {
+      "channel_id": 302,
+      "igmp_ip_port": "239.3.1.221:8001"
+    },
+    "密云电视台": {
+      "channel_id": 303,
+      "igmp_ip_port": "239.3.1.154:8001"
+    },
+    "门头沟电视台": {
+      "channel_id": 304,
+      "igmp_ip_port": "239.3.1.59:8001"
+    },
+    "延庆电视台": {
+      "channel_id": 305,
+      "igmp_ip_port": "239.3.1.187:8001"
+    },
+    "朝阳融媒": {
+      "channel_id": 310,
+      "igmp_ip_port": "239.3.1.163:8001"
+    }
+  },
   "playlist_save_path": "playlist.m3u",
   "playlist_mc_save_path": "playlist_mc.m3u",
   "playlist_ignored_save_path": "playlist_ignored.m3u",

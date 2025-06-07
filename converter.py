@@ -28,6 +28,7 @@ config_playlist_watcher_interval = config.get("playlist_watcher_interval", 5)
 config_playlist_epg_url = config.get("playlist_epg_url", "")
 config_playlist_tvg_img_url = config.get("playlist_tvg_img_url", "")
 config_playlist_ignore_channel_list = config.get("playlist_ignore_channel_list", [])
+config_playlist_additional = config.get("playlist_additional", {})
 config_playlist_udpxy_url = config.get("playlist_udpxy_url", "http://127.0.0.1:8080/rtp/")
 config_playlist_save_path = config.get("playlist_save_path", "playlist.m3u")
 config_playlist_mc_save_path = config.get("playlist_mc_save_path", "playlist_mc.m3u")
@@ -95,6 +96,8 @@ while True:
                 continue
             channel_name = channel["channelName"].strip()
             zz_playlist.append({"channel_id": channel_id, "igmp_ip_port": igmp_ip_port, "channel_name": channel_name})
+        for channel_name, channel_data in config_playlist_additional.items():
+            zz_playlist.append({"channel_id": channel_data["channel_id"], "igmp_ip_port": channel_data["igmp_ip_port"], "channel_name": channel_name})
         need_update_playlist = False
         # print(zz_playlist)
         m3u_header = "#EXTM3U name=\"bj-unicom-iptv\"" if epg_disable else f"#EXTM3U name=\"bj-unicom-iptv\" x-tvg-url=\"{config_playlist_epg_url}\""
