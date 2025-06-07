@@ -91,7 +91,7 @@ while True:
             else:
                 print(f"Channel {channel_id} URL is not start from igmp://, ignored")
                 continue
-            channel_name = channel["channelName"]
+            channel_name = channel["channelName"].strip()
             zz_playlist.append({"channel_id": channel_id, "igmp_ip_port": igmp_ip_port, "channel_name": channel_name})
         need_update_playlist = False
         # print(zz_playlist)
