@@ -31,6 +31,8 @@ config_playlist_ignore_channel_list = config.get("playlist_ignore_channel_list",
 config_playlist_udpxy_url = config.get("playlist_udpxy_url", "http://127.0.0.1:8080/rtp/")
 config_playlist_save_path = config.get("playlist_save_path", "playlist.m3u")
 config_playlist_mc_save_path = config.get("playlist_mc_save_path", "playlist_mc.m3u")
+config_playlist_ignored_save_path = config.get("playlist_ignored_save_path", "playlist_ignored.m3u")
+config_playlist_ignored_mc_save_path = config.get("playlist_ignored_mc_save_path", "playlist_ignored_mc.m3u")
 config_sniff_save_path = config.get("sniff_save_path", "playlist_raw.json")
 
 
@@ -98,10 +100,14 @@ while True:
         m3u_header = "#EXTM3U name=\"bj-unicom-iptv\"" if epg_disable else f"#EXTM3U name=\"bj-unicom-iptv\" x-tvg-url=\"{config_playlist_epg_url}\""
         line_unicast = [m3u_header]
         line_multicast = [m3u_header]
+        line_unicast_ignored = [m3u_header]
+        line_multicast_ignored = [m3u_header]
         for channel in zz_playlist:
+            flag_ignore_channel = False
             if channel["channel_name"] in config_playlist_ignore_channel_list:
                 print("Ignore channel:", channel["channel_name"])
-                continue
+                flag_ignore_channel = True
+                #continue
             tvg_mapper_channel = tvg_mapper.get(channel["channel_name"], {})
             info_line = f'#EXTINF:-1 channel-number="{channel["channel_id"]}"'
             tvg_id = channel["channel_id"]
@@ -119,18 +125,31 @@ while True:
             info_line = info_line + "," + channel["channel_name"]
             uc_url_line = config_playlist_udpxy_url + channel["igmp_ip_port"]
             mc_url_line = "rtp://" + channel["igmp_ip_port"]
+            if flag_ignore_channel:
+                line_unicast_ignored.append(info_line)
+                line_unicast_ignored.append(uc_url_line)
+                line_multicast_ignored.append(info_line)
+                line_multicast_ignored.append(mc_url_line)
             line_unicast.append(info_line)
             line_unicast.append(uc_url_line)
             line_multicast.append(info_line)
             line_multicast.append(mc_url_line)
         result_unicast = "\n".join(line_unicast)
         result_multicast = "\n".join(line_multicast)
+        result_unicast_ignored = "\n".join(line_unicast_ignored)
+        result_multicast_ignored = "\n".join(line_multicast_ignored)
         print("Writting unicast playlist to", config_playlist_save_path)
         with open(config_playlist_save_path, "w", encoding="utf-8") as f_unicast_m3u:
             f_unicast_m3u.write(result_unicast)
         print("Writting multicast playlist to", config_playlist_mc_save_path)
         with open(config_playlist_mc_save_path, "w", encoding="utf-8") as f_multicast_m3u:
             f_multicast_m3u.write(result_multicast)
+        print("Writting ignored unicast playlist to", config_playlist_ignored_save_path)
+        with open(config_playlist_ignored_save_path, "w", encoding="utf-8") as f_ignored_unicast_m3u:
+            f_ignored_unicast_m3u.write(result_unicast_ignored)
+        print("Writting ignored multicast playlist to", config_playlist_ignored_mc_save_path)
+        with open(config_playlist_ignored_mc_save_path, "w", encoding="utf-8") as f_ignored_multicast_m3u:
+            f_ignored_multicast_m3u.write(result_multicast_ignored)
     if not config_playlist_watcher_no_exit:
             sys.exit(0)
 

@@ -37,6 +37,8 @@
   ],
   "playlist_save_path": "playlist.m3u",
   "playlist_mc_save_path": "playlist_mc.m3u",
+  "playlist_ignored_save_path": "playlist_ignored.m3u",
+  "playlist_ignored_mc_save_path": "playlist_ignored_mc.m3u",
   "epg_server_url": "http://210.13.21.3",
   "epg_save_path": "epg.xml"
 }
