@@ -71,6 +71,12 @@
     "tvg-logo": "CCTV/CCTV-5+.png",
     "group-title": "央视"
   },
+  "聚鲨环球精选": {
+    "group-title": "购物"
+  },
+  "央广购物": {
+    "group-title": "购物"
+  },
   "BRTV北京卫视高清": {
     "tvg-logo": "WeiShi/BeiJing.png",
     "group-title": "北京"
@@ -115,6 +121,30 @@
     "tvg-logo": "BRTV/BRTV_International.png",
     "group-title": "北京"
   },
+  "家有购物精选": {
+    "group-title": "购物"
+  },
+  "优购物": {
+    "group-title": "购物"
+  },
+  "时尚购物": {
+    "group-title": "购物"
+  },
+  "萌宠TV": {
+    "group-title": "轮播"
+  },
+  "淘Baby": {
+    "group-title": "轮播"
+  },
+  "淘剧场": {
+    "group-title": "轮播"
+  },
+  "淘电影": {
+    "group-title": "轮播"
+  },
+  "淘娱乐": {
+    "group-title": "轮播"
+  },
   "4K超清": {
     "tvg-logo": "QiTa/CETV-4.png",
     "group-title": "地方"
@@ -122,6 +152,12 @@
   "湖南卫视高清": {
     "tvg-logo": "WeiShi/HuNan.png",
     "group-title": "卫视"
+  },
+  "家有购物": {
+    "group-title": "购物"
+  },
+  "央广购物精选": {
+    "group-title": "购物"
   },
   "江苏卫视高清": {
     "tvg-logo": "WeiShi/JiangSu.png",
@@ -142,6 +178,9 @@
   "天津卫视高清": {
     "tvg-logo": "WeiShi/TianJin.png",
     "group-title": "卫视"
+  },
+  "聚鲨环球": {
+    "group-title": "购物"
   },
   "山东卫视高清": {
     "tvg-logo": "WeiShi/ShanDong.png",
@@ -175,6 +214,48 @@
     "tvg-logo": "WeiShi/JiangXi.png",
     "group-title": "卫视"
   },
+  "河南卫视高清": {
+    "tvg-logo": "WeiShi/HeNan.png",
+    "group-title": "卫视"
+  },
+  "优购物精选": {
+    "group-title": "购物"
+  },
+  "时尚购物精选": {
+    "group-title": "购物"
+  },
+  "甘肃卫视高清": {
+    "tvg-logo": "WeiShi/GanSu.png",
+    "group-title": "卫视"
+  },
+  "西藏卫视高清": {
+    "tvg-logo": "WeiShi/XiZang.png",
+    "group-title": "卫视"
+  },
+  "新疆卫视高清": {
+    "tvg-logo": "WeiShi/XinJiang.png",
+    "group-title": "卫视"
+  },
+  "兵团卫视高清": {
+    "tvg-logo": "WeiShi/BingTuan.png",
+    "group-title": "卫视"
+  },
+  "睛彩竞技": {
+    "group-title": "轮播"
+  },
+  "睛彩篮球": {
+    "group-title": "轮播"
+  },
+  "睛彩羽毛球": {
+    "group-title": "轮播"
+  },
+  "睛彩广场舞": {
+    "group-title": "轮播"
+  },
+  "宁夏卫视高清": {
+    "tvg-logo": "WeiShi/NingXia.png",
+    "group-title": "卫视"
+  },
   "广东卫视高清": {
     "tvg-logo": "WeiShi/GuangDong.png",
     "group-title": "卫视"
@@ -202,6 +283,10 @@
   "中国交通": {
     "tvg-logo": "QiTa/ZhongGuoJiaoTong.png",
     "group-title": "上海"
+  },
+  "BRTV北京卫视超高清SDR": {
+    "tvg-logo": "WeiShi/Beijing.png",
+    "group-title": "北京"
   },
   "CCTV4K超高清": {
     "tvg-logo": "CCTV/CCTV-4K.png",
@@ -343,11 +428,10 @@
     "tvg-logo": "WeiShi/ShanDong.png",
     "group-title": "卫视标清"
   },
-  "河南卫视": {
-    "tvg-logo": "WeiShi/HeNan.png",
+  "山东教育": {
     "group-title": "卫视标清"
   },
-  "河南卫视高清": {
+  "河南卫视": {
     "tvg-logo": "WeiShi/HeNan.png",
     "group-title": "卫视标清"
   },
@@ -491,6 +575,24 @@
     "tvg-logo": "QiTa/IPTV5+.png",
     "group-title": "地方"
   },
+  "收视指南": {
+    "group-title": "轮播"
+  },
+  "热播剧场": {
+    "group-title": "轮播"
+  },
+  "经典电影": {
+    "group-title": "轮播"
+  },
+  "魅力时尚": {
+    "group-title": "轮播"
+  },
+  "少儿动画": {
+    "group-title": "轮播"
+  },
+  "房山电视台": {
+    "group-title": "区县"
+  },
   "快乐垂钓": {
     "tvg-logo": "QiTa/HuNan_KuaiLeChuiDiao.jpg",
     "group-title": "地方"
@@ -542,6 +644,101 @@
   "4K测试": {
     "tvg-logo": "QiTa/CETV-4.png",
     "group-title": "测试"
+  },
+  "城市剧场": {
+    "group-title": "轮播"
+  },
+  "军旅剧场": {
+    "group-title": "轮播"
+  },
+  "古装剧场": {
+    "group-title": "轮播"
+  },
+  "音乐现场": {
+    "group-title": "轮播"
+  },
+  "地理": {
+    "group-title": "轮播"
+  },
+  "美妆": {
+    "group-title": "轮播"
+  },
+  "美人": {
+    "group-title": "轮播"
+  },
+  "精选": {
+    "group-title": "轮播"
+  },
+  "解密": {
+    "group-title": "轮播"
+  },
+  "军事": {
+    "group-title": "轮播"
+  },
+  "戏曲": {
+    "group-title": "轮播"
+  },
+  "早教": {
+    "group-title": "轮播"
+  },
+  "动画": {
+    "group-title": "轮播"
+  },
+  "好学生": {
+    "group-title": "轮播"
+  },
+  "鉴赏": {
+    "group-title": "轮播"
+  },
+  "墨宝": {
+    "group-title": "轮播"
+  },
+  "光影": {
+    "group-title": "轮播"
+  },
+  "台球": {
+    "group-title": "轮播"
+  },
+  "爱生活": {
+    "group-title": "轮播"
+  },
+  "武术": {
+    "group-title": "轮播"
+  },
+  "高网": {
+    "group-title": "轮播"
+  },
+  "足球": {
+    "group-title": "轮播"
+  },
+  "武侠剧场": {
+    "group-title": "轮播"
+  },
+  "喜剧影院": {
+    "group-title": "轮播"
+  },
+  "动作影院": {
+    "group-title": "轮播"
+  },
+  "家庭影院": {
+    "group-title": "轮播"
+  },
+  "星影": {
+    "group-title": "轮播"
+  },
+  "IPTV5＋高清": {
+    "group-title": "轮播"
+  },
+  "爱上4K": {
+    "group-title": "轮播"
+  },
+  "广东卫视4K超高清": {
+    "tvg-logo": "WeiShi/GuangDong.png",
+    "group-title": "卫视超高清"
+  },
+  "深圳卫视4K超高清": {
+    "tvg-logo": "WeiShi/ShenZhen.png",
+    "group-title": "卫视超高清"
   },
   "通州融媒": {
     "group-title": "区县"
