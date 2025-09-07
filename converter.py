@@ -133,6 +133,7 @@ while True:
                 line_unicast_ignored.append(uc_url_line)
                 line_multicast_ignored.append(info_line)
                 line_multicast_ignored.append(mc_url_line)
+                continue
             line_unicast.append(info_line)
             line_unicast.append(uc_url_line)
             line_multicast.append(info_line)
