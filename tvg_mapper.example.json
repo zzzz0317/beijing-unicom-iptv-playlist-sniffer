@@ -273,7 +273,7 @@
     "group-title": "地方"
   },
   "金鹰纪实高清": {
-    "tvg-logo": "WeiShi/HuNan_JingYijingJiShi.png",
+    "tvg-logo": "WeiShi/HuNan_JingYingJiShi.png",
     "group-title": "地方"
   },
   "吉林卫视高清": {
@@ -429,7 +429,8 @@
     "group-title": "卫视标清"
   },
   "山东教育": {
-    "group-title": "卫视标清"
+    "group-title": "卫视标清",
+    "tvg-logo": "WeiShi/ShanDongJiaoYu.png"
   },
   "河南卫视": {
     "tvg-logo": "WeiShi/HeNan.png",
@@ -545,7 +546,7 @@
   },
   "金鹰卡通": {
     "tvg-logo": "QiTa/HuNan_JinYingKaTong.png",
-    "group-title": "卫视标清"
+    "group-title": "地方标清"
   },
   "茶": {
     "tvg-logo": "QiTa/HuNan_ChaPinDao.jpg",
