@@ -117,6 +117,7 @@ while True:
             return_code = playlist.get("returnCode", -1)
             if return_code == 0:
                 playlist = playlist.get("channleInfoStruct", [])
+                playlist = sorted(playlist, key=lambda x: x.get("userChannelID", 0))
                 with open(config_playlist_raw_path, "w", encoding="utf-8") as f_raw_playlist_save:
                     json.dump(playlist, f_raw_playlist_save, indent=2, ensure_ascii=False)
                     print("RAW playlist saved to", config_playlist_raw_path)
