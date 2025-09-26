@@ -3,6 +3,7 @@ import sys
 import json
 import time
 import argparse
+import urllib.request
 
 from util import calculate_file_hash
 
@@ -34,8 +35,10 @@ config_playlist_save_path = config.get("playlist_save_path", "playlist.m3u")
 config_playlist_mc_save_path = config.get("playlist_mc_save_path", "playlist_mc.m3u")
 config_playlist_ignored_save_path = config.get("playlist_ignored_save_path", "playlist_ignored.m3u")
 config_playlist_ignored_mc_save_path = config.get("playlist_ignored_mc_save_path", "playlist_ignored_mc.m3u")
-config_sniff_save_path = config.get("sniff_save_path", "playlist_raw.json")
-
+config_playlist_raw_path = config.get("playlist_raw_path", config.get("sniff_save_path", "playlist_raw.json"))
+config_playlist_raw_request_marker = config.get("sniff_marker", "9b1d0e32c7ef44769ba2a65958faddf4")
+config_playlist_raw_request_useragent = config.get("useragent", "okhttp/3.3.1")
+config_sniff_token_path = config.get("sniff_token_path", "playlist_token.json")
 
 epg_disable = False
 if config_playlist_epg_url == "":
@@ -54,35 +57,96 @@ print("config_playlist_epg_url:", config_playlist_epg_url, "epg_disable:", epg_d
 print("config_playlist_udpxy_url:", config_playlist_udpxy_url)
 print("config_playlist_save_path:", config_playlist_save_path)
 print("config_playlist_mc_save_path:", config_playlist_mc_save_path)
-print("config_sniff_save_path:", config_sniff_save_path)
+print("config_playlist_raw_path:", config_playlist_raw_path)
+print("config_sniff_token_path:", config_sniff_token_path)
+print("config_playlist_raw_request_marker:", config_playlist_raw_request_marker)
+print("config_playlist_raw_request_useragent:", config_playlist_raw_request_useragent)
 
+need_pull_playlist = True
 need_update_playlist = True
+flag_for_update_playlist_first_run = True
+
+token_hash_path = os.path.join(DIR_SCRIPT, "last_token_hash.txt")
+if os.path.exists(token_hash_path):
+    with open(token_hash_path, "r") as f_token_hash:
+        last_token_hash = f_token_hash.read()
+elif os.path.exists(config_sniff_token_path):
+    last_token_hash = calculate_file_hash(config_sniff_token_path)
+else:
+    last_token_hash = "-"
+
 raw_playlist_hash_path = os.path.join(DIR_SCRIPT, "last_raw_playlist_hash.txt")
 if os.path.exists(raw_playlist_hash_path):
     with open(raw_playlist_hash_path, "r") as f_raw_playlist_hash:
         last_raw_playlist_hash = f_raw_playlist_hash.read()
-elif os.path.exists(config_sniff_save_path):
-    last_raw_playlist_hash = calculate_file_hash(config_sniff_save_path)
+elif os.path.exists(config_playlist_raw_path):
+    last_raw_playlist_hash = calculate_file_hash(config_playlist_raw_path)
 else:
     last_raw_playlist_hash = "-"
 
 while True:
-    if not os.path.exists(config_sniff_save_path):
-        print("RAW playlist not found in", config_sniff_save_path)
+    if not os.path.exists(config_sniff_token_path):
+        print("Token not found in", config_sniff_token_path)
         if not config_playlist_watcher_no_exit:
             sys.exit(1)
+        time.sleep(config_playlist_watcher_interval)
         continue
-    if not need_update_playlist:
-        raw_playlist_hash = calculate_file_hash(config_sniff_save_path)
+    
+    if not need_pull_playlist:
+        sniff_token_hash = calculate_file_hash(config_sniff_token_path)
+        if sniff_token_hash != last_token_hash:
+            need_pull_playlist = True
+            last_token_hash = sniff_token_hash
+            with open(token_hash_path, "w") as f_sniff_token_hash:
+                f_sniff_token_hash.write(last_token_hash)
+                
+    if need_pull_playlist:
+        print("need_pull_playlist is True, time to pull playlist!")
+        with open(config_sniff_token_path, "r", encoding="utf-8") as f_sniff_token:
+            token_data = json.load(f_sniff_token)
+        user_token = token_data.get("token", "")
+        dip = token_data.get("dip", "210.13.0.147")
+        dport = token_data.get("dport", 8080)
+        url = f"http://{dip}:{dport}/bj_stb/V1/STB/channelAcquire"
+        json_data = json.dumps({'UserToken': user_token}).encode('utf-8')
+        request = urllib.request.Request(url, data=json_data, headers={'Content-Type': 'application/json; charset=utf-8', 'User-Agent': config_playlist_raw_request_useragent, "x-zz-marker": config_playlist_raw_request_marker})
+        response = urllib.request.urlopen(request)
+        result = response.read().decode('utf-8')
+        try:
+            playlist = json.loads(result)
+            return_code = playlist.get("returnCode", -1)
+            if return_code == 0:
+                playlist = playlist.get("channleInfoStruct", [])
+                with open(config_playlist_raw_path, "w", encoding="utf-8") as f_raw_playlist_save:
+                    json.dump(playlist, f_raw_playlist_save, indent=2, ensure_ascii=False)
+                    print("RAW playlist saved to", config_playlist_raw_path)
+                    need_pull_playlist = False
+            else:
+                print("get_raw_playlist_err: return_code is", return_code)
+                print(result)
+        except Exception as e:
+            print("get_raw_playlist_err:", e.__class__.__name__, e)
+            print(result)
+
+    if not need_update_playlist or flag_for_update_playlist_first_run:
+        if flag_for_update_playlist_first_run:
+            flag_for_update_playlist_first_run = False
+            print("First run, force to update playlist hash!")
+        raw_playlist_hash = calculate_file_hash(config_playlist_raw_path)
         if raw_playlist_hash != last_raw_playlist_hash:
+            print("Raw playlist changed, need update playlist!")
+            print("Old hash:", last_raw_playlist_hash)
+            print("New hash:", raw_playlist_hash)
             need_update_playlist = True
             last_raw_playlist_hash = raw_playlist_hash
             with open(raw_playlist_hash_path, "w") as f_raw_playlist_hash:
                 f_raw_playlist_hash.write(last_raw_playlist_hash)
+
     if need_update_playlist:
         print("need_update_playlist is True, time to update playlist!")
-        with open(config_sniff_save_path, "r", encoding="utf-8") as f_sniff_save:
-            channel_list = json.load(f_sniff_save)
+        
+        with open(config_playlist_raw_path, "r", encoding="utf-8") as f_raw_playlist_save:
+            channel_list = json.load(f_raw_playlist_save)
         channel_list = sorted(channel_list, key = lambda i: i['userChannelID'])
         # print(channel_list)
         zz_playlist = []

@@ -2,7 +2,7 @@
   "sniff_no_exit": false,
   "sniff_interface": "ens192",
   "sniff_filter": "tcp port 8080",
-  "sniff_save_path": "playlist_raw.json",
+  "sniff_token_path": "playlist_token.json",
   "sniff_marker": "9b1d0e32c7ef44769ba2a65958faddf4",
   "useragent": "okhttp/3.3.1",
   "playlist_watcher_no_exit": false,
@@ -75,6 +75,7 @@
   "playlist_mc_save_path": "playlist_mc.m3u",
   "playlist_ignored_save_path": "playlist_ignored.m3u",
   "playlist_ignored_mc_save_path": "playlist_ignored_mc.m3u",
+  "playlist_raw_path": "playlist_raw.json",
   "epg_server_url": "http://210.13.21.3",
   "epg_save_path": "epg.xml"
 }

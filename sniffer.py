@@ -29,39 +29,13 @@ if args.no_exit:
     config_sniff_no_exit = True
 config_sniff_interface = config.get("sniff_interface", "eth0")
 config_sniff_filter = config.get("sniff_filter", "tcp port 8080")
-config_sniff_save_path = config.get("sniff_save_path", "playlist_raw.json")
-config_useragent = config.get("useragent", "okhttp/3.3.1")
+config_sniff_token_path = config.get("sniff_token_path", "playlist_token.json")
 marker = config.get("sniff_marker", "9b1d0e32c7ef44769ba2a65958faddf4")
 
 print("config_sniff_no_exit:", config_sniff_no_exit)
 print("config_sniff_interface:", config_sniff_interface)
 print("config_sniff_filter:", config_sniff_filter)
-print("config_sniff_save_path:", config_sniff_save_path)
-print("config_useragent:", config_useragent)
-print("self_request_marker:", marker)
-
-def get_raw_playlist(dip, dport, user_token):
-    url = f"http://{dip}:{dport}/bj_stb/V1/STB/channelAcquire"
-    json_data = json.dumps({'UserToken': user_token}).encode('utf-8')
-    request = urllib.request.Request(url, data=json_data, headers={'Content-Type': 'application/json; charset=utf-8', 'User-Agent': config_useragent, "x-zz-marker": marker})
-    response = urllib.request.urlopen(request)
-    result = response.read().decode('utf-8')
-    try:
-        playlist = json.loads(result)
-        return_code = playlist.get("returnCode", -1)
-        if return_code != 0:
-            print("get_raw_playlist_err: return_code is", return_code)
-            print(result)
-            return
-        playlist = playlist.get("channleInfoStruct", [])
-        with open(config_sniff_save_path, "w", encoding="utf-8") as f_sniff_save:
-            json.dump(playlist, f_sniff_save, indent=2, ensure_ascii=False)
-            print("RAW playlist saved to", config_sniff_save_path)
-            if not config_sniff_no_exit:
-                sys.exit(0)
-    except Exception as e:
-        print("get_raw_playlist_err:", e.__class__.__name__, e)
-        print(result)
+print("config_playlist_raw_request_marker:", marker)
 
 def packet_callback(packet):
     if packet[TCP].payload:
@@ -95,7 +69,9 @@ def packet_callback(packet):
                 with open(os.path.join(DIR_SCRIPT, "user_token.log"), "a", encoding="utf-8") as f_user_token_log:
                     txt = f"{get_time_str()}\t{sip}:{sport}->{dip}:{dport}\t{user_token}\n"
                     f_user_token_log.write(txt)
-                get_raw_playlist(dip, dport, user_token)
+                with open(config_sniff_token_path, "w", encoding="utf-8") as f_sniff_token:
+                    json.dump({"token": user_token, "dip": dip, "dport": dport}, f_sniff_token, indent=2, ensure_ascii=False)
+                    print("Token saved to", config_sniff_token_path)
         except Exception as e:
             print("packet_callback_err:", e.__class__.__name__, e)
             print(traceback.format_exc())
