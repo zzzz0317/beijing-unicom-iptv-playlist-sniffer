@@ -163,6 +163,7 @@ while True:
             zz_playlist.append({"channel_id": channel_id, "igmp_ip_port": igmp_ip_port, "channel_name": channel_name})
         for channel_name, channel_data in config_playlist_additional.items():
             zz_playlist.append({"channel_id": channel_data["channel_id"], "igmp_ip_port": channel_data["igmp_ip_port"], "channel_name": channel_name})
+        zz_playlist = sorted(zz_playlist, key=lambda x: x.get("channel_id", 0))
         need_update_playlist = False
         # print(zz_playlist)
         m3u_header = "#EXTM3U name=\"bj-unicom-iptv\"" if epg_disable else f"#EXTM3U name=\"bj-unicom-iptv\" x-tvg-url=\"{config_playlist_epg_url}\""
