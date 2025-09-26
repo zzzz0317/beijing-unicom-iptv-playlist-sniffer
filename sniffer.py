@@ -13,10 +13,6 @@ from util import get_time_str
 DIR_SCRIPT = os.path.dirname(os.path.realpath(sys.argv[0]))
 DIR_RUNNING = os.getcwd()
 
-marker_char = 'abcdefghijklmnopqrstuvwxyz0123456789'
-marker = random.sample(marker_char, 32)
-marker = "".join(marker)
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--no-exit', action='store_true', help='Override no exit')
 args = parser.parse_args()
@@ -35,13 +31,14 @@ config_sniff_interface = config.get("sniff_interface", "eth0")
 config_sniff_filter = config.get("sniff_filter", "tcp port 8080")
 config_sniff_save_path = config.get("sniff_save_path", "playlist_raw.json")
 config_useragent = config.get("useragent", "okhttp/3.3.1")
+marker = config.get("sniff_marker", "9b1d0e32c7ef44769ba2a65958faddf4")
 
 print("config_sniff_no_exit:", config_sniff_no_exit)
 print("config_sniff_interface:", config_sniff_interface)
 print("config_sniff_filter:", config_sniff_filter)
 print("config_sniff_save_path:", config_sniff_save_path)
 print("config_useragent:", config_useragent)
-print("random_marker:", marker)
+print("self_request_marker:", marker)
 
 def get_raw_playlist(dip, dport, user_token):
     url = f"http://{dip}:{dport}/bj_stb/V1/STB/channelAcquire"
