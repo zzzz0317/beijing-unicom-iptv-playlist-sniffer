@@ -731,12 +731,36 @@
   "爱上4K": {
     "group-title": "轮播"
   },
+  "湖南卫视4K超高清": {
+    "tvg-logo": "WeiShi/HuNan.png",
+    "group-title": "卫视超高清"
+  },
   "广东卫视4K超高清": {
     "tvg-logo": "WeiShi/GuangDong.png",
     "group-title": "卫视超高清"
   },
+  "江苏卫视4K超高清": {
+    "tvg-logo": "WeiShi/JiangSu.png",
+    "group-title": "卫视超高清"
+  },
   "深圳卫视4K超高清": {
     "tvg-logo": "WeiShi/ShenZhen.png",
+    "group-title": "卫视超高清"
+  },
+  "东方卫视4K超高清": {
+    "tvg-logo": "WeiShi/DongFang.png",
+    "group-title": "卫视超高清"
+  },
+  "浙江卫视4K超高清": {
+    "tvg-logo": "WeiShi/ZheJiang.png",
+    "group-title": "卫视超高清"
+  },
+  "山东卫视4K超高清": {
+    "tvg-logo": "WeiShi/ShanDong.png",
+    "group-title": "卫视超高清"
+  },
+  "四川卫视4K超高清": {
+    "tvg-logo": "WeiShi/SiChuan.png",
     "group-title": "卫视超高清"
   },
   "通州融媒": {
