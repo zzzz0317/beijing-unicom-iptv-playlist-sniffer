@@ -28,3 +28,11 @@ def get_remote_content(url, encoding="utf-8"):
         return e.code, None
     except:
         return -1, None
+
+def sort_dict_keys(obj):
+    if isinstance(obj, dict):
+        return {k: sort_dict_keys(v) for k, v in sorted(obj.items())}
+    elif isinstance(obj, list):
+        return [sort_dict_keys(item) for item in obj]
+    else:
+        return obj
