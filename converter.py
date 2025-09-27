@@ -5,7 +5,7 @@ import time
 import argparse
 import urllib.request
 
-from util import calculate_file_hash
+from util import calculate_file_hash, sort_dict_keys
 
 DIR_SCRIPT = os.path.dirname(os.path.realpath(sys.argv[0]))
 DIR_RUNNING = os.getcwd()
@@ -114,6 +114,7 @@ while True:
         result = response.read().decode('utf-8')
         try:
             playlist = json.loads(result)
+            playlist = sort_dict_keys(playlist)
             return_code = playlist.get("returnCode", -1)
             if return_code == 0:
                 playlist = playlist.get("channleInfoStruct", [])
