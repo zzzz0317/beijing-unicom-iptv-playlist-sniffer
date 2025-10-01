@@ -72,6 +72,8 @@ def packet_callback(packet):
                 with open(config_sniff_token_path, "w", encoding="utf-8") as f_sniff_token:
                     json.dump({"token": user_token, "dip": dip, "dport": dport}, f_sniff_token, indent=2, ensure_ascii=False)
                     print("Token saved to", config_sniff_token_path)
+                    if not config_sniff_no_exit:
+                        sys.exit(0)
         except Exception as e:
             print("packet_callback_err:", e.__class__.__name__, e)
             print(traceback.format_exc())
