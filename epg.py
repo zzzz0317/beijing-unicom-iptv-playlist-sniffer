@@ -22,20 +22,20 @@ else:
 
 config_epg_server_url = config.get("epg_server_url", "http://210.13.21.3")
 config_epg_save_path = config.get("epg_save_path", "epg.xml")
-config_sniff_save_path = config.get("sniff_save_path", "playlist_raw.json")
+config_playlist_raw_path = config.get("playlist_raw_path", config.get("sniff_save_path", "playlist_raw.json"))
 
 datetime_now = datetime.datetime.now()
 
 print("config_epg_server_url:", config_epg_server_url)
 print("config_epg_save_path:", config_epg_save_path)
-print("config_sniff_save_path:", config_sniff_save_path)
+print("config_playlist_raw_path:", config_playlist_raw_path)
 print("datetime_now:", datetime_now)
 
-if not os.path.exists(config_sniff_save_path):
+if not os.path.exists(config_playlist_raw_path):
     print("raw playlist file not exist!")
     sys.exit(1)
 
-with open(config_sniff_save_path, "r", encoding="utf-8") as f_sniff_save:
+with open(config_playlist_raw_path, "r", encoding="utf-8") as f_sniff_save:
     raw_channel_list = json.load(f_sniff_save)
 
 channel_codes = []
