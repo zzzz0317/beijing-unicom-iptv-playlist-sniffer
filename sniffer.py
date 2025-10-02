@@ -51,10 +51,12 @@ def packet_callback(packet):
             if payload.startswith("POST /bj_stb/V1/STB/channelAcquire"):
                 print("="*30)
                 print("Discovered a channelAcquire request")
+                time_str = get_time_str()
                 sip = packet[IP].src
                 dip = packet[IP].dst
                 sport = packet[IP].sport
                 dport = packet[IP].dport
+                print("time:", time_str)
                 print("sip:", sip)
                 print("sport:", sport)
                 print("dip:", dip)
@@ -67,10 +69,10 @@ def packet_callback(packet):
                 user_token = user_token["UserToken"]
                 print("user_token:", user_token)
                 with open(os.path.join(DIR_SCRIPT, "user_token.log"), "a", encoding="utf-8") as f_user_token_log:
-                    txt = f"{get_time_str()}\t{sip}:{sport}->{dip}:{dport}\t{user_token}\n"
+                    txt = f"{time_str}\t{sip}:{sport}->{dip}:{dport}\t{user_token}\n"
                     f_user_token_log.write(txt)
                 with open(config_sniff_token_path, "w", encoding="utf-8") as f_sniff_token:
-                    json.dump({"token": user_token, "dip": dip, "dport": dport, "time": get_time_str()}, f_sniff_token, indent=2, ensure_ascii=False)
+                    json.dump({"token": user_token, "dip": dip, "dport": dport, "time": time_str}, f_sniff_token, indent=2, ensure_ascii=False)
                     print("Token saved to", config_sniff_token_path)
                     if not config_sniff_no_exit:
                         sys.exit(0)
