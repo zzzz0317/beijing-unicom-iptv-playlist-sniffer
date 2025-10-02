@@ -3,7 +3,6 @@ import sys
 import json
 import random
 import time
-import datetime
 import argparse
 from scapy.all import *
 import urllib.request
@@ -71,7 +70,7 @@ def packet_callback(packet):
                     txt = f"{get_time_str()}\t{sip}:{sport}->{dip}:{dport}\t{user_token}\n"
                     f_user_token_log.write(txt)
                 with open(config_sniff_token_path, "w", encoding="utf-8") as f_sniff_token:
-                    json.dump({"token": user_token, "dip": dip, "dport": dport, "time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, f_sniff_token, indent=2, ensure_ascii=False)
+                    json.dump({"token": user_token, "dip": dip, "dport": dport, "time": get_time_str()}, f_sniff_token, indent=2, ensure_ascii=False)
                     print("Token saved to", config_sniff_token_path)
                     if not config_sniff_no_exit:
                         sys.exit(0)
