@@ -58,6 +58,8 @@ for channel_code in channel_codes:
         status_code, day_epg_data = get_remote_content(url)
         if status_code == 404:
             print("send_schedules_request return 404:", url)
+            if i < 0:
+                continue
             break
         elif status_code != 200:
             print(f"send_schedules_request return {status_code}:", url)
