@@ -30,13 +30,17 @@ config_playlist_epg_url = config.get("playlist_epg_url", "")
 config_playlist_tvg_img_url = config.get("playlist_tvg_img_url", "")
 config_playlist_ignore_channel_list = config.get("playlist_ignore_channel_list", [])
 config_playlist_additional = config.get("playlist_additional", {})
-config_playlist_udpxy_url = config.get("playlist_udpxy_url", "http://127.0.0.1:8080/rtp/")
+config_playlist_proxy_rtp_url = config.get("playlist_proxy_rtp_url", config.get("playlist_udpxy_url", "http://127.0.0.1:8080/rtp/"))
+config_playlist_proxy_rtsp_url = config.get("playlist_proxy_rtsp_url", "http://127.0.0.1:8080/rtsp/")
 config_playlist_save_path = config.get("playlist_save_path", "playlist.m3u")
 config_playlist_mc_save_path = config.get("playlist_mc_save_path", "playlist_mc.m3u")
 config_playlist_ignored_save_path = config.get("playlist_ignored_save_path", "playlist_ignored.m3u")
 config_playlist_ignored_mc_save_path = config.get("playlist_ignored_mc_save_path", "playlist_ignored_mc.m3u")
+config_playlist_rtsp_save_path = config.get("playlist_rtsp_save_path", "playlist_rtsp.m3u")
+config_playlist_rtsp_raw_save_path = config.get("playlist_rtsp_raw_save_path", "playlist_rtsp_raw.m3u")
 config_playlist_raw_path = config.get("playlist_raw_path", config.get("sniff_save_path", "playlist_raw.json"))
 config_playlist_extract_channel_info_from_epg = config.get("playlist_extract_channel_info_from_epg", False)
+config_playlist_rtsp = config.get("playlist_rtsp", False)
 config_playlist_raw_request_marker = config.get("sniff_marker", "9b1d0e32c7ef44769ba2a65958faddf4")
 config_playlist_raw_request_useragent = config.get("useragent", "okhttp/3.3.1")
 config_epg_server_url = config.get("epg_server_url", "http://210.13.21.3")
@@ -56,9 +60,12 @@ if not epg_disable:
 print("config_playlist_watcher_no_exit:", config_playlist_watcher_no_exit)
 print("config_playlist_watcher_interval:", config_playlist_watcher_interval)
 print("config_playlist_epg_url:", config_playlist_epg_url, "epg_disable:", epg_disable)
-print("config_playlist_udpxy_url:", config_playlist_udpxy_url)
+print("config_playlist_proxy_rtp_url:", config_playlist_proxy_rtp_url)
+print("config_playlist_proxy_rtsp_url:", config_playlist_proxy_rtsp_url)
 print("config_playlist_save_path:", config_playlist_save_path)
 print("config_playlist_mc_save_path:", config_playlist_mc_save_path)
+print("config_playlist_rtsp_save_path:", config_playlist_rtsp_save_path)
+print("config_playlist_rtsp_raw_save_path:", config_playlist_rtsp_raw_save_path)
 print("config_playlist_raw_path:", config_playlist_raw_path)
 print("config_playlist_extract_channel_info_from_epg:", config_playlist_extract_channel_info_from_epg)
 print("config_sniff_token_path:", config_sniff_token_path)
@@ -191,8 +198,19 @@ while True:
             else:
                 print(f"Channel {channel_id} URL is not start from igmp://, ignored")
                 continue
+            channel_rtsp_url = channel.get("timeShiftURL", "")
+            if not channel_rtsp_url.startswith("rtsp://"):
+                channel_rtsp_url = None
             channel_name = channel["channelName"].strip()
-            zz_playlist.append({"channel_id": channel_id, "channel_id_sys": channel_id_sys, "igmp_ip_port": igmp_ip_port, "channel_name": channel_name})
+            channel_timeshift = channel.get("timeShift", False)
+            zz_playlist.append({
+                "channel_id": channel_id,
+                "channel_id_sys": channel_id_sys,
+                "igmp_ip_port": igmp_ip_port,
+                "channel_name": channel_name,
+                "channel_rtsp_url": channel_rtsp_url,
+                "channel_timeshift": channel_timeshift
+            })
         for channel_name, channel_data in config_playlist_additional.items():
             zz_playlist.append({"channel_id": channel_data["channel_id"], "igmp_ip_port": channel_data["igmp_ip_port"], "channel_name": channel_name})
         zz_playlist = sorted(zz_playlist, key=lambda x: x.get("channel_id", 0))
@@ -201,6 +219,8 @@ while True:
         m3u_header = "#EXTM3U name=\"bj-unicom-iptv\"" if epg_disable else f"#EXTM3U name=\"bj-unicom-iptv\" x-tvg-url=\"{config_playlist_epg_url}\""
         line_unicast = [m3u_header]
         line_multicast = [m3u_header]
+        line_rtsp = [m3u_header]
+        line_rtsp_raw = [m3u_header]
         line_unicast_ignored = [m3u_header]
         line_multicast_ignored = [m3u_header]
         for channel in zz_playlist:
@@ -236,8 +256,12 @@ while True:
                 info_line = info_line + "," + channel_name_from_epg
             else:
                 info_line = info_line + "," + channel["channel_name"]
-            uc_url_line = config_playlist_udpxy_url + channel["igmp_ip_port"]
+            uc_url_line = config_playlist_proxy_rtp_url + channel["igmp_ip_port"]
             mc_url_line = "rtp://" + channel["igmp_ip_port"]
+            rtsp_url_raw_line = channel.get("channel_rtsp_url", None)
+            rtsp_url_line = None
+            if rtsp_url_raw_line is not None:
+                rtsp_url_line = config_playlist_proxy_rtsp_url + rtsp_url_raw_line[7:]
             if flag_ignore_channel:
                 line_unicast_ignored.append(info_line)
                 line_unicast_ignored.append(uc_url_line)
@@ -248,6 +272,11 @@ while True:
             line_unicast.append(uc_url_line)
             line_multicast.append(info_line)
             line_multicast.append(mc_url_line)
+            if rtsp_url_raw_line is not None:
+                line_rtsp.append(info_line)
+                line_rtsp.append(rtsp_url_line)
+                line_rtsp_raw.append(info_line)
+                line_rtsp_raw.append(rtsp_url_raw_line)
         result_unicast = "\n".join(line_unicast)
         result_multicast = "\n".join(line_multicast)
         result_unicast_ignored = "\n".join(line_unicast_ignored)
@@ -264,6 +293,15 @@ while True:
         print("Writting ignored multicast playlist to", config_playlist_ignored_mc_save_path)
         with open(config_playlist_ignored_mc_save_path, "w", encoding="utf-8") as f_ignored_multicast_m3u:
             f_ignored_multicast_m3u.write(result_multicast_ignored)
+        if config_playlist_rtsp:
+            result_rtsp = "\n".join(line_rtsp)
+            result_rtsp_raw = "\n".join(line_rtsp_raw)
+            print("Writting rtsp playlist to", config_playlist_rtsp_save_path)
+            with open(config_playlist_rtsp_save_path, "w", encoding="utf-8") as f_rtsp_m3u:
+                f_rtsp_m3u.write(result_rtsp)
+            print("Writting rtsp raw playlist to", config_playlist_rtsp_raw_save_path)
+            with open(config_playlist_rtsp_raw_save_path, "w", encoding="utf-8") as f_rtsp_raw_m3u:
+                f_rtsp_raw_m3u.write(result_rtsp_raw)
     if not config_playlist_watcher_no_exit:
             sys.exit(0)
 
