@@ -5,7 +5,7 @@ import time
 import argparse
 import urllib.request
 
-from util import calculate_file_hash, sort_dict_keys
+from util import calculate_file_hash, sort_dict_keys, get_remote_content
 
 DIR_SCRIPT = os.path.dirname(os.path.realpath(sys.argv[0]))
 DIR_RUNNING = os.getcwd()
@@ -36,8 +36,10 @@ config_playlist_mc_save_path = config.get("playlist_mc_save_path", "playlist_mc.
 config_playlist_ignored_save_path = config.get("playlist_ignored_save_path", "playlist_ignored.m3u")
 config_playlist_ignored_mc_save_path = config.get("playlist_ignored_mc_save_path", "playlist_ignored_mc.m3u")
 config_playlist_raw_path = config.get("playlist_raw_path", config.get("sniff_save_path", "playlist_raw.json"))
+config_playlist_extract_channel_info_from_epg = config.get("playlist_extract_channel_info_from_epg", False)
 config_playlist_raw_request_marker = config.get("sniff_marker", "9b1d0e32c7ef44769ba2a65958faddf4")
 config_playlist_raw_request_useragent = config.get("useragent", "okhttp/3.3.1")
+config_epg_server_url = config.get("epg_server_url", "http://210.13.21.3")
 config_sniff_token_path = config.get("sniff_token_path", "playlist_token.json")
 
 epg_disable = False
@@ -58,6 +60,7 @@ print("config_playlist_udpxy_url:", config_playlist_udpxy_url)
 print("config_playlist_save_path:", config_playlist_save_path)
 print("config_playlist_mc_save_path:", config_playlist_mc_save_path)
 print("config_playlist_raw_path:", config_playlist_raw_path)
+print("config_playlist_extract_channel_info_from_epg:", config_playlist_extract_channel_info_from_epg)
 print("config_sniff_token_path:", config_sniff_token_path)
 print("config_playlist_raw_request_marker:", config_playlist_raw_request_marker)
 print("config_playlist_raw_request_useragent:", config_playlist_raw_request_useragent)
@@ -146,13 +149,41 @@ while True:
 
     if need_update_playlist:
         print("need_update_playlist is True, time to update playlist!")
-        
+        epg_channel_map = {}
+        if config_playlist_extract_channel_info_from_epg:
+            try:
+                url_epggroup = f"{config_epg_server_url}/epggroup/201.json"
+                print("Fetching epg group data from", url_epggroup)
+                status_code, data_epggroup = get_remote_content(url_epggroup)
+                if status_code != 200:
+                    raise Exception(f"Fetch epg group data failed with status code {status_code}")
+                data_epggroup = json.loads(data_epggroup)
+                # more / for prevent relative path issue
+                url_epgpage = f"{config_epg_server_url}/{data_epggroup['group_channel']}"
+                print("Fetching epg page data from", url_epgpage)
+                status_code, data_epgpage = get_remote_content(url_epgpage)
+                if status_code != 200:
+                    raise Exception(f"Fetch epg page data failed with status code {status_code}")
+                data_epgpage = json.loads(data_epgpage)
+                url_epgcategory = f"{config_epg_server_url}/{data_epgpage['elements'][0]['items'][0]['datalink']}"
+                print("Fetching epg category data from", url_epgcategory)
+                status_code, data_epgcategory = get_remote_content(url_epgcategory)
+                if status_code != 200:
+                    raise Exception(f"Fetch epg category data failed with status code {status_code}")
+                data_epgcategory = json.loads(data_epgcategory)
+                for channel in data_epgcategory.get("epgCategorydtl", []):
+                    epg_channel_map[channel["code"]] = {
+                        "title": channel.get("title", "")
+                    }
+            except Exception as e:
+                print("Fetch epg data error:", e.__class__.__name__, e)
         with open(config_playlist_raw_path, "r", encoding="utf-8") as f_raw_playlist_save:
             channel_list = json.load(f_raw_playlist_save)
         channel_list = sorted(channel_list, key = lambda i: i['userChannelID'])
         # print(channel_list)
         zz_playlist = []
         for channel in channel_list:
+            channel_id_sys = channel["channelID"]
             channel_id = channel["userChannelID"]
             channel_url = channel["channelURL"]
             if channel_url.startswith("igmp://"):
@@ -161,7 +192,7 @@ while True:
                 print(f"Channel {channel_id} URL is not start from igmp://, ignored")
                 continue
             channel_name = channel["channelName"].strip()
-            zz_playlist.append({"channel_id": channel_id, "igmp_ip_port": igmp_ip_port, "channel_name": channel_name})
+            zz_playlist.append({"channel_id": channel_id, "channel_id_sys": channel_id_sys, "igmp_ip_port": igmp_ip_port, "channel_name": channel_name})
         for channel_name, channel_data in config_playlist_additional.items():
             zz_playlist.append({"channel_id": channel_data["channel_id"], "igmp_ip_port": channel_data["igmp_ip_port"], "channel_name": channel_name})
         zz_playlist = sorted(zz_playlist, key=lambda x: x.get("channel_id", 0))
@@ -178,6 +209,11 @@ while True:
                 print("Ignore channel:", channel["channel_name"])
                 flag_ignore_channel = True
                 #continue
+            channel_name_from_epg = None
+            channel_id_sys = channel.get("channel_id_sys", None)
+            if config_playlist_extract_channel_info_from_epg and channel_id_sys is not None:
+                if channel_id_sys in epg_channel_map.keys():
+                    channel_name_from_epg = epg_channel_map[channel_id_sys].get("title", None)
             tvg_mapper_channel = tvg_mapper.get(channel["channel_name"], {})
             info_line = f'#EXTINF:-1 channel-number="{channel["channel_id"]}"'
             tvg_id = channel["channel_id"]
@@ -185,6 +221,8 @@ while True:
                 tmp_epg_data = tvg_mapper_channel.copy()
                 if not "tvg-id" in tvg_mapper_channel.keys():
                     tmp_epg_data["tvg-id"] = channel["channel_id"]
+                if channel_name_from_epg is not None:
+                    tmp_epg_data["tvg-name"] = channel_name_from_epg
                 if not "tvg-name" in tvg_mapper_channel.keys():
                     tmp_epg_data["tvg-name"] = channel["channel_name"]
                 if "tvg-logo" in tvg_mapper_channel.keys():
@@ -192,7 +230,10 @@ while True:
                 info_line = info_line + f' tvg-id="{tmp_epg_data.pop("tvg-id")}" tvg-name="{tmp_epg_data.pop("tvg-name")}"'
                 for k in tmp_epg_data.keys():
                     info_line = info_line + f' {k}="{tmp_epg_data[k]}"'
-            info_line = info_line + "," + channel["channel_name"]
+            if channel_name_from_epg is not None:
+                info_line = info_line + "," + channel_name_from_epg
+            else:
+                info_line = info_line + "," + channel["channel_name"]
             uc_url_line = config_playlist_udpxy_url + channel["igmp_ip_port"]
             mc_url_line = "rtp://" + channel["igmp_ip_port"]
             if flag_ignore_channel:
