@@ -22,11 +22,11 @@ else:
 
 config_epg_server_url = config.get("epg_server_url", "http://210.13.21.3")
 config_epg_save_path = config.get("epg_save_path", "epg.xml")
-epg_start_offset = config.get("epg_start_offset", -1)
-epg_end_offset = config.get("epg_end_offset", 8)
-epg_cache = config.get("epg_cache", True)
-epg_cache_path = config.get("epg_cache_path", "epg_cache")
-epg_cache_offset = config.get("epg_cache_offset", -1)
+config_epg_start_offset = config.get("epg_start_offset", -1)
+config_epg_end_offset = config.get("epg_end_offset", 8)
+config_epg_cache = config.get("epg_cache", True)
+config_epg_cache_path = config.get("epg_cache_path", "epg_cache")
+config_epg_cache_offset = config.get("epg_cache_offset", -1)
 config_playlist_raw_path = config.get("playlist_raw_path", config.get("sniff_save_path", "playlist_raw.json"))
 
 datetime_now = datetime.datetime.now()
@@ -54,13 +54,13 @@ channel_list = {}
 programme_list = []
 
 for channel_code in channel_codes:
-    for i in range(epg_start_offset, epg_end_offset):
+    for i in range(config_epg_start_offset, config_epg_end_offset):
         datestr = datetime_now + datetime.timedelta(days=i)
         datestr = get_time_str(datestr, "%Y%m%d")
         filename = f"{channel_code}_{datestr}.json"
         day_epg_data = None
-        if epg_cache and i <= epg_cache_offset:
-            cache_filename = os.path.join(epg_cache_path, filename)
+        if config_epg_cache and i <= config_epg_cache_offset:
+            cache_filename = os.path.join(config_epg_cache_path, filename)
             if os.path.exists(cache_filename):
                 with open(cache_filename, "r", encoding="utf-8") as f_cache:
                     try:
@@ -82,10 +82,10 @@ for channel_code in channel_codes:
                 continue
             print(f"send_schedules_request ok:", url)
             day_epg_data = json.loads(day_epg_data)
-            if epg_cache:
-                if not os.path.exists(epg_cache_path):
-                    os.makedirs(epg_cache_path)
-                cache_filename = os.path.join(epg_cache_path, filename)
+            if config_epg_cache:
+                if not os.path.exists(config_epg_cache_path):
+                    os.makedirs(config_epg_cache_path)
+                cache_filename = os.path.join(config_epg_cache_path, filename)
                 with open(cache_filename, "w", encoding="utf-8") as f_cache:
                     f_cache.write(json.dumps(day_epg_data, ensure_ascii=False, indent=2))
                     print("epg cache save:", cache_filename)
