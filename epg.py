@@ -33,6 +33,11 @@ datetime_now = datetime.datetime.now()
 
 print("config_epg_server_url:", config_epg_server_url)
 print("config_epg_save_path:", config_epg_save_path)
+print("config_epg_start_offset:", config_epg_start_offset)
+print("config_epg_end_offset:", config_epg_end_offset)
+print("config_epg_cache:", config_epg_cache)
+print("config_epg_cache_path:", config_epg_cache_path)
+print("config_epg_cache_offset:", config_epg_cache_offset)
 print("config_playlist_raw_path:", config_playlist_raw_path)
 print("datetime_now:", datetime_now)
 
