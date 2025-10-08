@@ -78,5 +78,7 @@
   "playlist_ignored_mc_save_path": "playlist_ignored_mc.m3u",
   "playlist_raw_path": "playlist_raw.json",
   "epg_server_url": "http://210.13.21.3",
-  "epg_save_path": "epg.xml"
+  "epg_save_path": "epg.xml",
+  "epg_start_offset": -7,
+  "epg_end_offset": 8
 }

@@ -22,6 +22,8 @@ else:
 
 config_epg_server_url = config.get("epg_server_url", "http://210.13.21.3")
 config_epg_save_path = config.get("epg_save_path", "epg.xml")
+epg_start_offset = config.get("epg_start_offset", -1)
+epg_end_offset = config.get("epg_end_offset", 8)
 config_playlist_raw_path = config.get("playlist_raw_path", config.get("sniff_save_path", "playlist_raw.json"))
 
 datetime_now = datetime.datetime.now()
@@ -49,7 +51,7 @@ channel_list = {}
 programme_list = []
 
 for channel_code in channel_codes:
-    for i in range(0, 8):
+    for i in range(epg_start_offset, epg_end_offset):
         datestr = datetime_now + datetime.timedelta(days=i)
         datestr = get_time_str(datestr, "%Y%m%d")
         url = f"{config_epg_server_url}/schedules/{channel_code}_{datestr}.json"
