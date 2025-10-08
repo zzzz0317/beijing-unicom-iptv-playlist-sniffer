@@ -4,8 +4,7 @@ tvg_mapper.json
 user_token.log
 playlist_token.json
 last_raw_playlist_hash.txt
-playlist.m3u
-playlist_mc.m3u
+*.m3u
 epg.xml
 epg_cache/
 cc.xml
