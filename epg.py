@@ -24,6 +24,9 @@ config_epg_server_url = config.get("epg_server_url", "http://210.13.21.3")
 config_epg_save_path = config.get("epg_save_path", "epg.xml")
 epg_start_offset = config.get("epg_start_offset", -1)
 epg_end_offset = config.get("epg_end_offset", 8)
+epg_cache = config.get("epg_cache", True)
+epg_cache_path = config.get("epg_cache_path", "epg_cache")
+epg_cache_offset = config.get("epg_cache_offset", -1)
 config_playlist_raw_path = config.get("playlist_raw_path", config.get("sniff_save_path", "playlist_raw.json"))
 
 datetime_now = datetime.datetime.now()
@@ -54,18 +57,38 @@ for channel_code in channel_codes:
     for i in range(epg_start_offset, epg_end_offset):
         datestr = datetime_now + datetime.timedelta(days=i)
         datestr = get_time_str(datestr, "%Y%m%d")
-        url = f"{config_epg_server_url}/schedules/{channel_code}_{datestr}.json"
-        status_code, day_epg_data = get_remote_content(url)
-        if status_code == 404:
-            print("send_schedules_request return 404:", url)
-            if i < 0:
+        filename = f"{channel_code}_{datestr}.json"
+        day_epg_data = None
+        if epg_cache and i <= epg_cache_offset:
+            cache_filename = os.path.join(epg_cache_path, filename)
+            if os.path.exists(cache_filename):
+                with open(cache_filename, "r", encoding="utf-8") as f_cache:
+                    try:
+                        day_epg_data = json.load(f_cache)
+                        print("epg cache hit:", cache_filename)
+                    except Exception as e:
+                        print("epg cache load error:", cache_filename, e)
+                        day_epg_data = None
+        if day_epg_data is None:
+            url = f"{config_epg_server_url}/schedules/{filename}"
+            status_code, day_epg_data = get_remote_content(url)
+            if status_code == 404:
+                print("send_schedules_request return 404:", url)
+                if i < 0:
+                    continue
+                break
+            elif status_code != 200:
+                print(f"send_schedules_request return {status_code}:", url)
                 continue
-            break
-        elif status_code != 200:
-            print(f"send_schedules_request return {status_code}:", url)
-            continue
-        print(f"send_schedules_request ok:", url)
-        day_epg_data = json.loads(day_epg_data)
+            print(f"send_schedules_request ok:", url)
+            day_epg_data = json.loads(day_epg_data)
+            if epg_cache:
+                if not os.path.exists(epg_cache_path):
+                    os.makedirs(epg_cache_path)
+                cache_filename = os.path.join(epg_cache_path, filename)
+                with open(cache_filename, "w", encoding="utf-8") as f_cache:
+                    f_cache.write(json.dumps(day_epg_data, ensure_ascii=False, indent=2))
+                    print("epg cache save:", cache_filename)
         channel_info = day_epg_data.get("channel", {})
         channel_num = channel_info.get("channelnum", "9999")
         if channel_code not in channel_list.keys():
