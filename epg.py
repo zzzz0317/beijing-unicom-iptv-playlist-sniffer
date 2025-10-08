@@ -22,8 +22,8 @@ else:
 
 config_epg_server_url = config.get("epg_server_url", "http://210.13.21.3")
 config_epg_save_path = config.get("epg_save_path", "epg.xml")
-config_epg_start_offset = config.get("epg_start_offset", -1)
-config_epg_end_offset = config.get("epg_end_offset", 8)
+config_epg_offset_start = config.get("epg_offset_start", -1)
+config_epg_offset_end = config.get("epg_offset_end", 8)
 config_epg_cache = config.get("epg_cache", False)
 config_epg_cache_path = config.get("epg_cache_path", "epg_cache")
 config_epg_cache_offset = config.get("epg_cache_offset", -2)
@@ -33,8 +33,8 @@ datetime_now = datetime.datetime.now()
 
 print("config_epg_server_url:", config_epg_server_url)
 print("config_epg_save_path:", config_epg_save_path)
-print("config_epg_start_offset:", config_epg_start_offset)
-print("config_epg_end_offset:", config_epg_end_offset)
+print("config_epg_offset_start:", config_epg_offset_start)
+print("config_epg_offset_end:", config_epg_offset_end)
 print("config_epg_cache:", config_epg_cache)
 print("config_epg_cache_path:", config_epg_cache_path)
 print("config_epg_cache_offset:", config_epg_cache_offset)
@@ -59,7 +59,7 @@ channel_list = {}
 programme_list = []
 
 for channel_code in channel_codes:
-    for i in range(config_epg_start_offset, config_epg_end_offset):
+    for i in range(config_epg_offset_start, config_epg_offset_end):
         datestr = datetime_now + datetime.timedelta(days=i)
         datestr = get_time_str(datestr, "%Y%m%d")
         filename = f"{channel_code}_{datestr}.json"

@@ -79,8 +79,8 @@
   "playlist_raw_path": "playlist_raw.json",
   "epg_server_url": "http://210.13.21.3",
   "epg_save_path": "epg.xml",
-  "epg_start_offset": -7,
-  "epg_end_offset": 8,
+  "epg_offset_start": -7,
+  "epg_offset_end": 8,
   "epg_cache": true,
   "epg_cache_path": "epg_cache",
   "epg_cache_offset": -2
