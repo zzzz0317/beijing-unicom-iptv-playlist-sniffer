@@ -223,6 +223,8 @@ while True:
                     tmp_epg_data["tvg-id"] = channel["channel_id"]
                 if channel_name_from_epg is not None:
                     tmp_epg_data["tvg-name"] = channel_name_from_epg
+                    if channel_name_from_epg != channel["channel_name"]:
+                        tmp_epg_data["zz-raw-name"] = channel["channel_name"]
                 if not "tvg-name" in tmp_epg_data.keys():
                     tmp_epg_data["tvg-name"] = channel["channel_name"]
                 if "tvg-logo" in tmp_epg_data.keys():
