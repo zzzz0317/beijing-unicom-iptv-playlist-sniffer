@@ -41,6 +41,8 @@ config_playlist_rtsp_raw_save_path = config.get("playlist_rtsp_raw_save_path", "
 config_playlist_raw_path = config.get("playlist_raw_path", config.get("sniff_save_path", "playlist_raw.json"))
 config_playlist_extract_channel_info_from_epg = config.get("playlist_extract_channel_info_from_epg", False)
 config_playlist_rtsp = config.get("playlist_rtsp", False)
+config_playlist_catchup = config.get("playlist_catchup", False)
+config_playlist_mc_catchup_proxy = config.get("playlist_mc_catchup_proxy", False)
 config_playlist_raw_request_marker = config.get("sniff_marker", "9b1d0e32c7ef44769ba2a65958faddf4")
 config_playlist_raw_request_useragent = config.get("useragent", "okhttp/3.3.1")
 config_epg_server_url = config.get("epg_server_url", "http://210.13.21.3")
@@ -252,30 +254,44 @@ while True:
                 info_line = info_line + f' tvg-id="{tmp_epg_data.pop("tvg-id")}" tvg-name="{tmp_epg_data.pop("tvg-name")}"'
                 for k in tmp_epg_data.keys():
                     info_line = info_line + f' {k}="{tmp_epg_data[k]}"'
-            if channel_name_from_epg is not None:
-                info_line = info_line + "," + channel_name_from_epg
-            else:
-                info_line = info_line + "," + channel["channel_name"]
             uc_url_line = config_playlist_proxy_rtp_url + channel["igmp_ip_port"]
             mc_url_line = "rtp://" + channel["igmp_ip_port"]
             rtsp_url_raw_line = channel.get("channel_rtsp_url", None)
             rtsp_url_line = None
+            info_line_raw = info_line
             if rtsp_url_raw_line is not None:
                 rtsp_url_line = config_playlist_proxy_rtsp_url + rtsp_url_raw_line[7:]
+                if config_playlist_catchup:
+                    catchup_source_raw = rtsp_url_raw_line.replace("/PLTV/", "/TVOD/") + "?playseek=${(b)yyyyMMddHHmmss}-${(e)yyyyMMddHHmmss}"
+                    catchup_source = rtsp_url_line.replace("/PLTV/", "/TVOD/") + "?playseek=${(b)yyyyMMddHHmmss}-${(e)yyyyMMddHHmmss}"
+                    info_line_raw = info_line_raw + f' catchup="default" catchup-source="{catchup_source_raw}"'
+                    info_line = info_line + f' catchup="default" catchup-source="{catchup_source}"'
+            if channel_name_from_epg is not None:
+                info_line_channel_name = channel_name_from_epg
+            else:
+                info_line_channel_name = channel["channel_name"]
+            info_line_raw = info_line_raw + f',{info_line_channel_name}'
+            info_line = info_line + f',{info_line_channel_name}'
             if flag_ignore_channel:
                 line_unicast_ignored.append(info_line)
                 line_unicast_ignored.append(uc_url_line)
-                line_multicast_ignored.append(info_line)
+                if config_playlist_mc_catchup_proxy:
+                    line_multicast_ignored.append(info_line)
+                else:
+                    line_multicast_ignored.append(info_line_raw)
                 line_multicast_ignored.append(mc_url_line)
                 continue
             line_unicast.append(info_line)
             line_unicast.append(uc_url_line)
-            line_multicast.append(info_line)
+            if config_playlist_mc_catchup_proxy:
+                line_multicast.append(info_line)
+            else:
+                line_multicast.append(info_line_raw)
             line_multicast.append(mc_url_line)
             if rtsp_url_raw_line is not None:
                 line_rtsp.append(info_line)
                 line_rtsp.append(rtsp_url_line)
-                line_rtsp_raw.append(info_line)
+                line_rtsp_raw.append(info_line_raw)
                 line_rtsp_raw.append(rtsp_url_raw_line)
         result_unicast = "\n".join(line_unicast)
         result_multicast = "\n".join(line_multicast)

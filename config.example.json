@@ -82,6 +82,8 @@
   "playlist_raw_path": "playlist_raw.json",
   "playlist_extract_channel_info_from_epg": true,
   "playlist_rtsp": true,
+  "playlist_catchup": true,
+  "playlist_mc_catchup_proxy": false,
   "epg_server_url": "http://210.13.21.3",
   "epg_save_path": "epg.xml",
   "epg_offset_start": -7,
