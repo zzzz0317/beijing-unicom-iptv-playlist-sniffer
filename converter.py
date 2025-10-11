@@ -211,6 +211,7 @@ while True:
             else:
                 print(f"Channel {channel_id} URL is not start from igmp://, ignored")
                 continue
+            channel_support_timeshift = channel.get("timeShift", False)
             channel_rtsp_url = channel.get("timeShiftURL", "")
             if not channel_rtsp_url.startswith("rtsp://"):
                 channel_rtsp_url = None
@@ -222,6 +223,7 @@ while True:
                 "igmp_ip_port": igmp_ip_port,
                 "channel_name": channel_name,
                 "channel_rtsp_url": channel_rtsp_url,
+                "channel_support_timeshift": channel_support_timeshift,
                 "channel_timeshift": channel_timeshift
             })
         for channel_name, channel_data in config_playlist_additional.items():
@@ -272,7 +274,7 @@ while True:
             info_line_raw = info_line
             if rtsp_url_raw_line is not None:
                 rtsp_url_line = config_playlist_proxy_rtsp_url + rtsp_url_raw_line[7:]
-                if config_playlist_catchup:
+                if config_playlist_catchup and channel["channel_support_timeshift"]:
                     catchup_source_raw = rtsp_url_raw_line.replace("/PLTV/", "/TVOD/") + config_playlist_catchup_format
                     catchup_source = rtsp_url_line.replace("/PLTV/", "/TVOD/") + config_playlist_catchup_format
                     info_line_raw = info_line_raw + f' catchup="default" catchup-source="{catchup_source_raw}"'
