@@ -42,6 +42,7 @@ config_playlist_raw_path = config.get("playlist_raw_path", config.get("sniff_sav
 config_playlist_extract_channel_info_from_epg = config.get("playlist_extract_channel_info_from_epg", False)
 config_playlist_rtsp = config.get("playlist_rtsp", False)
 config_playlist_catchup = config.get("playlist_catchup", False)
+config_playlist_catchup_format = config.get("playlist_catchup_format", "?playseek=${(b)yyyyMMddHHmmss}-${(e)yyyyMMddHHmmss}")
 config_playlist_mc_catchup_proxy = config.get("playlist_mc_catchup_proxy", False)
 config_playlist_raw_request_marker = config.get("sniff_marker", "9b1d0e32c7ef44769ba2a65958faddf4")
 config_playlist_raw_request_useragent = config.get("useragent", "okhttp/3.3.1")
@@ -262,8 +263,8 @@ while True:
             if rtsp_url_raw_line is not None:
                 rtsp_url_line = config_playlist_proxy_rtsp_url + rtsp_url_raw_line[7:]
                 if config_playlist_catchup:
-                    catchup_source_raw = rtsp_url_raw_line.replace("/PLTV/", "/TVOD/") + "?playseek=${(b)yyyyMMddHHmmss}-${(e)yyyyMMddHHmmss}"
-                    catchup_source = rtsp_url_line.replace("/PLTV/", "/TVOD/") + "?playseek=${(b)yyyyMMddHHmmss}-${(e)yyyyMMddHHmmss}"
+                    catchup_source_raw = rtsp_url_raw_line.replace("/PLTV/", "/TVOD/") + config_playlist_catchup_format
+                    catchup_source = rtsp_url_line.replace("/PLTV/", "/TVOD/") + config_playlist_catchup_format
                     info_line_raw = info_line_raw + f' catchup="default" catchup-source="{catchup_source_raw}"'
                     info_line = info_line + f' catchup="default" catchup-source="{catchup_source}"'
             if channel_name_from_epg is not None:
