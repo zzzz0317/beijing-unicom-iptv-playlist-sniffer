@@ -81,10 +81,6 @@
     "tvg-logo": "WeiShi/BeiJing.png",
     "group-title": "北京"
   },
-  "BRTV北京卫视超高清HDR": {
-    "tvg-logo": "WeiShi/BeiJing.png",
-    "group-title": "北京"
-  },
   "BRTV文艺高清": {
     "tvg-logo": "BRTV/BRTV_WenYi.png",
     "group-title": "北京"
@@ -109,16 +105,12 @@
     "tvg-logo": "BRTV/BRTV_ShengHuo.png",
     "group-title": "北京"
   },
-  "BRTV新闻高清": {
-    "tvg-logo": "BRTV/BRTV_XinWen.png",
-    "group-title": "北京"
-  },
   "BRTV卡酷少儿高清": {
     "tvg-logo": "BRTV/BRTV_KakuShaoEr.png",
     "group-title": "北京"
   },
-  "BTV国际频道": {
-    "tvg-logo": "BRTV/BRTV_International.png",
+  "BRTV新闻高清": {
+    "tvg-logo": "BRTV/BRTV_XinWen.png",
     "group-title": "北京"
   },
   "家有购物精选": {
@@ -152,7 +144,7 @@
   },
   "4K超清": {
     "tvg-logo": "QiTa/BJIPTV_4KChaoQing.png",
-    "group-title": "地方"
+    "group-title": "轮播"
   },
   "湖南卫视高清": {
     "tvg-logo": "WeiShi/HuNan.png",
@@ -247,19 +239,19 @@
   },
   "睛彩竞技": {
     "tvg-logo": "QiTa/CBC_JingCaiJingJi.png",
-    "group-title": "轮播"
+    "group-title": "体验"
   },
   "睛彩篮球": {
     "tvg-logo": "QiTa/CBC_JingCaiLanQiu.png",
-    "group-title": "轮播"
+    "group-title": "体验"
   },
   "睛彩羽毛球": {
     "tvg-logo": "QiTa/CBC_JingCaiYuMaoQiu.png",
-    "group-title": "轮播"
+    "group-title": "体验"
   },
   "睛彩广场舞": {
     "tvg-logo": "QiTa/CBC_JingCaiGuangChangWu.png",
-    "group-title": "轮播"
+    "group-title": "体验"
   },
   "宁夏卫视高清": {
     "tvg-logo": "WeiShi/NingXia.png",
@@ -279,11 +271,11 @@
   },
   "CETV1高清": {
     "tvg-logo": "QiTa/CETV-1.png",
-    "group-title": "地方"
+    "group-title": "卫视"
   },
   "金鹰纪实高清": {
     "tvg-logo": "WeiShi/HuNan_JingYingJiShi.png",
-    "group-title": "地方"
+    "group-title": "卫视"
   },
   "吉林卫视高清": {
     "tvg-logo": "WeiShi/JiLin.png",
@@ -291,19 +283,19 @@
   },
   "中国交通": {
     "tvg-logo": "QiTa/ZhongGuoJiaoTong.png",
-    "group-title": "上海"
+    "group-title": "卫视"
   },
   "BRTV北京卫视超高清SDR": {
     "tvg-logo": "WeiShi/BeiJing.png",
-    "group-title": "北京"
+    "group-title": "北京超高清"
   },
   "CCTV4K超高清": {
     "tvg-logo": "CCTV/CCTV-4K.png",
-    "group-title": "央视"
+    "group-title": "央视超高清"
   },
   "CCTV4K超高清HDR": {
     "tvg-logo": "CCTV/CCTV-4K.png",
-    "group-title": "央视"
+    "group-title": "央视超高清"
   },
   "CCTV-1": {
     "tvg-logo": "CCTV/CCTV-1.png",
@@ -401,13 +393,17 @@
     "tvg-logo": "BRTV/BRTV_ShengHuo.png",
     "group-title": "北京标清"
   },
+  "BRTV卡酷少儿": {
+    "tvg-logo": "BRTV/BRTV_KakuShaoEr.png",
+    "group-title": "北京标清"
+  },
   "BRTV新闻": {
     "tvg-logo": "BRTV/BRTV_XinWen.png",
     "group-title": "北京标清"
   },
-  "BRTV卡酷少儿": {
-    "tvg-logo": "BRTV/BRTV_KakuShaoEr.png",
-    "group-title": "北京标清"
+  "BTV国际频道": {
+    "tvg-logo": "BRTV/BRTV_International.png",
+    "group-title": "北京"
   },
   "湖南卫视": {
     "tvg-logo": "WeiShi/HuNan.png",
@@ -543,7 +539,7 @@
   },
   "财富天下": {
     "tvg-logo": "QiTa/CaiFuTianXia.png",
-    "group-title": "地方"
+    "group-title": "卫视标清"
   },
   "厦门卫视": {
     "tvg-logo": "WeiShi/XiaMen.png",
@@ -555,35 +551,31 @@
   },
   "金鹰卡通": {
     "tvg-logo": "QiTa/HuNan_JinYingKaTong.png",
-    "group-title": "地方标清"
-  },
-  "茶": {
-    "tvg-logo": "QiTa/HuNan_ChaPinDao.png",
-    "group-title": "地方"
+    "group-title": "卫视标清"
   },
   "嘉佳卡通": {
     "tvg-logo": "QiTa/JiaJiaKaTong.png",
-    "group-title": "地方标清"
+    "group-title": "卫视标清"
   },
   "CETV1": {
     "tvg-logo": "QiTa/CETV-1.png",
-    "group-title": "地方"
+    "group-title": "卫视标清"
   },
   "CETV2": {
     "tvg-logo": "QiTa/CETV-2.png",
-    "group-title": "地方"
+    "group-title": "卫视标清"
   },
   "CETV3": {
     "tvg-logo": "QiTa/CETV-3.png",
-    "group-title": "地方"
+    "group-title": "卫视标清"
   },
   "CETV4": {
     "tvg-logo": "QiTa/CETV-4.png",
-    "group-title": "地方"
+    "group-title": "卫视标清"
   },
   "IPTV5+": {
     "tvg-logo": "QiTa/IPTV5+.png",
-    "group-title": "地方"
+    "group-title": "轮播"
   },
   "收视指南": {
     "group-title": "轮播"
@@ -603,52 +595,64 @@
   "房山电视台": {
     "group-title": "区县"
   },
+  "北京朝阳": {
+    "group-title": "区县"
+  },
+  "密云电视台": {
+    "group-title": "区县"
+  },
+  "通州电视台": {
+    "group-title": "区县"
+  },
+  "延庆电视台": {
+    "group-title": "区县"
+  },
+  "门头沟电视台": {
+    "group-title": "区县"
+  },
   "快乐垂钓": {
     "tvg-logo": "QiTa/HuNan_KuaiLeChuiDiao.png",
-    "group-title": "地方"
+    "group-title": "体验"
+  },
+  "茶": {
+    "tvg-logo": "QiTa/HuNan_ChaPinDao.png",
+    "group-title": "体验"
   },
   "CCTV-4欧洲高清": {
     "tvg-logo": "CCTV/CCTV-4-EUO.png",
-    "group-title": "央视国际"
+    "group-title": "央视"
   },
   "CCTV-4美洲高清": {
     "tvg-logo": "CCTV/CCTV-4-AME.png",
-    "group-title": "央视国际"
+    "group-title": "央视"
   },
   "CGTN英语": {
     "tvg-logo": "CCTV/CGTN.png",
-    "group-title": "央视国际"
+    "group-title": "CGTN"
   },
   "CGTN英文纪录": {
     "tvg-logo": "CCTV/CGTN-Doc.png",
-    "group-title": "央视国际"
+    "group-title": "CGTN"
   },
   "CGTN西班牙语": {
     "tvg-logo": "CCTV/CGTN-Espanol.png",
-    "group-title": "央视国际"
+    "group-title": "CGTN"
   },
   "CGTN法语": {
     "tvg-logo": "CCTV/CGTN-Francis.png",
-    "group-title": "央视国际"
+    "group-title": "CGTN"
   },
   "CGTN阿拉伯语": {
     "tvg-logo": "CCTV/CGTN-Arabic.png",
-    "group-title": "央视国际"
+    "group-title": "CGTN"
   },
   "CGTN俄语": {
     "tvg-logo": "CCTV/CGTN-Russian.png",
-    "group-title": "央视国际"
-  },
-  "国学": {
-    "group-title": "轮播"
+    "group-title": "CGTN"
   },
   "IPTV5+高清": {
     "tvg-logo": "QiTa/IPTV5+.png",
-    "group-title": "地方"
-  },
-  "CCTV-16 4K": {
-    "tvg-logo": "CCTV/CCTV-16.png",
-    "group-title": "央视"
+    "group-title": "轮播"
   },
   "4K测试": {
     "group-title": "测试"
@@ -681,6 +685,9 @@
     "group-title": "轮播"
   },
   "军事": {
+    "group-title": "轮播"
+  },
+  "国学": {
     "group-title": "轮播"
   },
   "戏曲": {
@@ -773,19 +780,12 @@
     "tvg-logo": "WeiShi/SiChuan.png",
     "group-title": "卫视超高清"
   },
-  "通州电视台": {
-    "group-title": "区县"
+  "BRTV北京卫视超高清HDR": {
+    "tvg-logo": "WeiShi/BeiJing.png",
+    "group-title": "北京"
   },
-  "密云电视台": {
-    "group-title": "区县"
-  },
-  "门头沟电视台": {
-    "group-title": "区县"
-  },
-  "延庆电视台": {
-    "group-title": "区县"
-  },
-  "北京朝阳": {
-    "group-title": "区县"
+  "CCTV-16 4K": {
+    "tvg-logo": "CCTV/CCTV-16.png",
+    "group-title": "央视超高清"
   }
 }
