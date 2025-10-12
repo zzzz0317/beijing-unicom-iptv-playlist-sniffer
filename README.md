@@ -40,7 +40,7 @@
 
 ## 致谢
 
-本项目台标资源来源于互联网，部分台标资源来源于 [老张的EPG](http://epg.51zmt.top:8000/) 和 [wanglindl/TVlogo](https://github.com/wanglindl/TVlogo) 项目，在此向项目维护者表示感谢。
+本项目台标资源来源于互联网，部分台标资源来源于 [老张的EPG](http://epg.51zmt.top:8000/) 、 [wanglindl/TVlogo](https://github.com/wanglindl/TVlogo) 、 [EPG-电子节目单](https://epg.112114.xyz/) 项目，在此向项目维护者表示感谢。
 
 ## TODO
 - [x] ~~抓EPG~~
