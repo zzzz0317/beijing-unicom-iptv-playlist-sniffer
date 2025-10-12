@@ -128,6 +128,9 @@ root = ET.Element(
     }
 )
 
+channel_list = dict(sorted(channel_list.items(), key=lambda x: int(x[1]["channel_num"])))
+programme_list = sorted(programme_list, key=lambda x: (int(x["channel"]), x["start"]))
+
 print("Generating EPG channel list")
 for k in channel_list:
     channel = channel_list[k]
