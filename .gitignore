@@ -5,6 +5,8 @@ user_token.log
 playlist_token.json
 last_raw_playlist_hash.txt
 *.m3u
+playlist_data.json
+playlist_zz.json
 epg.xml
 epg_cache/
 cc.xml

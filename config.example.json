@@ -80,6 +80,7 @@
   "playlist_rtsp_save_path": "playlist_rtsp.m3u",
   "playlist_rtsp_raw_save_path": "playlist_rtsp_raw.m3u",
   "playlist_raw_path": "playlist_raw.json",
+  "playlist_zz_path": "playlist_data.json",
   "playlist_extract_channel_info_from_epg": true,
   "playlist_rtsp": true,
   "playlist_catchup": true,

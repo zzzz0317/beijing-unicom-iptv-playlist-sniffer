@@ -39,6 +39,7 @@ config_playlist_ignored_mc_save_path = config.get("playlist_ignored_mc_save_path
 config_playlist_rtsp_save_path = config.get("playlist_rtsp_save_path", "playlist_rtsp.m3u")
 config_playlist_rtsp_raw_save_path = config.get("playlist_rtsp_raw_save_path", "playlist_rtsp_raw.m3u")
 config_playlist_raw_path = config.get("playlist_raw_path", config.get("sniff_save_path", "playlist_raw.json"))
+config_playlist_zz_path = config.get("playlist_zz_path", None)
 config_playlist_extract_channel_info_from_epg = config.get("playlist_extract_channel_info_from_epg", False)
 config_playlist_rtsp = config.get("playlist_rtsp", False)
 config_playlist_catchup = config.get("playlist_catchup", False)
@@ -231,6 +232,55 @@ while True:
         zz_playlist = sorted(zz_playlist, key=lambda x: x.get("channel_id", 0))
         need_update_playlist = False
         # print(zz_playlist)
+        if config_playlist_zz_path is not None:
+            playlist_zz_channel_list = {}
+            for channel in zz_playlist:
+                channel_name = channel["channel_name"]
+                channel_id_sys = channel.get("channel_id_sys", None)
+                channel_id_user = channel.get("channel_id", None)
+                channel_name_from_epg = epg_channel_map.get(channel_id_sys, {}).get("title", None)
+                channel_logo = tvg_mapper.get(channel["channel_name"], {}).get("tvg-logo", None)
+                channel_group_title = tvg_mapper.get(channel["channel_name"], {}).get("group-title", None)
+                channel_definition = tvg_mapper.get(channel["channel_name"], {}).get("zz-definition", None)
+                channel_addr_multicast = "rtp://" + channel["igmp_ip_port"]
+                channel_addr_rtsp = channel.get("channel_rtsp_url", None)
+                channel_support_timeshift = channel.get("channel_support_timeshift", False)
+                playlist_zz_channel_list[channel_name] = {
+                    "name": channel_name,
+                    "id_sys": channel_id_sys,
+                    "chno": channel_id_user,
+                    "name_from_epg": channel_name_from_epg,
+                    "logo": channel_logo,
+                    "group_title": channel_group_title,
+                    "definition": channel_definition,
+                    "flag": [],
+                    "live": {
+                        "bjunicom-multicast": {
+                            "addr": channel_addr_multicast,
+                            "type": "rtp"
+                        }
+                    },
+                    "timeshift": {}
+                }
+                if channel_addr_rtsp is not None:
+                    playlist_zz_channel_list[channel_name]["live"]["bjunicom-rtsp"] = {
+                        "addr": channel_addr_rtsp,
+                        "type": "rtsp"
+                    }
+                    if channel_support_timeshift:
+                        playlist_zz_channel_list[channel_name]["timeshift"]["bjunicom-rtsp"] = {
+                            "addr": channel_addr_rtsp.replace("/PLTV/", "/TVOD/"),
+                            "type": "rtsp"
+                        }
+                if channel_name in config_playlist_ignore_channel_list:
+                    playlist_zz_channel_list[channel_name]["flag"].append("ignore")
+                if channel_id_sys is None:
+                    playlist_zz_channel_list[channel_name]["flag"].append("from_sniffer_config")
+                
+            print("Writting zz playlist to", config_playlist_zz_path)
+            with open(config_playlist_zz_path, "w", encoding="utf-8") as f_zz_json:
+                json.dump(playlist_zz_channel_list, f_zz_json, indent=2, ensure_ascii=False)
+
         m3u_header = "#EXTM3U name=\"bj-unicom-iptv\"" if epg_disable else f"#EXTM3U name=\"bj-unicom-iptv\" x-tvg-url=\"{config_playlist_epg_url}\""
         line_unicast = [m3u_header]
         line_multicast = [m3u_header]
