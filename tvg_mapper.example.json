@@ -2,1000 +2,1000 @@
   "CCTV-1高清": {
     "tvg-logo": "CCTV/CCTV-1.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-2高清": {
     "tvg-logo": "CCTV/CCTV-2.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-3高清": {
     "tvg-logo": "CCTV/CCTV-3.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-4高清": {
     "tvg-logo": "CCTV/CCTV-4.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-5高清": {
     "tvg-logo": "CCTV/CCTV-5.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-6高清": {
     "tvg-logo": "CCTV/CCTV-6.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-7高清": {
     "tvg-logo": "CCTV/CCTV-7.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-8高清": {
     "tvg-logo": "CCTV/CCTV-8.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-9高清": {
     "tvg-logo": "CCTV/CCTV-9.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-10高清": {
     "tvg-logo": "CCTV/CCTV-10.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-11高清": {
     "tvg-logo": "CCTV/CCTV-11.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-12高清": {
     "tvg-logo": "CCTV/CCTV-12.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-13高清": {
     "tvg-logo": "CCTV/CCTV-13.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-14高清": {
     "tvg-logo": "CCTV/CCTV-14.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-15高清": {
     "tvg-logo": "CCTV/CCTV-15.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-16高清": {
     "tvg-logo": "CCTV/CCTV-16.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV17-高清": {
     "tvg-logo": "CCTV/CCTV-17.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-5+": {
     "tvg-logo": "CCTV/CCTV-5+.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "聚鲨环球精选": {
     "group-title": "购物",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "央广购物": {
     "group-title": "购物",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "BRTV北京卫视高清": {
     "tvg-logo": "WeiShi/BeiJing.png",
     "group-title": "北京",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "BRTV文艺高清": {
     "tvg-logo": "BRTV/BRTV_WenYi.png",
     "group-title": "北京",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "BRTV纪实科教高清": {
     "tvg-logo": "BRTV/BRTV_JiShiKeJiao.png",
     "group-title": "北京",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "BRTV影视高清": {
     "tvg-logo": "BRTV/BRTV_YingShi.png",
     "group-title": "北京",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "BRTV财经高清": {
     "tvg-logo": "BRTV/BRTV_CaiJing.png",
     "group-title": "北京",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "BRTV体育休闲高清": {
     "tvg-logo": "BRTV/BRTV_TiYuXiuXian.png",
     "group-title": "北京",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "BRTV生活高清": {
     "tvg-logo": "BRTV/BRTV_ShengHuo.png",
     "group-title": "北京",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "BRTV卡酷少儿高清": {
     "tvg-logo": "BRTV/BRTV_KakuShaoEr.png",
     "group-title": "北京",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "BRTV新闻高清": {
     "tvg-logo": "BRTV/BRTV_XinWen.png",
     "group-title": "北京",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "家有购物精选": {
     "group-title": "购物",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "优购物": {
     "group-title": "购物",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "时尚购物": {
     "group-title": "购物",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "萌宠TV": {
     "tvg-logo": "QiTa/BJIPTV_MengChongTV.png",
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "淘Baby": {
     "tvg-logo": "QiTa/BJIPTV_TaoBABY.png",
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "淘剧场": {
     "tvg-logo": "QiTa/BJIPTV_TaoJuChang.png",
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "淘电影": {
     "tvg-logo": "QiTa/BJIPTV_TaoDianYing.png",
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "淘娱乐": {
     "tvg-logo": "QiTa/BJIPTV_TaoYuLe.png",
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "4K超清": {
     "tvg-logo": "QiTa/BJIPTV_4KChaoQing.png",
     "group-title": "轮播",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "湖南卫视高清": {
     "tvg-logo": "WeiShi/HuNan.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "家有购物": {
     "group-title": "购物",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "央广购物精选": {
     "group-title": "购物",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "江苏卫视高清": {
     "tvg-logo": "WeiShi/JiangSu.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "东方卫视高清": {
     "tvg-logo": "WeiShi/DongFang.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "浙江卫视高清": {
     "tvg-logo": "WeiShi/ZheJiang.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "湖北卫视高清": {
     "tvg-logo": "WeiShi/HuBei.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "天津卫视高清": {
     "tvg-logo": "WeiShi/TianJin.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "聚鲨环球": {
     "group-title": "购物",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "山东卫视高清": {
     "tvg-logo": "WeiShi/ShanDong.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "辽宁卫视高清": {
     "tvg-logo": "WeiShi/LiaoNing.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "安徽卫视高清": {
     "tvg-logo": "WeiShi/AnHui.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "黑龙江卫视高清": {
     "tvg-logo": "WeiShi/HeiLongJiang.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "贵州卫视高清": {
     "tvg-logo": "WeiShi/GuiZhou.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "东南卫视高清": {
     "tvg-logo": "WeiShi/DongNan.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "重庆卫视高清": {
     "tvg-logo": "WeiShi/ChongQing.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "江西卫视高清": {
     "tvg-logo": "WeiShi/JiangXi.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "河南卫视高清": {
     "tvg-logo": "WeiShi/HeNan.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "优购物精选": {
     "group-title": "购物",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "时尚购物精选": {
     "group-title": "购物",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "甘肃卫视高清": {
     "tvg-logo": "WeiShi/GanSu.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "西藏卫视高清": {
     "tvg-logo": "WeiShi/XiZang.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "新疆卫视高清": {
     "tvg-logo": "WeiShi/XinJiang.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "兵团卫视高清": {
     "tvg-logo": "WeiShi/BingTuan.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "睛彩竞技": {
     "tvg-logo": "QiTa/CBC_JingCaiJingJi.png",
     "group-title": "体验",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "睛彩篮球": {
     "tvg-logo": "QiTa/CBC_JingCaiLanQiu.png",
     "group-title": "体验",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "睛彩羽毛球": {
     "tvg-logo": "QiTa/CBC_JingCaiQingShao.png",
     "group-title": "体验",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "睛彩广场舞": {
     "tvg-logo": "QiTa/CBC_JingCaiGuangChangWu.png",
     "group-title": "体验",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "宁夏卫视高清": {
     "tvg-logo": "WeiShi/NingXia.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "广东卫视高清": {
     "tvg-logo": "WeiShi/GuangDong.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "河北卫视高清": {
     "tvg-logo": "WeiShi/HeBei.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "深圳卫视高清": {
     "tvg-logo": "WeiShi/ShenZhen.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CETV1高清": {
     "tvg-logo": "QiTa/CETV-1.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "金鹰纪实高清": {
     "tvg-logo": "WeiShi/HuNan_JingYingJiShi.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "吉林卫视高清": {
     "tvg-logo": "WeiShi/JiLin.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "中国交通": {
     "tvg-logo": "QiTa/ZhongGuoJiaoTong.png",
     "group-title": "卫视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "BRTV北京卫视超高清SDR": {
     "tvg-logo": "WeiShi/BeiJing.png",
     "group-title": "北京超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "CCTV4K超高清": {
     "tvg-logo": "CCTV/CCTV-4K.png",
     "group-title": "央视超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "CCTV4K超高清HDR": {
     "tvg-logo": "CCTV/CCTV-4K.png",
     "group-title": "央视超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "CCTV-1": {
     "tvg-logo": "CCTV/CCTV-1.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-2": {
     "tvg-logo": "CCTV/CCTV-2.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-3": {
     "tvg-logo": "CCTV/CCTV-3.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-4": {
     "tvg-logo": "CCTV/CCTV-4.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-5": {
     "tvg-logo": "CCTV/CCTV-5.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-6": {
     "tvg-logo": "CCTV/CCTV-6.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-7": {
     "tvg-logo": "CCTV/CCTV-7.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-8": {
     "tvg-logo": "CCTV/CCTV-8.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-9": {
     "tvg-logo": "CCTV/CCTV-9.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-10": {
     "tvg-logo": "CCTV/CCTV-10.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-11": {
     "tvg-logo": "CCTV/CCTV-11.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-12": {
     "tvg-logo": "CCTV/CCTV-12.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-13": {
     "tvg-logo": "CCTV/CCTV-13.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-14": {
     "tvg-logo": "CCTV/CCTV-14.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-15": {
     "tvg-logo": "CCTV/CCTV-15.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CGTN": {
     "tvg-logo": "CCTV/CGTN.png",
     "group-title": "央视国际",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CCTV-17": {
     "tvg-logo": "CCTV/CCTV-17.png",
     "group-title": "央视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "BRTV北京卫视": {
     "tvg-logo": "WeiShi/BeiJing.png",
     "group-title": "北京标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "BRTV文艺": {
     "tvg-logo": "BRTV/BRTV_WenYi.png",
     "group-title": "北京标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "BRTV纪实科教": {
     "tvg-logo": "BRTV/BRTV_JiShiKeJiao.png",
     "group-title": "北京标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "BRTV影视": {
     "tvg-logo": "BRTV/BRTV_YingShi.png",
     "group-title": "北京标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "BRTV财经": {
     "tvg-logo": "BRTV/BRTV_CaiJing.png",
     "group-title": "北京标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "BRTV体育休闲": {
     "tvg-logo": "BRTV/BRTV_TiYuXiuXian.png",
     "group-title": "北京标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "BRTV生活": {
     "tvg-logo": "BRTV/BRTV_ShengHuo.png",
     "group-title": "北京标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "BRTV卡酷少儿": {
     "tvg-logo": "BRTV/BRTV_KakuShaoEr.png",
     "group-title": "北京标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "BRTV新闻": {
     "tvg-logo": "BRTV/BRTV_XinWen.png",
     "group-title": "北京标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "BTV国际频道": {
     "tvg-logo": "BRTV/BRTV_International.png",
     "group-title": "北京",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "湖南卫视": {
     "tvg-logo": "WeiShi/HuNan.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "浙江卫视": {
     "tvg-logo": "WeiShi/ZheJiang.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "江苏卫视": {
     "tvg-logo": "WeiShi/JiangSu.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "安徽卫视": {
     "tvg-logo": "WeiShi/AnHui.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "天津卫视": {
     "tvg-logo": "WeiShi/TianJin.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "辽宁卫视": {
     "tvg-logo": "WeiShi/LiaoNing.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "山东卫视": {
     "tvg-logo": "WeiShi/ShanDong.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "山东教育": {
     "group-title": "卫视标清",
     "tvg-logo": "WeiShi/ShanDongJiaoYu.png",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "河南卫视": {
     "tvg-logo": "WeiShi/HeNan.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "黑龙江卫视": {
     "tvg-logo": "WeiShi/HeiLongJiang.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "四川卫视": {
     "tvg-logo": "WeiShi/SiChuan.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "江西卫视": {
     "tvg-logo": "WeiShi/JiangXi.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "贵州卫视": {
     "tvg-logo": "WeiShi/GuiZhou.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "深圳卫视": {
     "tvg-logo": "WeiShi/ShenZhen.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "湖北卫视": {
     "tvg-logo": "WeiShi/HuBei.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "东方卫视": {
     "tvg-logo": "WeiShi/DongFang.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "重庆卫视": {
     "tvg-logo": "WeiShi/ChongQing.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "东南卫视": {
     "tvg-logo": "WeiShi/DongNan.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "河北卫视": {
     "tvg-logo": "WeiShi/HeBei.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "广东卫视": {
     "tvg-logo": "WeiShi/GuangDong.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "广西卫视": {
     "tvg-logo": "WeiShi/GuangXi.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "吉林卫视": {
     "tvg-logo": "WeiShi/JiLin.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "陕西卫视": {
     "tvg-logo": "WeiShi/ShaanXi.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "山西卫视": {
     "tvg-logo": "WeiShi/ShanXi.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "内蒙古卫视": {
     "tvg-logo": "WeiShi/NeiMengGu.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "青海卫视": {
     "tvg-logo": "WeiShi/QingHai.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "海南卫视": {
     "tvg-logo": "WeiShi/HaiNan.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "宁夏卫视": {
     "tvg-logo": "WeiShi/NingXia.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "西藏卫视": {
     "tvg-logo": "WeiShi/XiZang.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "新疆卫视": {
     "tvg-logo": "WeiShi/XinJiang.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "甘肃卫视": {
     "tvg-logo": "WeiShi/GanSu.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "三沙卫视": {
     "tvg-logo": "WeiShi/SanSha.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "云南卫视": {
     "tvg-logo": "WeiShi/YunNan.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "财富天下": {
     "tvg-logo": "QiTa/CaiFuTianXia.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "厦门卫视": {
     "tvg-logo": "WeiShi/XiaMen.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "兵团卫视": {
     "tvg-logo": "WeiShi/BingTuan.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "金鹰卡通": {
     "tvg-logo": "QiTa/HuNan_JinYingKaTong.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "嘉佳卡通": {
     "tvg-logo": "QiTa/JiaJiaKaTong.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CETV1": {
     "tvg-logo": "QiTa/CETV-1.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CETV2": {
     "tvg-logo": "QiTa/CETV-2.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CETV3": {
     "tvg-logo": "QiTa/CETV-3.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "CETV4": {
     "tvg-logo": "QiTa/CETV-4.png",
     "group-title": "卫视标清",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "IPTV5+": {
     "tvg-logo": "QiTa/IPTV5+.png",
     "group-title": "轮播",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "收视指南": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "热播剧场": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "经典电影": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "魅力时尚": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "少儿动画": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "房山电视台": {
     "group-title": "区县",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "北京朝阳": {
     "group-title": "区县",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "密云电视台": {
     "group-title": "区县",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "通州电视台": {
     "group-title": "区县",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "延庆电视台": {
     "group-title": "区县",
-    "definition": "SD"
+    "zz-definition": "SD"
   },
   "门头沟电视台": {
     "group-title": "区县",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "快乐垂钓": {
     "tvg-logo": "QiTa/HuNan_KuaiLeChuiDiao.png",
     "group-title": "体验",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "茶": {
     "tvg-logo": "QiTa/HuNan_ChaPinDao.png",
     "group-title": "体验",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-4欧洲高清": {
     "tvg-logo": "CCTV/CCTV-4-EUO.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CCTV-4美洲高清": {
     "tvg-logo": "CCTV/CCTV-4-AME.png",
     "group-title": "央视",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CGTN英语": {
     "tvg-logo": "CCTV/CGTN.png",
     "group-title": "CGTN",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CGTN英文纪录": {
     "tvg-logo": "CCTV/CGTN-Doc.png",
     "group-title": "CGTN",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CGTN西班牙语": {
     "tvg-logo": "CCTV/CGTN-Espanol.png",
     "group-title": "CGTN",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CGTN法语": {
     "tvg-logo": "CCTV/CGTN-Francis.png",
     "group-title": "CGTN",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CGTN阿拉伯语": {
     "tvg-logo": "CCTV/CGTN-Arabic.png",
     "group-title": "CGTN",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "CGTN俄语": {
     "tvg-logo": "CCTV/CGTN-Russian.png",
     "group-title": "CGTN",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "IPTV5+高清": {
     "tvg-logo": "QiTa/IPTV5+.png",
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "4K测试": {
     "group-title": "测试",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "城市剧场": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "军旅剧场": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "古装剧场": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "音乐现场": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "地理": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "美妆": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "美人": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "精选": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "解密": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "军事": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "国学": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "戏曲": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "早教": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "动画": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "好学生": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "鉴赏": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "墨宝": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "光影": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "台球": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "爱生活": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "武术": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "高网": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "足球": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "武侠剧场": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "喜剧影院": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "动作影院": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "家庭影院": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "星影": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "IPTV5＋高清": {
     "group-title": "轮播",
-    "definition": "HD"
+    "zz-definition": "HD"
   },
   "爱上4K": {
     "tvg-logo": "QiTa/AiShang4K.png",
     "group-title": "轮播",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "湖南卫视4K超高清": {
     "tvg-logo": "WeiShi/HuNan.png",
     "group-title": "卫视超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "广东卫视4K超高清": {
     "tvg-logo": "WeiShi/GuangDong.png",
     "group-title": "卫视超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "江苏卫视4K超高清": {
     "tvg-logo": "WeiShi/JiangSu.png",
     "group-title": "卫视超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "深圳卫视4K超高清": {
     "tvg-logo": "WeiShi/ShenZhen.png",
     "group-title": "卫视超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "东方卫视4K超高清": {
     "tvg-logo": "WeiShi/DongFang.png",
     "group-title": "卫视超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "浙江卫视4K超高清": {
     "tvg-logo": "WeiShi/ZheJiang.png",
     "group-title": "卫视超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "山东卫视4K超高清": {
     "tvg-logo": "WeiShi/ShanDong.png",
     "group-title": "卫视超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "四川卫视4K超高清": {
     "tvg-logo": "WeiShi/SiChuan.png",
     "group-title": "卫视超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "BRTV北京卫视超高清HDR": {
     "tvg-logo": "WeiShi/BeiJing.png",
     "group-title": "北京超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   },
   "CCTV-16 4K": {
     "tvg-logo": "CCTV/CCTV-16.png",
     "group-title": "央视超高清",
-    "definition": "UHD"
+    "zz-definition": "UHD"
   }
 }
