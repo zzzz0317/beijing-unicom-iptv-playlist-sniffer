@@ -248,8 +248,8 @@ while True:
                 channel_tvg_id = channel_id_user if channel_name_from_epg is not None else None
                 if channel_tvg_id is None:
                     channel_tvg_id = tvg_mapper.get(channel["channel_name"], {}).get("tvg-id", None)
-                if channel_tvg_id is not None:
-                    channel_name_from_epg = tvg_mapper.get(channel["channel_name"], {}).get("tvg-name", None)
+                    if channel_tvg_id is not None:
+                        channel_name_from_epg = tvg_mapper.get(channel["channel_name"], {}).get("tvg-name", None)
                 if channel_tvg_id is None:
                     channel_tvg_id = channel_id_user
                 if channel_name_from_epg is None:
