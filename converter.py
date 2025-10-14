@@ -245,11 +245,16 @@ while True:
                 channel_addr_multicast = "rtp://" + channel["igmp_ip_port"]
                 channel_addr_rtsp = channel.get("channel_rtsp_url", None)
                 channel_support_timeshift = channel.get("channel_support_timeshift", False)
+                channel_tvg_id = channel_id_user if channel_name_from_epg is not None else None
+                if channel_tvg_id is None:
+                    channel_tvg_id = tvg_mapper.get(channel["channel_name"], {}).get("tvg-id", None)
+                    if channel_tvg_id is not None:
+                        channel_name_from_epg = tvg_mapper.get(channel["channel_name"], {}).get("tvg-name", None)
                 playlist_zz_channel_list[channel_name] = {
                     "name": channel_name,
                     "id_sys": channel_id_sys,
                     "chno": channel_id_user,
-                    "tvg_id": channel_id_user if channel_name_from_epg is not None else None,
+                    "tvg_id": channel_tvg_id,
                     "tvg_name": channel_name_from_epg,
                     "logo": channel_logo,
                     "group_title": channel_group_title,
