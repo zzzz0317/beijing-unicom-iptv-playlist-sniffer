@@ -3,6 +3,16 @@ import json
 import copy
 import argparse
 
+CONFIG_DEFAULT_KEY_LIVE = ["bjunicom-multicast"]
+CONFIG_DEFAULT_KEY_TIMESHIFT = ["bjunicom-rtsp"]
+CONFIG_DEFAULT_PROXY_RTP = "http://iptv.local:8080/rtp/"
+CONFIG_DEFAULT_PROXY_RTSP = "http://iptv.local:8080/rtsp/"
+CONFIG_DEFAULT_TAG_INCLUDE = []
+CONFIG_DEFAULT_TAG_EXCLUDE = ["ignore"]
+CONFIG_DEFAULT_EPG_URL = "https://raw.githubusercontent.com/zzzz0317/beijing-unicom-iptv-playlist/refs/heads/main/epg.xml.gz"
+CONFIG_DEFAULT_LOGO_URL = "https://raw.githubusercontent.com/zzzz0317/beijing-unicom-iptv-playlist/refs/heads/main/img/"
+CONFIG_DEFAULT_CATCHUP_PARAM = "playseek=${(b)yyyyMMddHHmmss}-${(e)yyyyMMddHHmmss}"
+
 def convert_http_proxy(source_info: dict, rtp_proxy_url: str, rtsp_proxy_url: str):
     result_info = copy.deepcopy(source_info)
     if result_info["type"] == "rtp":
@@ -112,16 +122,7 @@ def generate_m3u_playlist(
     playlist_data = copy.deepcopy(playlist_data)
     channel_del_list = []
     for channel_name, channel in playlist_data.items():
-        if len(tag_exclude) > 0:
-            flag_exclude = False
-            for tag in tag_exclude:
-                if tag in channel["flag"]:
-                    flag_exclude = True
-                    break
-            if flag_exclude:
-                channel_del_list.append(channel_name)
-                continue
-        elif len(tag_include) > 0:
+        if len(tag_include) > 0:
             flag_include = False
             if "flag" in channel.keys():
                 for tag in tag_include:
@@ -129,6 +130,15 @@ def generate_m3u_playlist(
                         flag_include = True
                         break
             if not flag_include:
+                channel_del_list.append(channel_name)
+                continue
+        elif len(tag_exclude) > 0:
+            flag_exclude = False
+            for tag in tag_exclude:
+                if tag in channel["flag"]:
+                    flag_exclude = True
+                    break
+            if flag_exclude:
                 channel_del_list.append(channel_name)
                 continue
         flag_first_timeshift = True
@@ -169,12 +179,15 @@ def generate_m3u_playlist(
         info_line += f" tvg-id=\"{channel['tvg_id']}\"" if channel.get('tvg_id') else ""
         info_line += f" tvg-name=\"{channel['tvg_name']}\"" if channel.get('tvg_name') else ""
         if logo_url:
-            info_line += f" tvg-logo=\"{logo_url}{channel['logo']}\"" if channel.get('logo') else ""
+            if logo_url != "0":
+                info_line += f" tvg-logo=\"{logo_url}{channel['logo']}\"" if channel.get('logo') else ""
         info_line += f" group-title=\"{channel['group_title']}\"" if channel.get('group_title') else ""
         info_line += f" zz-definition=\"{channel['definition']}\"" if channel.get('definition') else ""
         if not keep_channel_acquire_name and channel.get('tvg_name') and channel['tvg_name'] != channel_name:
             info_line += f" zz-raw-name=\"{channel_name}\""
         if len(channel["timeshift"].keys()) > 0:
+            if catchup_param == "kodi":
+                catchup_param = "playseek={utc:YmdHMS}-{utcend:YmdHMS}"
             timeshift_url = list(channel["timeshift"].values())[0]["addr"]
             if "?" in timeshift_url:
                 timeshift_url += "&"
@@ -189,33 +202,90 @@ def generate_m3u_playlist(
         m3u_content.append(info_line)
         m3u_content.extend(source_list)
     return "\n".join(m3u_content)
-    
+
+def serve_playlist(json_path_list: list[str], listen: str = "127.0.0.1", port: int = 5000):
+    from flask import Flask, Response, request
+
+    app = Flask(__name__)
+
+    @app.route("/playlist.m3u")
+    def playlist():
+        args = request.args
+        key_live = args.get("live", None)
+        key_timeshift = args.get("timeshift", None)
+        if key_live is None:
+            key_live = CONFIG_DEFAULT_KEY_LIVE
+        else:
+            key_live = args.get("live", "").split(",")
+        if key_timeshift is None:
+            key_timeshift = CONFIG_DEFAULT_KEY_TIMESHIFT
+        else:
+            key_timeshift = args.get("timeshift", "").split(",")
+        rtp_proxy_url = args.get("rtp") or CONFIG_DEFAULT_PROXY_RTP
+        rtsp_proxy_url = args.get("rtsp") or CONFIG_DEFAULT_PROXY_RTSP
+        multi_source = args.get("multisource", "0") in ["1", "true", "True", "TRUE"]
+        tag_include = args.get("include", None)
+        tag_exclude = args.get("exclude", None)
+        if tag_include is None:
+            tag_include = CONFIG_DEFAULT_TAG_INCLUDE
+        else:
+            tag_include = args.get("include", "").split(",")
+        if tag_exclude is None:
+            tag_exclude = CONFIG_DEFAULT_TAG_EXCLUDE
+        else:
+            tag_exclude = args.get("exclude", "").split(",")
+        keep_channel_acquire_name = args.get("keep_channel_acquire_name", "0") in ["1", "true", "True", "TRUE"]
+        epg_url = args.get("epg") or CONFIG_DEFAULT_EPG_URL
+        logo_url = args.get("logo") or CONFIG_DEFAULT_LOGO_URL
+        catchup_param = args.get("catchup") or CONFIG_DEFAULT_CATCHUP_PARAM
+
+        txt = generate_m3u_playlist(
+            json_path_list=json_path_list,
+            key_live=key_live,
+            key_timeshift=key_timeshift,
+            rtp_proxy_url=rtp_proxy_url,
+            rtsp_proxy_url=rtsp_proxy_url,
+            multi_source=multi_source,
+            tag_include=tag_include,
+            tag_exclude=tag_exclude,
+            epg_url=epg_url,
+            logo_url=logo_url,
+            catchup_param=catchup_param,
+            keep_channel_acquire_name=keep_channel_acquire_name,
+        )
+        return Response(txt, mimetype="application/x-mpegURL")
+
+    print(f"Serving playlist at http://{listen}:{port}/playlist.m3u")
+    app.run(host=listen, port=port)
+
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generate M3U playlist from ZZ JSON playlist(s).")
     subparsers = parser.add_subparsers(dest="command")
+    parser_serve = subparsers.add_parser("serve", help="Use flask to serve playlist.")
+    parser_serve.add_argument("source", nargs="+", help="Path(s) to ZZ JSON playlist file(s).")
+    parser_serve.add_argument("--listen", default="127.0.0.1", help="IP address to listen on.")
+    parser_serve.add_argument("--port", default=5000, type=int, help="Port to serve on.")
     parser_convert = subparsers.add_parser("convert", help="Convert playlist format.")
     parser_convert.add_argument("source", nargs="+", help="Path(s) to ZZ JSON playlist file(s).")
-    parser_convert.add_argument("--key-live", nargs="+", default=["bjunicom-multicast"], help="Keys for live sources to include.")
-    parser_convert.add_argument("--key-timeshift", nargs="+", default=["bjunicom-rtsp"], help="Keys for timeshift sources to include.")
-    parser_convert.add_argument("--rtp-proxy-url", default="http://iptv.local:8080/rtp/", help="RTP proxy URL.")
-    parser_convert.add_argument("--rtsp-proxy-url", default="http://iptv.local:8080/rtsp/", help="RTSP proxy URL.")
+    parser_convert.add_argument("--key-live", nargs="+", default=CONFIG_DEFAULT_KEY_LIVE, help="Keys for live sources to include.")
+    parser_convert.add_argument("--key-timeshift", nargs="+", default=CONFIG_DEFAULT_KEY_TIMESHIFT, help="Keys for timeshift sources to include.")
+    parser_convert.add_argument("--rtp-proxy-url", default=CONFIG_DEFAULT_PROXY_RTP, help="RTP proxy URL.")
+    parser_convert.add_argument("--rtsp-proxy-url", default=CONFIG_DEFAULT_PROXY_RTSP, help="RTSP proxy URL.")
     parser_convert.add_argument("--multi-source", action="store_true", help="Enable multi source mode.")
-    parser_convert.add_argument("--tag-include", nargs="+", default=[], help="Only include channels with these tags.")
-    parser_convert.add_argument("--tag-exclude", nargs="+", default=["ignore"], help="Exclude channels with these tags.")
-    parser_convert.add_argument("--keep-ignored-channel", action="store_true", help="Keep channels marked as ignore.")
+    parser_convert.add_argument("--tag-include", nargs="+", default=CONFIG_DEFAULT_TAG_INCLUDE, help="Only include channels with these tags.")
+    parser_convert.add_argument("--tag-exclude", nargs="+", default=CONFIG_DEFAULT_TAG_EXCLUDE, help="Exclude channels with these tags.")
     parser_convert.add_argument("--keep-channel-acquire-name", action="store_true", help="Use channel name from channelAcquire API")
-    parser_convert.add_argument("--epg-url", default="https://raw.githubusercontent.com/zzzz0317/beijing-unicom-iptv-playlist/refs/heads/main/epg.xml.gz", help="EPG URL.")
-    parser_convert.add_argument("--logo-url", default="https://raw.githubusercontent.com/zzzz0317/beijing-unicom-iptv-playlist/refs/heads/main/img/", help="Logo URL.")
-    parser_convert.add_argument("--catchup-param", default="playseek=${(b)yyyyMMddHHmmss}-${(e)yyyyMMddHHmmss}", help="Catchup parameter.")
+    parser_convert.add_argument("--epg-url", default=CONFIG_DEFAULT_EPG_URL, help="EPG URL.")
+    parser_convert.add_argument("--logo-url", default=CONFIG_DEFAULT_LOGO_URL, help="Logo URL.")
+    parser_convert.add_argument("--catchup-param", default=CONFIG_DEFAULT_CATCHUP_PARAM, help="Catchup parameter.")
     parser_convert.add_argument("--output", default=None, help="Output M3U playlist file path.")
     args = parser.parse_args()
     
-    if args.command == "convert":
-        exclude_tags = args.tag_exclude
-        if args.keep_ignored_channel and "ignore" in exclude_tags:
-            exclude_tags.remove("ignore")
+    if args.command == "serve":
+        serve_playlist(args.source, args.listen, args.port)
+    elif args.command == "convert":
         txt = generate_m3u_playlist(
             json_path_list=args.source,
             key_live=args.key_live,
@@ -224,7 +294,7 @@ if __name__ == "__main__":
             rtsp_proxy_url=args.rtsp_proxy_url,
             multi_source=args.multi_source,
             tag_include=args.tag_include,
-            tag_exclude=exclude_tags,
+            tag_exclude=args.tag_exclude,
             epg_url=args.epg_url,
             logo_url=args.logo_url,
             catchup_param=args.catchup_param,
