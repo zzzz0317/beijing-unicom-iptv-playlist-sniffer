@@ -203,60 +203,89 @@ def generate_m3u_playlist(
         m3u_content.extend(source_list)
     return "\n".join(m3u_content)
 
+def generate_m3u_from_http_get_params(json_path_list: list[str], args: dict):
+    key_live = args.get("live", None)
+    key_timeshift = args.get("timeshift", None)
+    if key_live is None:
+        key_live = CONFIG_DEFAULT_KEY_LIVE
+    else:
+        key_live = args.get("live", "").split(",")
+    if key_timeshift is None:
+        key_timeshift = CONFIG_DEFAULT_KEY_TIMESHIFT
+    else:
+        key_timeshift = args.get("timeshift", "").split(",")
+    rtp_proxy_url = args.get("rtp") or CONFIG_DEFAULT_PROXY_RTP
+    rtsp_proxy_url = args.get("rtsp") or CONFIG_DEFAULT_PROXY_RTSP
+    multi_source = args.get("multisource", "0") in ["1", "true", "True", "TRUE"]
+    tag_include = args.get("include", None)
+    tag_exclude = args.get("exclude", None)
+    if tag_include is None:
+        tag_include = CONFIG_DEFAULT_TAG_INCLUDE
+    else:
+        tag_include = args.get("include", "").split(",")
+    if tag_exclude is None:
+        tag_exclude = CONFIG_DEFAULT_TAG_EXCLUDE
+    else:
+        tag_exclude = args.get("exclude", "").split(",")
+    keep_channel_acquire_name = args.get("keep_channel_acquire_name", "0") in ["1", "true", "True", "TRUE"]
+    epg_url = args.get("epg") or CONFIG_DEFAULT_EPG_URL
+    logo_url = args.get("logo") or CONFIG_DEFAULT_LOGO_URL
+    catchup_param = args.get("catchup") or CONFIG_DEFAULT_CATCHUP_PARAM
+    return generate_m3u_playlist(
+        json_path_list=json_path_list,
+        key_live=key_live,
+        key_timeshift=key_timeshift,
+        rtp_proxy_url=rtp_proxy_url,
+        rtsp_proxy_url=rtsp_proxy_url,
+        multi_source=multi_source,
+        tag_include=tag_include,
+        tag_exclude=tag_exclude,
+        epg_url=epg_url,
+        logo_url=logo_url,
+        catchup_param=catchup_param,
+        keep_channel_acquire_name=keep_channel_acquire_name,
+    )
+
 def serve_playlist(json_path_list: list[str], listen: str = "127.0.0.1", port: int = 5000):
-    from flask import Flask, Response, request
+    try:
+        from flask import Flask, Response, request
+    except Exception as e:
+        raise RuntimeError("Flask is required to use serve_playlist. Install with: pip install flask") from e
 
     app = Flask(__name__)
 
     @app.route("/playlist.m3u")
     def playlist():
         args = request.args
-        key_live = args.get("live", None)
-        key_timeshift = args.get("timeshift", None)
-        if key_live is None:
-            key_live = CONFIG_DEFAULT_KEY_LIVE
-        else:
-            key_live = args.get("live", "").split(",")
-        if key_timeshift is None:
-            key_timeshift = CONFIG_DEFAULT_KEY_TIMESHIFT
-        else:
-            key_timeshift = args.get("timeshift", "").split(",")
-        rtp_proxy_url = args.get("rtp") or CONFIG_DEFAULT_PROXY_RTP
-        rtsp_proxy_url = args.get("rtsp") or CONFIG_DEFAULT_PROXY_RTSP
-        multi_source = args.get("multisource", "0") in ["1", "true", "True", "TRUE"]
-        tag_include = args.get("include", None)
-        tag_exclude = args.get("exclude", None)
-        if tag_include is None:
-            tag_include = CONFIG_DEFAULT_TAG_INCLUDE
-        else:
-            tag_include = args.get("include", "").split(",")
-        if tag_exclude is None:
-            tag_exclude = CONFIG_DEFAULT_TAG_EXCLUDE
-        else:
-            tag_exclude = args.get("exclude", "").split(",")
-        keep_channel_acquire_name = args.get("keep_channel_acquire_name", "0") in ["1", "true", "True", "TRUE"]
-        epg_url = args.get("epg") or CONFIG_DEFAULT_EPG_URL
-        logo_url = args.get("logo") or CONFIG_DEFAULT_LOGO_URL
-        catchup_param = args.get("catchup") or CONFIG_DEFAULT_CATCHUP_PARAM
-
-        txt = generate_m3u_playlist(
-            json_path_list=json_path_list,
-            key_live=key_live,
-            key_timeshift=key_timeshift,
-            rtp_proxy_url=rtp_proxy_url,
-            rtsp_proxy_url=rtsp_proxy_url,
-            multi_source=multi_source,
-            tag_include=tag_include,
-            tag_exclude=tag_exclude,
-            epg_url=epg_url,
-            logo_url=logo_url,
-            catchup_param=catchup_param,
-            keep_channel_acquire_name=keep_channel_acquire_name,
-        )
+        txt = generate_m3u_from_http_get_params(json_path_list=json_path_list, args=args)
+        if args.get("txt", "1") == "1":
+            return Response(txt, mimetype="text/plain")
         return Response(txt, mimetype="application/x-mpegURL")
 
     print(f"Serving playlist at http://{listen}:{port}/playlist.m3u")
     app.run(host=listen, port=port)
+
+
+def serve_playlist_fastapi(json_path_list: list[str], listen: str = "127.0.0.1", port: int = 5000):
+    try:
+        from fastapi import FastAPI, Request
+        from fastapi.responses import PlainTextResponse
+        import uvicorn
+    except Exception as e:
+        raise RuntimeError("FastAPI and uvicorn are required to use serve_playlist_fastapi. Install with: pip install fastapi uvicorn") from e
+
+    app = FastAPI()
+
+    @app.get("/playlist.m3u")
+    async def playlist(request: Request):
+        args = request.query_params
+        txt = generate_m3u_from_http_get_params(json_path_list=json_path_list, args=args)
+        if args.get("txt", "1") == "1":
+            return PlainTextResponse(txt, media_type="text/plain")
+        return PlainTextResponse(txt, media_type="application/x-mpegURL")
+
+    print(f"Serving playlist at http://{listen}:{port}/playlist.m3u (FastAPI)")
+    uvicorn.run(app, host=listen, port=port)
 
 
 
@@ -267,6 +296,10 @@ if __name__ == "__main__":
     parser_serve.add_argument("source", nargs="+", help="Path(s) to ZZ JSON playlist file(s).")
     parser_serve.add_argument("--listen", default="127.0.0.1", help="IP address to listen on.")
     parser_serve.add_argument("--port", default=5000, type=int, help="Port to serve on.")
+    parser_serve_fastapi = subparsers.add_parser("serve-fastapi", help="Use FastAPI to serve playlist.")
+    parser_serve_fastapi.add_argument("source", nargs="+", help="Path(s) to ZZ JSON playlist file(s).")
+    parser_serve_fastapi.add_argument("--listen", default="127.0.0.1", help="IP address to listen on.")
+    parser_serve_fastapi.add_argument("--port", default=5000, type=int, help="Port to serve on.")
     parser_convert = subparsers.add_parser("convert", help="Convert playlist format.")
     parser_convert.add_argument("source", nargs="+", help="Path(s) to ZZ JSON playlist file(s).")
     parser_convert.add_argument("--key-live", nargs="+", default=CONFIG_DEFAULT_KEY_LIVE, help="Keys for live sources to include.")
@@ -285,6 +318,8 @@ if __name__ == "__main__":
     
     if args.command == "serve":
         serve_playlist(args.source, args.listen, args.port)
+    elif args.command == "serve-fastapi":
+        serve_playlist_fastapi(args.source, args.listen, args.port)
     elif args.command == "convert":
         txt = generate_m3u_playlist(
             json_path_list=args.source,
