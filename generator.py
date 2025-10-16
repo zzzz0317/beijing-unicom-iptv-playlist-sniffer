@@ -51,8 +51,7 @@ def generate_m3u_playlist(
     playlist_data = {}
     for zz_playlist_path in json_path_list:
         if not os.path.exists(zz_playlist_path):
-            print("playlist file not exist:", zz_playlist_path)
-            continue
+            raise FileNotFoundError(f"playlist file not exist: {zz_playlist_path}")
         with open(zz_playlist_path, "r", encoding="utf-8") as f_playlist:
             zz_playlist_content = json.load(f_playlist)
         for channel_name, channel in zz_playlist_content.items():
