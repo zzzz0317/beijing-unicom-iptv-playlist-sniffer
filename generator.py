@@ -268,7 +268,7 @@ def serve_playlist(json_path_list: list[str], listen: str = "127.0.0.1", port: i
     def playlist():
         args = request.args
         txt = generate_m3u_from_http_get_params(json_path_list=json_path_list, args=args)
-        if args.get("txt", "1") == "1":
+        if args.get("txt", "0") == "1":
             return Response(txt, mimetype="text/plain")
         return Response(txt, mimetype="application/x-mpegURL")
 
@@ -290,7 +290,7 @@ def serve_playlist_fastapi(json_path_list: list[str], listen: str = "127.0.0.1",
     async def playlist(request: Request):
         args = request.query_params
         txt = generate_m3u_from_http_get_params(json_path_list=json_path_list, args=args)
-        if args.get("txt", "1") == "1":
+        if args.get("txt", "0") == "1":
             return PlainTextResponse(txt, media_type="text/plain")
         return PlainTextResponse(txt, media_type="application/x-mpegURL")
 
