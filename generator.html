@@ -577,29 +577,41 @@
                 timeshiftSelect.appendChild(opt);
             });
 
-            // 填充 EPG 预设（但不设置默认值）
+            // 填充 EPG 预设，并设置默认值为第一个选项
             const epgUrlList = document.getElementById('epgUrlList');
             config.epgUrlPresets.forEach(preset => {
                 const opt = document.createElement('option');
                 opt.value = preset;
                 epgUrlList.appendChild(opt);
             });
+            // 设置默认值为配置中的第一个选项
+            if (config.epgUrlPresets.length > 0) {
+                document.getElementById('epgUrl').value = config.epgUrlPresets[0];
+            }
 
-            // 填充 Logo 预设（但不设置默认值）
+            // 填充 Logo 预设，并设置默认值为第一个选项
             const logoUrlList = document.getElementById('logoUrlList');
             config.logoUrlPresets.forEach(preset => {
                 const opt = document.createElement('option');
                 opt.value = preset;
                 logoUrlList.appendChild(opt);
             });
+            // 设置默认值为配置中的第一个选项
+            if (config.logoUrlPresets.length > 0) {
+                document.getElementById('logoUrl').value = config.logoUrlPresets[0];
+            }
 
-            // 填充 Catchup 预设（但不设置默认值）
+            // 填充 Catchup 预设，并设置默认值为第一个选项
             const catchupParamList = document.getElementById('catchupParamList');
             config.catchupParamPresets.forEach(preset => {
                 const opt = document.createElement('option');
                 opt.value = preset;
                 catchupParamList.appendChild(opt);
             });
+            // 设置默认值为配置中的第一个选项
+            if (config.catchupParamPresets.length > 0) {
+                document.getElementById('catchupParam').value = config.catchupParamPresets[0];
+            }
 
             // 设置默认排除标签
             document.getElementById('tagExclude').value = '';
