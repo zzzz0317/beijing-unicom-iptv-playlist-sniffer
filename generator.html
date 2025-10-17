@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U Playlist 链接生成器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            /* background: rgba(255, 255, 255, 0.15); */
+            backdrop-filter: blur(10px);
+            /* border: 1px solid rgba(255, 255, 255, 0.3); */
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .header a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .header a:active {
+            transform: translateY(0);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[list],
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[list]:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .sortable-list {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 120px;
+            background: #f9f9f9;
+        }
+
+        .sortable-item {
+            background: white;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+            transition: all 0.2s;
+        }
+
+        .sortable-item:hover {
+            background: #f0f0f0;
+            border-color: #667eea;
+        }
+
+        .sortable-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .sortable-item .drag-handle {
+            cursor: grab;
+            color: #999;
+            margin-right: 10px;
+        }
+
+        .sortable-item .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .remove-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+        }
+
+        .add-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .add-btn:hover {
+            background: #5568d3;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .result-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .result-section h3 {
+            margin-bottom: 12px;
+            color: #444;
+            font-size: 16px;
+        }
+
+        .result-url {
+            background: white;
+            padding: 14px;
+            border-radius: 6px;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 12px;
+        }
+
+        .copy-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+            font-weight: 500;
+        }
+
+        .copy-btn:hover {
+            background: #059669;
+        }
+
+        .copy-btn.copied {
+            background: #6366f1;
+        }
+
+        .visit-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+            font-weight: 500;
+        }
+
+        .visit-btn:hover {
+            background: #2563eb;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .help-text.warning {
+            color: #f59e0b;
+            font-weight: 500;
+        }
+
+        .select-container {
+            position: relative;
+        }
+
+        input:disabled {
+            background-color: #f3f4f6;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .select-container select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+
+        .dragging {
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 播放列表链接生成器</h1>
+            <!-- <p>生成自定义播放列表链接</p> -->
+            <p><a target="_blank"
+                    href="https://github.com/zzzz0317/beijing-unicom-iptv-playlist">https://github.com/zzzz0317/beijing-unicom-iptv-playlist</a>
+            </p>
+        </div>
+
+        <div class="content">
+            <form id="generatorForm">
+                <!-- API URL -->
+                <div class="form-group">
+                    <label for="apiBaseUrl">Playlist 接口</label>
+                    <input type="text" id="apiBaseUrl" placeholder="http://127.0.0.1:5000/playlist.m3u">
+                </div>
+
+                <!-- Live Sources -->
+                <div class="form-group">
+                    <label>直播源 (live)</label>
+                    <div id="liveList" class="sortable-list"></div>
+                    <div class="select-container">
+                        <select id="liveSelect">
+                            <option value="">-- 选择要添加的直播源 --</option>
+                        </select>
+                    </div>
+                    <button type="button" class="add-btn" onclick="addLiveItem()">➕ 添加直播源</button>
+                    <div class="help-text">拖动项目可以调整顺序，顺序决定优先级</div>
+                </div>
+
+                <!-- Timeshift Sources -->
+                <div class="form-group">
+                    <label>时移源 (timeshift)</label>
+                    <div id="timeshiftList" class="sortable-list"></div>
+                    <div class="select-container">
+                        <select id="timeshiftSelect">
+                            <option value="">-- 选择要添加的时移源 --</option>
+                        </select>
+                    </div>
+                    <button type="button" class="add-btn" onclick="addTimeshiftItem()">➕ 添加时移源</button>
+                    <div class="help-text">拖动项目可以调整顺序，顺序决定优先级</div>
+                </div>
+
+                <!-- RTP Proxy URL -->
+                <div class="form-group">
+                    <label for="rtpProxy">RTP 代理地址 (rtp)</label>
+                    <input type="text" id="rtpProxy" placeholder="http://iptv.local:8080/rtp/">
+                    <div class="help-text">可选，留空使用默认值</div>
+                </div>
+
+                <!-- RTSP Proxy URL -->
+                <div class="form-group">
+                    <label for="rtspProxy">RTSP 代理地址 (rtsp)</label>
+                    <input type="text" id="rtspProxy" placeholder="http://iptv.local:8080/rtsp/">
+                    <div class="help-text">可选，留空使用默认值</div>
+                </div>
+
+                <!-- Multi Source -->
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="multiSource">
+                        <label for="multiSource">启用多源模式 (multisource)</label>
+                    </div>
+                    <div class="help-text">启用后将包含多个直播源 (线路)</div>
+                </div>
+
+                <!-- Tag Include -->
+                <div class="form-group">
+                    <label for="tagInclude">包含标签 (include)</label>
+                    <input type="text" id="tagInclude" placeholder="例如: hd,4k" autocomplete="on" name="tagInclude">
+                    <div class="help-text">只包含带有这些标签的频道，留空表示不过滤。多个标签请使用英文逗号(,)分隔</div>
+                    <div id="tagIncludeWarning" class="help-text warning" style="display: none;">⚠️ include 和 exclude
+                        不能同时设置，仅 include 生效</div>
+                </div>
+
+                <!-- Tag Exclude -->
+                <div class="form-group">
+                    <label for="tagExclude">排除标签 (exclude)</label>
+                    <input type="text" id="tagExclude" placeholder="默认: ignore" autocomplete="on" name="tagExclude">
+                    <div class="help-text">排除带有这些标签的频道，留空标识只过滤标记为ignore的频道。多个标签请使用英文逗号(,)分隔</div>
+                </div>
+
+                <!-- Keep Channel Acquire Name -->
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="keepChannelName">
+                        <label for="keepChannelName">保留原始频道名称 (keep_channel_acquire_name)</label>
+                    </div>
+                    <div class="help-text">使用从 channelAcquire 接口获取的原始频道名称</div>
+                </div>
+
+                <!-- EPG URL -->
+                <div class="form-group">
+                    <label for="epgUrl">EPG 地址 (epg)</label>
+                    <input list="epgUrlList" id="epgUrl" placeholder="输入或选择 EPG 地址" autocomplete="on" name="epgUrl">
+                    <datalist id="epgUrlList"></datalist>
+                    <div class="help-text">电子节目指南地址，可选</div>
+                </div>
+
+                <!-- Logo URL -->
+                <div class="form-group">
+                    <label for="logoUrl">Logo 地址 (logo)</label>
+                    <input list="logoUrlList" id="logoUrl" placeholder="输入或选择 Logo 地址" autocomplete="on" name="logoUrl">
+                    <datalist id="logoUrlList"></datalist>
+                    <div class="help-text">频道图标地址，输入 0 表示不使用 Logo，可选</div>
+                </div>
+
+                <!-- Catchup Param -->
+                <div class="form-group">
+                    <label for="catchupParam">回看参数 (catchup)</label>
+                    <input list="catchupParamList" id="catchupParam" placeholder="输入或选择回看参数" autocomplete="on"
+                        name="catchupParam">
+                    <datalist id="catchupParamList"></datalist>
+                    <div class="help-text">时移回看的参数格式，可选</div>
+                </div>
+
+                <!-- TXT Format -->
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="txtFormat">
+                        <label for="txtFormat">使用纯文本格式 (txt=1)</label>
+                    </div>
+                    <div class="help-text">输出为 text/plain 格式，否则为 application/x-mpegURL</div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="button-group">
+                    <button type="button" class="btn btn-primary" onclick="generateUrl()">🔗 生成链接</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">🔄 重置</button>
+                </div>
+            </form>
+
+            <!-- Result Section -->
+            <div id="resultSection" class="result-section" style="display: none;">
+                <h3>✅ 生成的链接:</h3>
+                <div class="result-url" id="resultUrl"></div>
+                <div style="display: flex; gap: 12px; margin-top: 12px;">
+                    <button class="copy-btn" onclick="copyUrl(event)" style="flex: 1;">📋 复制链接</button>
+                    <button class="visit-btn" onclick="visitUrl()" style="flex: 1;">🔗 访问链接</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let config = {
+            apiBaseUrl: 'http://127.0.0.1:5000',
+            keyLiveOptions: [
+                "bjunicom-multicast",
+                "bjunicom-multicast-httpproxy",
+                "bjunicom-rtsp",
+                "bjunicom-rtsp-httpproxy",
+                "bjunicom-rtsp-ts2hls"
+            ],
+            keyTimeshiftOptions: [
+                "bjunicom-rtsp",
+                "bjunicom-rtsp-httpproxy",
+                "bjunicom-rtsp-ts2hls",
+                "none"
+            ],
+            epgUrlPresets: [
+                "",
+                "https://raw.githubusercontent.com/zzzz0317/beijing-unicom-iptv-playlist/refs/heads/main/epg.xml.gz",
+                "https://raw.githubusercontent.com/zzzz0317/beijing-unicom-iptv-playlist/refs/heads/main/epg.xml"
+            ],
+            logoUrlPresets: [
+                "",
+                "https://raw.githubusercontent.com/zzzz0317/beijing-unicom-iptv-playlist/refs/heads/main/img/",
+                "https://live.fanmingming.com/tv/",
+                "0"
+            ],
+            catchupParamPresets: [
+                "",
+                "playseek=${(b)yyyyMMddHHmmss}-${(e)yyyyMMddHHmmss}",
+                "playseek={utc:YmdHMS}-{utcend:YmdHMS}",
+                "kodi"
+            ]
+        };
+
+        let draggedElement = null;
+
+        // 加载配置文件
+        async function loadConfig() {
+            try {
+                const response = await fetch('generator.json');
+                if (response.ok) {
+                    config = await response.json();
+                } else {
+                    console.log('未找到 generator.json,使用默认配置');
+                }
+            } catch (error) {
+                console.log('加载配置文件失败,使用默认配置:', error);
+            }
+            initializeForm();
+        }
+
+        // 初始化表单
+        function initializeForm() {
+            // 自动获取并设置 API 地址
+            const currentUrl = window.location.href;
+            const urlObj = new URL(currentUrl);
+            const autoApiUrl = `${urlObj.origin}${urlObj.pathname.substring(0, urlObj.pathname.lastIndexOf('/'))}/playlist.m3u`;
+
+            // 如果配置中没有设置或使用默认值，则使用自动检测的地址
+            if (!config.apiBaseUrl || config.apiBaseUrl === 'http://127.0.0.1:5000') {
+                document.getElementById('apiBaseUrl').value = autoApiUrl;
+            } else {
+                document.getElementById('apiBaseUrl').value = config.apiBaseUrl;
+            }
+
+            // 填充直播源选项
+            const liveSelect = document.getElementById('liveSelect');
+            config.keyLiveOptions.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option;
+                opt.textContent = option;
+                liveSelect.appendChild(opt);
+            });
+
+            // 填充时移源选项
+            const timeshiftSelect = document.getElementById('timeshiftSelect');
+            config.keyTimeshiftOptions.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option;
+                opt.textContent = option;
+                timeshiftSelect.appendChild(opt);
+            });
+
+            // 填充 EPG 预设（但不设置默认值）
+            const epgUrlList = document.getElementById('epgUrlList');
+            config.epgUrlPresets.forEach(preset => {
+                const opt = document.createElement('option');
+                opt.value = preset;
+                epgUrlList.appendChild(opt);
+            });
+
+            // 填充 Logo 预设（但不设置默认值）
+            const logoUrlList = document.getElementById('logoUrlList');
+            config.logoUrlPresets.forEach(preset => {
+                const opt = document.createElement('option');
+                opt.value = preset;
+                logoUrlList.appendChild(opt);
+            });
+
+            // 填充 Catchup 预设（但不设置默认值）
+            const catchupParamList = document.getElementById('catchupParamList');
+            config.catchupParamPresets.forEach(preset => {
+                const opt = document.createElement('option');
+                opt.value = preset;
+                catchupParamList.appendChild(opt);
+            });
+
+            // 设置默认排除标签
+            document.getElementById('tagExclude').value = '';
+
+            // 添加 include/exclude 互斥监听
+            setupTagIncludeExcludeLogic();
+        }
+
+        // 设置 include/exclude 互斥逻辑
+        function setupTagIncludeExcludeLogic() {
+            const tagInclude = document.getElementById('tagInclude');
+            const tagExclude = document.getElementById('tagExclude');
+            const warning = document.getElementById('tagIncludeWarning');
+
+            function checkConflict() {
+                const includeValue = tagInclude.value.trim();
+                const excludeValue = tagExclude.value.trim();
+
+                if (includeValue && excludeValue) {
+                    // 两者都有值，显示警告，禁用 exclude
+                    warning.style.display = 'block';
+                    tagExclude.disabled = true;
+                } else {
+                    // 隐藏警告，启用 exclude
+                    warning.style.display = 'none';
+                    tagExclude.disabled = false;
+                }
+            }
+
+            tagInclude.addEventListener('input', checkConflict);
+            tagExclude.addEventListener('input', checkConflict);
+        }
+
+        // 添加直播源
+        function addLiveItem() {
+            const select = document.getElementById('liveSelect');
+            const value = select.value;
+            if (!value) return;
+
+            const list = document.getElementById('liveList');
+            const item = createSortableItem(value, 'live');
+            list.appendChild(item);
+            select.value = '';
+        }
+
+        // 添加时移源
+        function addTimeshiftItem() {
+            const select = document.getElementById('timeshiftSelect');
+            const value = select.value;
+            if (!value) return;
+
+            const list = document.getElementById('timeshiftList');
+            const item = createSortableItem(value, 'timeshift');
+            list.appendChild(item);
+            select.value = '';
+        }
+
+        // 创建可排序项
+        function createSortableItem(value, type) {
+            const item = document.createElement('div');
+            item.className = 'sortable-item';
+            item.draggable = true;
+            item.dataset.value = value;
+            item.innerHTML = `
+                <div>
+                    <span class="drag-handle">⋮⋮</span>
+                    <span>${value}</span>
+                </div>
+                <button type="button" class="remove-btn" onclick="removeItem(this)">删除</button>
+            `;
+
+            // 拖放事件
+            item.addEventListener('dragstart', handleDragStart);
+            item.addEventListener('dragover', handleDragOver);
+            item.addEventListener('drop', handleDrop);
+            item.addEventListener('dragend', handleDragEnd);
+
+            return item;
+        }
+
+        // 删除项
+        function removeItem(btn) {
+            btn.closest('.sortable-item').remove();
+        }
+
+        // 拖放处理
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+
+            const target = e.target.closest('.sortable-item');
+            if (target && target !== draggedElement) {
+                const parent = target.parentNode;
+                const rect = target.getBoundingClientRect();
+                const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+                parent.insertBefore(draggedElement, next ? target.nextSibling : target);
+            }
+            return false;
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            draggedElement = null;
+        }
+
+        // 生成 URL
+        function generateUrl() {
+            let baseUrl = document.getElementById('apiBaseUrl').value.trim();
+            if (!baseUrl) {
+                alert('请输入 API 地址');
+                return;
+            }
+
+            // 确保 baseUrl 包含 /playlist.m3u
+            if (!baseUrl.includes('/playlist.m3u')) {
+                baseUrl = baseUrl.replace(/\/$/, '') + '/playlist.m3u';
+            }
+
+            const params = new URLSearchParams();
+
+            // 获取直播源列表
+            const liveItems = document.querySelectorAll('#liveList .sortable-item');
+            if (liveItems.length > 0) {
+                const liveValues = Array.from(liveItems).map(item => item.dataset.value);
+                params.append('live', liveValues.join(','));
+            }
+
+            // 获取时移源列表
+            const timeshiftItems = document.querySelectorAll('#timeshiftList .sortable-item');
+            if (timeshiftItems.length > 0) {
+                const timeshiftValues = Array.from(timeshiftItems).map(item => item.dataset.value);
+                params.append('timeshift', timeshiftValues.join(','));
+            }
+
+            // RTP Proxy
+            const rtpProxy = document.getElementById('rtpProxy').value.trim();
+            if (rtpProxy) {
+                params.append('rtp', rtpProxy);
+            }
+
+            // RTSP Proxy
+            const rtspProxy = document.getElementById('rtspProxy').value.trim();
+            if (rtspProxy) {
+                params.append('rtsp', rtspProxy);
+            }
+
+            // Multi Source
+            if (document.getElementById('multiSource').checked) {
+                params.append('multisource', '1');
+            }
+
+            // Tag Include（优先级更高）
+            const tagInclude = document.getElementById('tagInclude').value.trim();
+            if (tagInclude) {
+                params.append('include', tagInclude);
+                // 如果 include 有值，exclude 不生效
+            } else {
+                // 只有 include 为空时，exclude 才生效
+                const tagExclude = document.getElementById('tagExclude').value.trim();
+                if (tagExclude) {
+                    params.append('exclude', tagExclude);
+                }
+            }
+
+            // Keep Channel Name
+            if (document.getElementById('keepChannelName').checked) {
+                params.append('keep_channel_acquire_name', '1');
+            }
+
+            // EPG URL
+            const epgUrl = document.getElementById('epgUrl').value.trim();
+            if (epgUrl) {
+                params.append('epg', epgUrl);
+            }
+
+            // Logo URL
+            const logoUrl = document.getElementById('logoUrl').value.trim();
+            if (logoUrl) {
+                params.append('logo', logoUrl);
+            }
+
+            // Catchup Param
+            const catchupParam = document.getElementById('catchupParam').value.trim();
+            if (catchupParam) {
+                params.append('catchup', catchupParam);
+            }
+
+            // TXT Format
+            if (document.getElementById('txtFormat').checked) {
+                params.append('txt', '1');
+            }
+
+            // 生成完整 URL
+            const fullUrl = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
+
+            // 显示结果
+            document.getElementById('resultUrl').textContent = fullUrl;
+            document.getElementById('resultSection').style.display = 'block';
+
+            // 滚动到结果
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // 复制 URL
+        function copyUrl(event) {
+            const url = document.getElementById('resultUrl').textContent;
+            const btn = event.target;
+            
+            navigator.clipboard.writeText(url).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = '✓ 已复制!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                alert('复制失败,请手动复制');
+                console.error('复制失败:', err);
+            });
+        }
+
+        // 访问 URL
+        function visitUrl() {
+            const url = document.getElementById('resultUrl').textContent;
+            if (url) {
+                window.open(url, '_blank', 'noopener,noreferrer');
+            }
+        }
+
+        // 重置表单
+        function resetForm() {
+            document.getElementById('generatorForm').reset();
+            document.getElementById('liveList').innerHTML = '';
+            document.getElementById('timeshiftList').innerHTML = '';
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('tagIncludeWarning').style.display = 'none';
+            document.getElementById('tagExclude').disabled = false;
+            initializeForm();
+        }
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', loadConfig);
+    </script>
+</body>
+
+</html>

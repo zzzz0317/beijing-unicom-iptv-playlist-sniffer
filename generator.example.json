@@ -1,0 +1,33 @@
+{
+    "apiBaseUrl": "http://127.0.0.1:5000",
+    "keyLiveOptions": [
+        "bjunicom-multicast",
+        "bjunicom-multicast-httpproxy",
+        "bjunicom-rtsp",
+        "bjunicom-rtsp-httpproxy",
+        "bjunicom-rtsp-ts2hls"
+    ],
+    "keyTimeshiftOptions": [
+        "bjunicom-rtsp",
+        "bjunicom-rtsp-httpproxy",
+        "bjunicom-rtsp-ts2hls",
+        "none"
+    ],
+    "epgUrlPresets": [
+        "",
+        "https://raw.githubusercontent.com/zzzz0317/beijing-unicom-iptv-playlist/refs/heads/main/epg.xml.gz",
+        "https://raw.githubusercontent.com/zzzz0317/beijing-unicom-iptv-playlist/refs/heads/main/epg.xml"
+    ],
+    "logoUrlPresets": [
+        "",
+        "https://raw.githubusercontent.com/zzzz0317/beijing-unicom-iptv-playlist/refs/heads/main/img/",
+        "https://live.fanmingming.com/tv/",
+        "0"
+    ],
+    "catchupParamPresets": [
+        "",
+        "playseek=${(b)yyyyMMddHHmmss}-${(e)yyyyMMddHHmmss}",
+        "playseek={utc:YmdHMS}-{utcend:YmdHMS}",
+        "kodi"
+    ]
+}

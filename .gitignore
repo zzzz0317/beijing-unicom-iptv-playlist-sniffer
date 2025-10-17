@@ -12,3 +12,4 @@ epg_cache/
 cc.xml
 *.pyc
 .idea
+generator.json
