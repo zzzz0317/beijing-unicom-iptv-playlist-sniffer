@@ -442,7 +442,7 @@
                         </select>
                     </div>
                     <button type="button" class="add-btn" onclick="addLiveItem()">➕ 添加直播源</button>
-                    <div class="help-text">拖动项目可以调整顺序，顺序决定优先级</div>
+                    <div class="help-text">拖动项目可以调整顺序，顺序决定优先级，选择多个可勾选下方“启用多源模式”设置单节目单多直播源</div>
                 </div>
 
                 <!-- Timeshift Sources -->
@@ -455,7 +455,7 @@
                         </select>
                     </div>
                     <button type="button" class="add-btn" onclick="addTimeshiftItem()">➕ 添加时移源</button>
-                    <div class="help-text">拖动项目可以调整顺序，顺序决定优先级</div>
+                    <div class="help-text">拖动项目可以调整顺序，顺序决定优先级，选择多个每频道仅使用匹配到的第一个</div>
                 </div>
 
                 <!-- Proxy Host Configuration -->
@@ -595,11 +595,18 @@
                 "bjunicom-rtsp-httpproxy",
                 "bjunicom-rtsp-ts2hls"
             ],
+            keyLiveDefaults: [
+                "bjunicom-multicast-httpproxy",
+                "bjunicom-multicast"
+            ],
             keyTimeshiftOptions: [
                 "bjunicom-rtsp",
                 "bjunicom-rtsp-httpproxy",
                 "bjunicom-rtsp-ts2hls",
                 "none"
+            ],
+            keyTimeshiftDefaults: [
+                "bjunicom-rtsp-ts2hls"
             ],
             epgUrlPresets: [
                 "",
@@ -706,6 +713,28 @@
 
             // 设置默认排除标签
             document.getElementById('tagExclude').value = '';
+
+            // 添加默认的直播源
+            if (config.keyLiveDefaults && config.keyLiveDefaults.length > 0) {
+                const liveList = document.getElementById('liveList');
+                config.keyLiveDefaults.forEach(value => {
+                    if (config.keyLiveOptions.includes(value)) {
+                        const item = createSortableItem(value, 'live');
+                        liveList.appendChild(item);
+                    }
+                });
+            }
+
+            // 添加默认的时移源
+            if (config.keyTimeshiftDefaults && config.keyTimeshiftDefaults.length > 0) {
+                const timeshiftList = document.getElementById('timeshiftList');
+                config.keyTimeshiftDefaults.forEach(value => {
+                    if (config.keyTimeshiftOptions.includes(value)) {
+                        const item = createSortableItem(value, 'timeshift');
+                        timeshiftList.appendChild(item);
+                    }
+                });
+            }
 
             // 添加 include/exclude 互斥监听
             setupTagIncludeExcludeLogic();
@@ -816,7 +845,7 @@
                     <span class="drag-handle">⋮⋮</span>
                     <span>${value}</span>
                 </div>
-                <button type="button" class="remove-btn" onclick="removeItem(this)">删除</button>
+                <button type="button" class="remove-btn" onclick="removeItem(this)">×</button>
             `;
 
             // 拖放事件

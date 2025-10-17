@@ -7,11 +7,18 @@
         "bjunicom-rtsp-httpproxy",
         "bjunicom-rtsp-ts2hls"
     ],
+    "keyLiveDefaults": [
+        "bjunicom-multicast-httpproxy",
+        "bjunicom-multicast"
+    ],
     "keyTimeshiftOptions": [
         "bjunicom-rtsp",
         "bjunicom-rtsp-httpproxy",
         "bjunicom-rtsp-ts2hls",
         "none"
+    ],
+    "keyTimeshiftDefaults": [
+        "bjunicom-rtsp-ts2hls"
     ],
     "epgUrlPresets": [
         "",
