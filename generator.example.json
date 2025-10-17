@@ -18,7 +18,8 @@
         "none"
     ],
     "keyTimeshiftDefaults": [
-        "bjunicom-rtsp-ts2hls"
+        "bjunicom-rtsp-ts2hls",
+        "bjunicom-rtsp-httpproxy"
     ],
     "epgUrlPresets": [
         "",
