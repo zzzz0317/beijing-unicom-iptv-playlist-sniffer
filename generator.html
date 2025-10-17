@@ -306,6 +306,56 @@
             font-weight: 500;
         }
 
+        .help-text.error {
+            color: #ef4444;
+            font-weight: 500;
+        }
+
+        .inline-group {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .inline-group .inline-field {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .inline-group .inline-field.small {
+            flex: 0 0 120px;
+        }
+
+        .inline-group .inline-field.medium {
+            flex: 0 0 150px;
+        }
+
+        .inline-group .inline-field label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+            font-size: 14px;
+        }
+
+        .inline-group .inline-field input,
+        .inline-group .inline-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .inline-group .inline-field input:focus,
+        .inline-group .inline-field select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
         .select-container {
             position: relative;
         }
@@ -328,7 +378,7 @@
             opacity: 0.5;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 520px) {
             .container {
                 margin: 0;
                 border-radius: 0;
@@ -343,6 +393,21 @@
             }
 
             .btn {
+                width: 100%;
+            }
+
+            .inline-group {
+                flex-direction: column;
+            }
+
+            .inline-group .inline-field {
+                width: 100%;
+                flex: 0 0 auto;
+            }
+
+            .inline-group .inline-field.small,
+            .inline-group .inline-field.medium {
+                flex: 0 0 auto;
                 width: 100%;
             }
         }
@@ -393,18 +458,44 @@
                     <div class="help-text">拖动项目可以调整顺序，顺序决定优先级</div>
                 </div>
 
+                <!-- Proxy Host Configuration -->
+                <div class="form-group">
+                    <label>代理服务器配置 (scheme, host, port)</label>
+                    <div class="inline-group">
+                        <div class="inline-field small">
+                            <label for="proxyScheme">协议</label>
+                            <select id="proxyScheme">
+                                <option value="">-- 默认 --</option>
+                                <option value="http">http</option>
+                                <option value="https">https</option>
+                            </select>
+                        </div>
+                        <div class="inline-field">
+                            <label for="proxyHost">主机地址</label>
+                            <input type="text" id="proxyHost" placeholder="例如: iptv.local" autocomplete="on" name="proxyHost">
+                        </div>
+                        <div class="inline-field small">
+                            <label for="proxyPort">端口</label>
+                            <input type="text" id="proxyPort" placeholder="例如: 8080" autocomplete="on" name="proxyPort">
+                        </div>
+                    </div>
+                    <div class="help-text">可选，配置后将自动拼接 RTP 和 RTSP 代理地址。留空则使用下方的完整地址</div>
+                </div>
+
                 <!-- RTP Proxy URL -->
                 <div class="form-group">
                     <label for="rtpProxy">RTP 代理地址 (rtp)</label>
-                    <input type="text" id="rtpProxy" placeholder="http://iptv.local:8080/rtp/">
+                    <input type="text" id="rtpProxy" placeholder="http://iptv.local:8080/rtp/" autocomplete="on" name="rtpProxy">
                     <div class="help-text">可选，留空使用默认值</div>
+                    <div id="rtpProxyWarning" class="help-text error" style="display: none;">⚠️ 警告：已配置代理服务器，RTP 地址应使用路径格式（如 /rtp/）而非完整 URL</div>
                 </div>
 
                 <!-- RTSP Proxy URL -->
                 <div class="form-group">
                     <label for="rtspProxy">RTSP 代理地址 (rtsp)</label>
-                    <input type="text" id="rtspProxy" placeholder="http://iptv.local:8080/rtsp/">
+                    <input type="text" id="rtspProxy" placeholder="http://iptv.local:8080/rtsp/" autocomplete="on" name="rtspProxy">
                     <div class="help-text">可选，留空使用默认值</div>
+                    <div id="rtspProxyWarning" class="help-text error" style="display: none;">⚠️ 警告：已配置代理服务器，RTSP 地址应使用路径格式（如 /rtsp/）而非完整 URL</div>
                 </div>
 
                 <!-- Multi Source -->
@@ -618,6 +709,51 @@
 
             // 添加 include/exclude 互斥监听
             setupTagIncludeExcludeLogic();
+
+            // 添加代理配置验证监听
+            setupProxyValidation();
+        }
+
+        // 设置代理配置验证
+        function setupProxyValidation() {
+            const proxyHost = document.getElementById('proxyHost');
+            const rtpProxy = document.getElementById('rtpProxy');
+            const rtspProxy = document.getElementById('rtspProxy');
+            const rtpWarning = document.getElementById('rtpProxyWarning');
+            const rtspWarning = document.getElementById('rtspProxyWarning');
+
+            function validateProxyUrls() {
+                const hostValue = proxyHost.value.trim();
+                const rtpValue = rtpProxy.value.trim();
+                const rtspValue = rtspProxy.value.trim();
+
+                // 更新 placeholder
+                if (hostValue) {
+                    rtpProxy.placeholder = '/rtp/';
+                    rtspProxy.placeholder = '/rtsp/';
+                } else {
+                    rtpProxy.placeholder = 'http://iptv.local:8080/rtp/';
+                    rtspProxy.placeholder = 'http://iptv.local:8080/rtsp/';
+                }
+
+                // 检查 RTP 代理
+                if (hostValue && rtpValue && (rtpValue.startsWith('http://') || rtpValue.startsWith('https://'))) {
+                    rtpWarning.style.display = 'block';
+                } else {
+                    rtpWarning.style.display = 'none';
+                }
+
+                // 检查 RTSP 代理
+                if (hostValue && rtspValue && (rtspValue.startsWith('http://') || rtspValue.startsWith('https://'))) {
+                    rtspWarning.style.display = 'block';
+                } else {
+                    rtspWarning.style.display = 'none';
+                }
+            }
+
+            proxyHost.addEventListener('input', validateProxyUrls);
+            rtpProxy.addEventListener('input', validateProxyUrls);
+            rtspProxy.addEventListener('input', validateProxyUrls);
         }
 
         // 设置 include/exclude 互斥逻辑
@@ -761,6 +897,22 @@
                 params.append('timeshift', timeshiftValues.join(','));
             }
 
+            // Proxy Host Configuration
+            const proxyHost = document.getElementById('proxyHost').value.trim();
+            if (proxyHost) {
+                params.append('host', proxyHost);
+                
+                const proxyScheme = document.getElementById('proxyScheme').value;
+                if (proxyScheme) {
+                    params.append('scheme', proxyScheme);
+                }
+                
+                const proxyPort = document.getElementById('proxyPort').value.trim();
+                if (proxyPort) {
+                    params.append('port', proxyPort);
+                }
+            }
+
             // RTP Proxy
             const rtpProxy = document.getElementById('rtpProxy').value.trim();
             if (rtpProxy) {
@@ -865,6 +1017,8 @@
             document.getElementById('resultSection').style.display = 'none';
             document.getElementById('tagIncludeWarning').style.display = 'none';
             document.getElementById('tagExclude').disabled = false;
+            document.getElementById('rtpProxyWarning').style.display = 'none';
+            document.getElementById('rtspProxyWarning').style.display = 'none';
             initializeForm();
         }
 

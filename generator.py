@@ -213,8 +213,19 @@ def generate_m3u_from_http_get_params(json_path_list: list[str], args: dict):
         key_timeshift = CONFIG_DEFAULT_KEY_TIMESHIFT
     else:
         key_timeshift = args.get("timeshift", "").split(",")
-    rtp_proxy_url = args.get("rtp") or CONFIG_DEFAULT_PROXY_RTP
-    rtsp_proxy_url = args.get("rtsp") or CONFIG_DEFAULT_PROXY_RTSP
+    host = args.get("host", None)
+    if host is not None:
+        scheme = args.get("scheme", "http")
+        port = args.get("port", None)
+        if port is None:
+            host_url = f"{scheme}://{host}"
+        else:
+            host_url = f"{scheme}://{host}:{port}"
+        rtp_proxy_url = f"{host_url}{args.get("rtp", "/rtp/")}"
+        rtsp_proxy_url = f"{host_url}{args.get("rtsp", "/rtsp/")}"
+    else:
+        rtp_proxy_url = args.get("rtp") or CONFIG_DEFAULT_PROXY_RTP
+        rtsp_proxy_url = args.get("rtsp") or CONFIG_DEFAULT_PROXY_RTSP
     multi_source = args.get("multisource", "0") in ["1", "true", "True", "TRUE"]
     tag_include = args.get("include", None)
     tag_exclude = args.get("exclude", None)
