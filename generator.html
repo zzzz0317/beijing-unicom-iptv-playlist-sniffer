@@ -446,6 +446,7 @@
                             <option value="">-- 选择要添加的直播源 --</option>
                         </select>
                     </div>
+                    <div id="liveWarning" class="help-text error" style="display: none; margin-top: 8px;">⚠️ 该直播源已添加,请勿重复添加</div>
                     <button type="button" class="add-btn" onclick="addLiveItem()">➕ 添加直播源</button>
                     <div class="help-text">拖动项目可以调整顺序，顺序决定优先级，选择多个<b>可勾选下方“启用多源模式”设置单节目单多直播源</b>，否则仅使用匹配到的第一个</div>
                 </div>
@@ -459,6 +460,7 @@
                             <option value="">-- 选择要添加的时移源 --</option>
                         </select>
                     </div>
+                    <div id="timeshiftWarning" class="help-text error" style="display: none; margin-top: 8px;">⚠️ 该时移源已添加,请勿重复添加</div>
                     <button type="button" class="add-btn" onclick="addTimeshiftItem()">➕ 添加时移源</button>
                     <div class="help-text">拖动项目可以调整顺序，顺序决定优先级，选择多个每频道仅使用匹配到的第一个</div>
                 </div>
@@ -673,6 +675,11 @@
                 opt.textContent = option;
                 liveSelect.appendChild(opt);
             });
+            
+            // 监听直播源选择变化，隐藏警告
+            liveSelect.addEventListener('change', () => {
+                document.getElementById('liveWarning').style.display = 'none';
+            });
 
             // 填充时移源选项
             const timeshiftSelect = document.getElementById('timeshiftSelect');
@@ -681,6 +688,11 @@
                 opt.value = option;
                 opt.textContent = option;
                 timeshiftSelect.appendChild(opt);
+            });
+            
+            // 监听时移源选择变化，隐藏警告
+            timeshiftSelect.addEventListener('change', () => {
+                document.getElementById('timeshiftWarning').style.display = 'none';
             });
 
             // 填充 EPG 预设，并设置默认值为第一个选项
@@ -791,9 +803,23 @@
         function addLiveItem() {
             const select = document.getElementById('liveSelect');
             const value = select.value;
+            const warning = document.getElementById('liveWarning');
+            
             if (!value) return;
 
             const list = document.getElementById('liveList');
+            
+            // 检查是否已存在相同的直播源
+            const existingItems = list.querySelectorAll('.sortable-item');
+            for (const item of existingItems) {
+                if (item.dataset.value === value) {
+                    warning.style.display = 'block';
+                    return;
+                }
+            }
+            
+            // 隐藏警告并添加项目
+            warning.style.display = 'none';
             const item = createSortableItem(value, 'live');
             list.appendChild(item);
             select.value = '';
@@ -803,18 +829,31 @@
         function addTimeshiftItem() {
             const select = document.getElementById('timeshiftSelect');
             const value = select.value;
+            const warning = document.getElementById('timeshiftWarning');
+            
             if (!value) return;
 
             const list = document.getElementById('timeshiftList');
             if (value === 'none') {
                 list.innerHTML = '';
+                warning.style.display = 'none';
             } else {
                 const existingItems = list.querySelectorAll('.sortable-item');
-                existingItems.forEach(item => {
+                
+                // 检查是否已存在相同的时移源
+                for (const item of existingItems) {
+                    if (item.dataset.value === value) {
+                        warning.style.display = 'block';
+                        return;
+                    }
+                    // 移除 none 项
                     if (item.dataset.value === 'none') {
                         item.remove();
                     }
-                });
+                }
+                
+                // 隐藏警告
+                warning.style.display = 'none';
             }
             const item = createSortableItem(value, 'timeshift');
             list.appendChild(item);
@@ -1030,6 +1069,8 @@
             document.getElementById('liveList').innerHTML = '';
             document.getElementById('timeshiftList').innerHTML = '';
             document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('liveWarning').style.display = 'none';
+            document.getElementById('timeshiftWarning').style.display = 'none';
             document.getElementById('rtpProxyWarning').style.display = 'none';
             document.getElementById('rtspProxyWarning').style.display = 'none';
             initializeForm();
