@@ -808,6 +808,13 @@
             const list = document.getElementById('timeshiftList');
             if (value === 'none') {
                 list.innerHTML = '';
+            } else {
+                const existingItems = list.querySelectorAll('.sortable-item');
+                existingItems.forEach(item => {
+                    if (item.dataset.value === 'none') {
+                        item.remove();
+                    }
+                });
             }
             const item = createSortableItem(value, 'timeshift');
             list.appendChild(item);
