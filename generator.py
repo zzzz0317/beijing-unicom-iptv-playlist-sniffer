@@ -182,7 +182,7 @@ def generate_m3u_playlist(
         info_line += f" tvg-name=\"{channel['tvg_name']}\"" if channel.get('tvg_name') else ""
         if logo_url:
             if logo_url != "0":
-                info_line += f" tvg-logo=\"{logo_url}{channel['logo']}\"" if channel.get('logo') else ""
+                info_line += f" tvg-logo=\"{logo_url.rstrip('/')}/{channel['logo']}\"" if channel.get('logo') else ""
         info_line += f" group-title=\"{channel['group_title']}\"" if channel.get('group_title') else ""
         info_line += f" zz-definition=\"{channel['definition']}\"" if channel.get('definition') else ""
         if not keep_channel_acquire_name and channel.get('tvg_name') and channel['tvg_name'] != channel_name:
