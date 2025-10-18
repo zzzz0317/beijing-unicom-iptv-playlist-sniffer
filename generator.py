@@ -136,13 +136,16 @@ def generate_m3u_playlist(
                 continue
         if len(tag_exclude) > 0:
             flag_exclude = False
-            for tag in tag_exclude:
-                if tag in channel["flag"]:
-                    flag_exclude = True
-                    break
-            if flag_exclude:
-                channel_del_list.append(channel_name)
-                continue
+            if "flag" in channel.keys():
+                for tag in tag_exclude:
+                    if tag in tag_include:
+                        continue
+                    if tag in channel["flag"]:
+                        flag_exclude = True
+                        break
+                if flag_exclude:
+                    channel_del_list.append(channel_name)
+                    continue
         flag_first_timeshift = True
         tkey_del_list = []
         for tkey in channel["timeshift"].keys():

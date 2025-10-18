@@ -515,14 +515,14 @@
                 <div class="form-group">
                     <label for="tagInclude">包含标签 (include)</label>
                     <input type="text" id="tagInclude" placeholder="例如: ignore" autocomplete="on" name="tagInclude">
-                    <div class="help-text">只包含带有这些标签的频道，留空表示不过滤。多个标签请使用英文逗号(,)分隔</div>
+                    <div class="help-text">只包含带有这些标签的频道，留空表示不使用 include 过滤。多个标签请使用英文逗号(,)分隔</div>
                 </div>
 
                 <!-- Tag Exclude -->
                 <div class="form-group">
                     <label for="tagExclude">排除标签 (exclude)</label>
                     <input type="text" id="tagExclude" placeholder="默认: ignore" autocomplete="on" name="tagExclude">
-                    <div class="help-text">排除带有这些标签的频道，留空标识只过滤标记为ignore的频道。多个标签请使用英文逗号(,)分隔</div>
+                    <div class="help-text">排除带有这些标签的频道，留空标识只过滤标记为 ignore 的频道，当某一标记被 include 和 exclude 同时指定时，以 include 为准。多个标签请使用英文逗号(,)分隔</div>
                 </div>
 
                 <!-- Keep Channel Acquire Name -->
