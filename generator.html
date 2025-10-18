@@ -516,8 +516,6 @@
                     <label for="tagInclude">包含标签 (include)</label>
                     <input type="text" id="tagInclude" placeholder="例如: ignore" autocomplete="on" name="tagInclude">
                     <div class="help-text">只包含带有这些标签的频道，留空表示不过滤。多个标签请使用英文逗号(,)分隔</div>
-                    <div id="tagIncludeWarning" class="help-text warning" style="display: none;">⚠️ include 和 exclude
-                        不能同时设置，仅 include 生效</div>
                 </div>
 
                 <!-- Tag Exclude -->
@@ -716,9 +714,6 @@
                 document.getElementById('catchupParam').value = config.catchupParamPresets[0];
             }
 
-            // 设置默认排除标签
-            document.getElementById('tagExclude').value = '';
-
             // 添加默认的直播源
             if (config.keyLiveDefaults && config.keyLiveDefaults.length > 0) {
                 const liveList = document.getElementById('liveList');
@@ -740,9 +735,6 @@
                     }
                 });
             }
-
-            // 添加 include/exclude 互斥监听
-            setupTagIncludeExcludeLogic();
 
             // 添加代理配置验证监听
             setupProxyValidation();
@@ -788,31 +780,6 @@
             proxyHost.addEventListener('input', validateProxyUrls);
             rtpProxy.addEventListener('input', validateProxyUrls);
             rtspProxy.addEventListener('input', validateProxyUrls);
-        }
-
-        // 设置 include/exclude 互斥逻辑
-        function setupTagIncludeExcludeLogic() {
-            const tagInclude = document.getElementById('tagInclude');
-            const tagExclude = document.getElementById('tagExclude');
-            const warning = document.getElementById('tagIncludeWarning');
-
-            function checkConflict() {
-                const includeValue = tagInclude.value.trim();
-                const excludeValue = tagExclude.value.trim();
-
-                if (includeValue && excludeValue) {
-                    // 两者都有值，显示警告，禁用 exclude
-                    warning.style.display = 'block';
-                    tagExclude.disabled = true;
-                } else {
-                    // 隐藏警告，启用 exclude
-                    warning.style.display = 'none';
-                    tagExclude.disabled = false;
-                }
-            }
-
-            tagInclude.addEventListener('input', checkConflict);
-            tagExclude.addEventListener('input', checkConflict);
         }
 
         // 添加直播源
@@ -964,17 +931,16 @@
                 params.append('multisource', '1');
             }
 
-            // Tag Include（优先级更高）
+            // Tag Include
             const tagInclude = document.getElementById('tagInclude').value.trim();
             if (tagInclude) {
                 params.append('include', tagInclude);
-                // 如果 include 有值，exclude 不生效
-            } else {
-                // 只有 include 为空时，exclude 才生效
-                const tagExclude = document.getElementById('tagExclude').value.trim();
-                if (tagExclude) {
-                    params.append('exclude', tagExclude);
-                }
+            }
+
+            // Tag Exclude
+            const tagExclude = document.getElementById('tagExclude').value.trim();
+            if (tagExclude) {
+                params.append('exclude', tagExclude);
             }
 
             // Keep Channel Name
@@ -1049,8 +1015,6 @@
             document.getElementById('liveList').innerHTML = '';
             document.getElementById('timeshiftList').innerHTML = '';
             document.getElementById('resultSection').style.display = 'none';
-            document.getElementById('tagIncludeWarning').style.display = 'none';
-            document.getElementById('tagExclude').disabled = false;
             document.getElementById('rtpProxyWarning').style.display = 'none';
             document.getElementById('rtspProxyWarning').style.display = 'none';
             initializeForm();

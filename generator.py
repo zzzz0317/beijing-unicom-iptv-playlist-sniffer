@@ -134,7 +134,7 @@ def generate_m3u_playlist(
             if not flag_include:
                 channel_del_list.append(channel_name)
                 continue
-        elif len(tag_exclude) > 0:
+        if len(tag_exclude) > 0:
             flag_exclude = False
             for tag in tag_exclude:
                 if tag in channel["flag"]:
