@@ -236,8 +236,8 @@ def generate_m3u_from_http_get_params(
             host_url = f"{scheme}://{host}"
         else:
             host_url = f"{scheme}://{host}:{port}"
-        rtp_proxy_url = f"{host_url}{args.get("rtp", "/rtp/")}"
-        rtsp_proxy_url = f"{host_url}{args.get("rtsp", "/rtsp/")}"
+        rtp_proxy_url = f"{host_url}/{args.get("rtp", "rtp").strip("/")}/"
+        rtsp_proxy_url = f"{host_url}/{args.get("rtsp", "rtsp").strip("/")}/"
     else:
         rtp_proxy_url = args.get("rtp") or CONFIG_DEFAULT_PROXY_RTP
         rtsp_proxy_url = args.get("rtsp") or CONFIG_DEFAULT_PROXY_RTSP
