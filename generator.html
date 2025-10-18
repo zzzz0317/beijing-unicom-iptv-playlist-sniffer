@@ -589,7 +589,7 @@
 
     <script>
         let config = {
-            apiBaseUrl: 'http://127.0.0.1:5000',
+            apiBaseUrl: '',
             keyLiveOptions: [
                 "bjunicom-multicast",
                 "bjunicom-multicast-httpproxy",
@@ -654,7 +654,7 @@
             const autoApiUrl = `${urlObj.origin}${urlObj.pathname.substring(0, urlObj.pathname.lastIndexOf('/'))}/playlist.m3u`;
 
             // 如果配置中没有设置或使用默认值，则使用自动检测的地址
-            if (!config.apiBaseUrl || config.apiBaseUrl === 'http://127.0.0.1:5000') {
+            if (!config.apiBaseUrl) {
                 document.getElementById('apiBaseUrl').value = autoApiUrl;
             } else {
                 document.getElementById('apiBaseUrl').value = config.apiBaseUrl;
