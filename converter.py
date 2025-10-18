@@ -286,6 +286,8 @@ while True:
                     playlist_zz_channel_list[channel_name]["flag"].append("ignore")
                 if channel_id_sys is None:
                     playlist_zz_channel_list[channel_name]["flag"].append("from_sniffer_config")
+                if channel_definition is not None:
+                    playlist_zz_channel_list[channel_name]["flag"].append(channel_definition.lower())
                 
             print("Writting zz playlist to", config_playlist_zz_path)
             with open(config_playlist_zz_path, "w", encoding="utf-8") as f_zz_json:
