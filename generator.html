@@ -806,6 +806,9 @@
             if (!value) return;
 
             const list = document.getElementById('timeshiftList');
+            if (value === 'none') {
+                list.innerHTML = '';
+            }
             const item = createSortableItem(value, 'timeshift');
             list.appendChild(item);
             select.value = '';
