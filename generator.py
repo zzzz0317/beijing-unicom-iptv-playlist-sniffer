@@ -255,6 +255,8 @@ def generate_m3u_from_http_get_params(
         tag_exclude = CONFIG_DEFAULT_TAG_EXCLUDE
     else:
         tag_exclude = args.get("exclude", "").split(",")
+    tag_include = [tag.strip() for tag in tag_include if tag.strip()]
+    tag_exclude = [tag.strip() for tag in tag_exclude if tag.strip()]
     keep_channel_acquire_name = args.get("keep_channel_acquire_name", "0") in ["1", "true", "True", "TRUE"]
     base_url = base_url.rstrip("/")
     epg_url = resolve_url_param(
