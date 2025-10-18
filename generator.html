@@ -446,7 +446,7 @@
                         </select>
                     </div>
                     <button type="button" class="add-btn" onclick="addLiveItem()">➕ 添加直播源</button>
-                    <div class="help-text">拖动项目可以调整顺序，顺序决定优先级，选择多个可勾选下方“启用多源模式”设置单节目单多直播源</div>
+                    <div class="help-text">拖动项目可以调整顺序，顺序决定优先级，选择多个<b>可勾选下方“启用多源模式”设置单节目单多直播源</b>，否则仅使用匹配到的第一个</div>
                 </div>
 
                 <!-- Timeshift Sources -->
@@ -541,7 +541,7 @@
                     <label for="epgUrl">EPG 地址 (epg)</label>
                     <input list="epgUrlList" id="epgUrl" placeholder="输入或选择 EPG 地址" autocomplete="on" name="epgUrl">
                     <datalist id="epgUrlList"></datalist>
-                    <div class="help-text">电子节目指南地址，可选</div>
+                    <div class="help-text">节目指南地址，默认使用本站提供的EPG数据，输入0表示不使用EPG</div>
                 </div>
 
                 <!-- Logo URL -->
@@ -549,7 +549,7 @@
                     <label for="logoUrl">Logo 地址 (logo)</label>
                     <input list="logoUrlList" id="logoUrl" placeholder="输入或选择 Logo 地址" autocomplete="on" name="logoUrl">
                     <datalist id="logoUrlList"></datalist>
-                    <div class="help-text">频道图标地址，输入 0 表示不使用 Logo，可选</div>
+                    <div class="help-text">频道图标地址，默认使用本站提供的图标，输入0表示无图标</div>
                 </div>
 
                 <!-- Catchup Param -->
