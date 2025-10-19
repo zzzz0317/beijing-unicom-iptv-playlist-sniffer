@@ -651,6 +651,7 @@
                 console.log('加载配置文件失败,使用默认配置:', error);
             }
             initializeForm();
+            return Promise.resolve();
         }
 
         // 初始化表单
@@ -1028,6 +1029,9 @@
             // 生成完整 URL
             const fullUrl = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
 
+            // 保存表单数据到 localStorage
+            saveFormData();
+
             // 显示结果
             document.getElementById('resultUrl').textContent = fullUrl;
             document.getElementById('resultSection').style.display = 'block';
@@ -1076,8 +1080,136 @@
             initializeForm();
         }
 
+        // 保存表单数据到 localStorage
+        function saveFormData() {
+            const formData = {
+                apiBaseUrl: document.getElementById('apiBaseUrl').value.trim(),
+                liveItems: Array.from(document.querySelectorAll('#liveList .sortable-item')).map(item => item.dataset.value),
+                timeshiftItems: Array.from(document.querySelectorAll('#timeshiftList .sortable-item')).map(item => item.dataset.value),
+                proxyScheme: document.getElementById('proxyScheme').value,
+                proxyHost: document.getElementById('proxyHost').value.trim(),
+                proxyPort: document.getElementById('proxyPort').value.trim(),
+                rtpProxy: document.getElementById('rtpProxy').value.trim(),
+                rtspProxy: document.getElementById('rtspProxy').value.trim(),
+                multiSource: document.getElementById('multiSource').checked,
+                tagInclude: document.getElementById('tagInclude').value.trim(),
+                tagExclude: document.getElementById('tagExclude').value.trim(),
+                keepChannelName: document.getElementById('keepChannelName').checked,
+                epgUrl: document.getElementById('epgUrl').value.trim(),
+                logoUrl: document.getElementById('logoUrl').value.trim(),
+                catchupParam: document.getElementById('catchupParam').value.trim(),
+                txtFormat: document.getElementById('txtFormat').checked
+            };
+            
+            try {
+                localStorage.setItem('generatorFormData', JSON.stringify(formData));
+                console.log('表单数据已保存');
+            } catch (error) {
+                console.error('保存表单数据失败:', error);
+            }
+        }
+
+        // 从 localStorage 恢复表单数据
+        function restoreFormData() {
+            try {
+                const savedData = localStorage.getItem('generatorFormData');
+                if (!savedData) {
+                    console.log('没有找到保存的表单数据');
+                    return false;
+                }
+                
+                const formData = JSON.parse(savedData);
+                
+                // 恢复 API 地址
+                if (formData.apiBaseUrl) {
+                    document.getElementById('apiBaseUrl').value = formData.apiBaseUrl;
+                }
+                
+                // 恢复直播源列表
+                const liveList = document.getElementById('liveList');
+                liveList.innerHTML = '';
+                if (formData.liveItems && formData.liveItems.length > 0) {
+                    formData.liveItems.forEach(value => {
+                        const item = createSortableItem(value, 'live');
+                        liveList.appendChild(item);
+                    });
+                }
+                
+                // 恢复时移源列表
+                const timeshiftList = document.getElementById('timeshiftList');
+                timeshiftList.innerHTML = '';
+                if (formData.timeshiftItems && formData.timeshiftItems.length > 0) {
+                    formData.timeshiftItems.forEach(value => {
+                        const item = createSortableItem(value, 'timeshift');
+                        timeshiftList.appendChild(item);
+                    });
+                }
+                
+                // 恢复代理配置
+                if (formData.proxyScheme !== undefined) {
+                    document.getElementById('proxyScheme').value = formData.proxyScheme;
+                }
+                if (formData.proxyHost !== undefined) {
+                    document.getElementById('proxyHost').value = formData.proxyHost;
+                }
+                if (formData.proxyPort !== undefined) {
+                    document.getElementById('proxyPort').value = formData.proxyPort;
+                }
+                if (formData.rtpProxy !== undefined) {
+                    document.getElementById('rtpProxy').value = formData.rtpProxy;
+                }
+                if (formData.rtspProxy !== undefined) {
+                    document.getElementById('rtspProxy').value = formData.rtspProxy;
+                }
+                
+                // 恢复复选框
+                if (formData.multiSource !== undefined) {
+                    document.getElementById('multiSource').checked = formData.multiSource;
+                }
+                if (formData.keepChannelName !== undefined) {
+                    document.getElementById('keepChannelName').checked = formData.keepChannelName;
+                }
+                if (formData.txtFormat !== undefined) {
+                    document.getElementById('txtFormat').checked = formData.txtFormat;
+                }
+                
+                // 恢复标签过滤
+                if (formData.tagInclude !== undefined) {
+                    document.getElementById('tagInclude').value = formData.tagInclude;
+                }
+                if (formData.tagExclude !== undefined) {
+                    document.getElementById('tagExclude').value = formData.tagExclude;
+                }
+                
+                // 恢复 EPG、Logo 和 Catchup
+                if (formData.epgUrl !== undefined) {
+                    document.getElementById('epgUrl').value = formData.epgUrl;
+                }
+                if (formData.logoUrl !== undefined) {
+                    document.getElementById('logoUrl').value = formData.logoUrl;
+                }
+                if (formData.catchupParam !== undefined) {
+                    document.getElementById('catchupParam').value = formData.catchupParam;
+                }
+                
+                console.log('表单数据已恢复');
+                return true;
+            } catch (error) {
+                console.error('恢复表单数据失败:', error);
+                return false;
+            }
+        }
+
         // 页面加载时初始化
-        document.addEventListener('DOMContentLoaded', loadConfig);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadConfig().then(() => {
+                // 在配置加载完成后,尝试恢复保存的表单数据
+                const restored = restoreFormData();
+                if (restored) {
+                    console.log('已自动恢复上次保存的表单数据');
+                }
+            });
+        });
     </script>
 </body>
 
