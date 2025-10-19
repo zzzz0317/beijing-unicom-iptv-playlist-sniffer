@@ -1162,6 +1162,11 @@
                     document.getElementById('rtspProxy').value = formData.rtspProxy;
                 }
                 
+                // 触发 input 事件以更新代理验证警告
+                document.getElementById('proxyHost').dispatchEvent(new Event('input'));
+                document.getElementById('rtpProxy').dispatchEvent(new Event('input'));
+                document.getElementById('rtspProxy').dispatchEvent(new Event('input'));
+                
                 // 恢复复选框
                 if (formData.multiSource !== undefined) {
                     document.getElementById('multiSource').checked = formData.multiSource;
