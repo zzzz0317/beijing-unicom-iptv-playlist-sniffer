@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# SPDX-FileCopyrightText: 2025 zzzz0317
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 import hashlib
 import datetime
 import urllib.request
