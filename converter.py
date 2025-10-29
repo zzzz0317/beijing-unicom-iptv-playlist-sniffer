@@ -295,6 +295,28 @@ while True:
                     playlist_zz_channel_list[channel_name]["flag"].append("from_sniffer_config")
                 if channel_definition is not None:
                     playlist_zz_channel_list[channel_name]["flag"].append(channel_definition.lower())
+                if channel_group_title is not None:
+                    # [null, "轮播", "测试", "区县", "体验"]
+                    if channel_group_title in ["央视", "央视超高清"]:
+                        playlist_zz_channel_list[channel_name]["flag"].append("group-cctv")
+                    elif channel_group_title in ["北京", "北京标清", "北京超高清"]:
+                        playlist_zz_channel_list[channel_name]["flag"].append("group-brtv")
+                    elif channel_group_title in ["卫视", "卫视标清", "卫视超高清"]:
+                        playlist_zz_channel_list[channel_name]["flag"].append("group-province")
+                    elif channel_group_title == "CGTN":
+                        playlist_zz_channel_list[channel_name]["flag"].append("group-cgtn")
+                    elif channel_group_title == "轮播":
+                        playlist_zz_channel_list[channel_name]["flag"].append("group-nvod")
+                    elif channel_group_title == "测试":
+                        playlist_zz_channel_list[channel_name]["flag"].append("group-test")
+                    elif channel_group_title == "区县":
+                        playlist_zz_channel_list[channel_name]["flag"].append("group-district")
+                    elif channel_group_title == "体验":
+                        playlist_zz_channel_list[channel_name]["flag"].append("group-trial")
+                    elif channel_group_title == "购物":
+                        playlist_zz_channel_list[channel_name]["flag"].append("group-shopping")
+                    else:
+                        playlist_zz_channel_list[channel_name]["flag"].append("group-unknown")
                 
             print("Writting zz playlist to", config_playlist_zz_path)
             with open(config_playlist_zz_path, "w", encoding="utf-8") as f_zz_json:
