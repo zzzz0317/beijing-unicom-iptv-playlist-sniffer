@@ -140,7 +140,7 @@ for epg in config_epg_external:
     print(f"Get EPG data from {url}")
     status_code, ext_epg_data = get_remote_content(url, encoding=None)
     if status_code != 200:
-        print(f"Get EPG data from {url} failed")
+        print(f"Get EPG data from {url} failed ({status_code})")
         continue
     if url.endswith(".gz"):
         print("EPG is gzip compressed")
