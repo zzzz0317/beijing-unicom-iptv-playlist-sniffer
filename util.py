@@ -29,7 +29,10 @@ def get_remote_content(url, encoding="utf-8"):
     try:
         response = urllib.request.urlopen(url)
         status_code = response.getcode()
-        content = response.read().decode(encoding)
+        if encoding is None:
+            content = response.read()
+        else:
+            content = response.read().decode(encoding)
         return status_code, content
     except urllib.error.HTTPError as e:
         return e.code, None
