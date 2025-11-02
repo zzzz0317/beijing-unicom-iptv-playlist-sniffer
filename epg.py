@@ -168,13 +168,13 @@ for epg in config_epg_external:
         time_stop = programme.get('stop')
         zh_title = next((title.text for title in titles if title.get('lang') == 'zh'), None)
         if zh_title is None and titles:
-                zh_title = titles[0].text
+            zh_title = titles[0].text
         if zh_title is not None and time_start is not None and time_stop is not None:
             programme_list.append({
                 "channel": ext_id_dict[channel],
                 "start": time_start,
                 "stop": time_stop,
-                "title": schedule.get("title", "无节目名称")
+                "title": zh_title
             })
 
 print("programme_count after external epg:", len(programme_list))
