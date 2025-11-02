@@ -11,6 +11,7 @@ import json
 import datetime
 import pytz
 import xml.etree.ElementTree as ET
+import gzip
 
 default_timezone = pytz.timezone("Asia/Shanghai")
 pytz.timezone.default = default_timezone
@@ -34,6 +35,7 @@ config_epg_offset_end = config.get("epg_offset_end", 8)
 config_epg_cache = config.get("epg_cache", False)
 config_epg_cache_path = config.get("epg_cache_path", "epg_cache")
 config_epg_cache_offset = config.get("epg_cache_offset", -2)
+config_epg_external = config.get("epg_external", [])
 config_playlist_raw_path = config.get("playlist_raw_path", config.get("sniff_save_path", "playlist_raw.json"))
 
 datetime_now = datetime.datetime.now()
@@ -45,6 +47,7 @@ print("config_epg_offset_end:", config_epg_offset_end)
 print("config_epg_cache:", config_epg_cache)
 print("config_epg_cache_path:", config_epg_cache_path)
 print("config_epg_cache_offset:", config_epg_cache_offset)
+print("config_epg_external:", config_epg_external)
 print("config_playlist_raw_path:", config_playlist_raw_path)
 print("datetime_now:", datetime_now)
 
@@ -63,6 +66,7 @@ channel_codes = list(set(channel_codes))
 print("channel_codes count:", len(channel_codes))
 
 channel_list = {}
+channel_with_epg_list = []
 programme_list = []
 
 for channel_code in channel_codes:
@@ -115,6 +119,8 @@ for channel_code in channel_codes:
                     "starttime", schedule.get("showStarttime", "1970-01-01 08:00:00")
                 ), source_time_format)
             end_time = datetime.datetime.strptime(schedule.get("endtime", start_time), source_time_format)
+            if channel_num not in channel_with_epg_list:
+                channel_with_epg_list.append(channel_num)
             programme_list.append({
                 "channel": channel_num,
                 "start": get_time_str(start_time, target_time_format) + " +0800",
@@ -124,7 +130,54 @@ for channel_code in channel_codes:
 
 print("channel_count:", len(channel_list.keys()))
 # print(json.dumps(channel_list, ensure_ascii=False, indent=2))
+print("channel_with_epg_list:", len(channel_with_epg_list))
+# print(json.dumps(channel_with_epg_list, ensure_ascii=False, indent=2))
 print("programme_count:", len(programme_list))
+# print(json.dumps(programme_list, ensure_ascii=False, indent=2))
+
+for epg in config_epg_external:
+    url = epg["url"]
+    print(f"Get EPG data from {url}")
+    status_code, ext_epg_data = get_remote_content(url, encoding=None)
+    if status_code != 200:
+        print(f"Get EPG data from {url} failed")
+        continue
+    if url.endswith(".gz"):
+        print("EPG is gzip compressed")
+        ext_epg_data = gzip.decompress(ext_epg_data)
+    ext_epg_data = ext_epg_data.decode("utf-8")
+    ext_epg_data = ET.fromstring(ext_epg_data)
+    ext_id_dict = {}
+    for channel in epg["channel"]:
+        tvg_id_iptv = channel["tvg_id_iptv"]
+        if tvg_id_iptv in channel_with_epg_list:
+            print(f"Bypass channel {tvg_id_iptv}")
+            continue
+        ext_id_dict[channel["tvg_id_ext"]] = tvg_id_iptv
+        channel_list[tvg_id_iptv] = {"channel_num": tvg_id_iptv, "channel_name": channel["tvg_name"]}
+    ext_id_list = list(ext_id_dict.keys())
+    # print(f"ext_id_dict: {ext_id_dict}")
+    
+    for programme in ext_epg_data.findall('programme'):
+        channel = programme.get('channel')
+        if channel not in ext_id_list:
+            # print(f"channel {channel} not in ext_id_list")
+            continue
+        titles = programme.findall('title')
+        time_start = programme.get('start'),
+        time_stop = programme.get('stop')
+        zh_title = next((title.text for title in titles if title.get('lang') == 'zh'), None)
+        if zh_title is None and titles:
+                zh_title = titles[0].text
+        if zh_title is not None and time_start is not None and time_stop is not None:
+            programme_list.append({
+                "channel": ext_id_dict[channel],
+                "start": get_time_str(start_time, target_time_format) + " +0800",
+                "stop": get_time_str(end_time, target_time_format) + " +0800",
+                "title": schedule.get("title", "无节目名称")
+            })
+
+print("programme_count after external epg:", len(programme_list))
 # print(json.dumps(programme_list, ensure_ascii=False, indent=2))
 
 root = ET.Element(
