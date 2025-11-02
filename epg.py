@@ -172,8 +172,8 @@ for epg in config_epg_external:
         if zh_title is not None and time_start is not None and time_stop is not None:
             programme_list.append({
                 "channel": ext_id_dict[channel],
-                "start": get_time_str(start_time, target_time_format) + " +0800",
-                "stop": get_time_str(end_time, target_time_format) + " +0800",
+                "start": time_start,
+                "stop": time_stop,
                 "title": schedule.get("title", "无节目名称")
             })
 
