@@ -164,7 +164,7 @@ for epg in config_epg_external:
             # print(f"channel {channel} not in ext_id_list")
             continue
         titles = programme.findall('title')
-        time_start = programme.get('start'),
+        time_start = programme.get('start')
         time_stop = programme.get('stop')
         zh_title = next((title.text for title in titles if title.get('lang') == 'zh'), None)
         if zh_title is None and titles:
