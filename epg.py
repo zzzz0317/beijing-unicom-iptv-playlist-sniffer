@@ -89,10 +89,21 @@ for channel_code in channel_codes:
             url = f"{config_epg_server_url}/schedules/{filename}"
             status_code, day_epg_data = get_remote_content(url)
             if status_code == 404:
-                print("send_schedules_request return 404:", url)
-                if i < 0:
-                    continue
-                break
+                # print("send_schedules_request return 404:", url)
+                cache_filename = os.path.join(config_epg_cache_path, filename)
+                if os.path.exists(cache_filename):
+                    with open(cache_filename, "r", encoding="utf-8") as f_cache:
+                        try:
+                            day_epg_data = f_cache.read().encode("utf-8")
+                            print("send_schedules_request return 404, but epg cache hit:", cache_filename)
+                        except Exception as e:
+                            print("send_schedules_request return 404, and epg cache load error:", cache_filename, e)
+                            continue
+                else:
+                    print("send_schedules_request return 404, and no epg cache:", url)
+                    if i <= 2:
+                        continue
+                    break
             elif status_code != 200:
                 print(f"send_schedules_request return {status_code}:", url)
                 continue
