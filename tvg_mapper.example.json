@@ -359,6 +359,11 @@
     "group-title": "卫视",
     "zz-definition": "HD"
   },
+  "证券服务": {
+    "tvg-logo": "QiTa/GanSu_ZhengQuanFuWu.png",
+    "group-title": "体验",
+    "zz-definition": "HD"
+  },
   "BRTV北京卫视超高清SDR": {
     "tvg-logo": "WeiShi/BeiJing.png",
     "group-title": "北京超高清",
@@ -725,22 +730,27 @@
     "zz-definition": "SD"
   },
   "收视指南": {
+    "tvg-logo": "QiTa/IPTV_ShouShiZhiNan.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "热播剧场": {
+    "tvg-logo": "QiTa/IPTV_ReBoJuChang.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "经典电影": {
+    "tvg-logo": "QiTa/IPTV_JingDianDianYing.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "魅力时尚": {
+    "tvg-logo": "QiTa/IPTV_MeiLiShiShang.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "少儿动画": {
+    "tvg-logo": "QiTa/IPTV_ShaoErDongHua.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
@@ -827,119 +837,153 @@
     "group-title": "测试",
     "zz-definition": "UHD"
   },
+  "重温经典": {
+    "tvg-logo": "QiTa/IPTV_ChongWenJingDian.png",
+    "group-title": "轮播",
+    "zz-definition": "HD"
+  },
   "城市剧场": {
+    "tvg-logo": "QiTa/IPTV_ChengShiJuChang.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "军旅剧场": {
+    "tvg-logo": "QiTa/IPTV_JunLvJuChang.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "古装剧场": {
+    "tvg-logo": "QiTa/IPTV_GuZhuangJuChang.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "音乐现场": {
+    "tvg-logo": "QiTa/IPTV_YinYueXianChang.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "地理": {
+    "tvg-logo": "QiTa/IPTV_DiLi.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "美妆": {
+    "tvg-logo": "QiTa/IPTV_MeiZhuang.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "美人": {
+    "tvg-logo": "QiTa/IPTV_MeiRen.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "精选": {
+    "tvg-logo": "QiTa/IPTV_JingXuan.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "解密": {
+    "tvg-logo": "QiTa/IPTV_JieMi.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "军事": {
+    "tvg-logo": "QiTa/IPTV_JunShi.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "国学": {
+    "tvg-logo": "QiTa/IPTV_GuoXue.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "戏曲": {
+    "tvg-logo": "QiTa/IPTV_XiQu.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "早教": {
+    "tvg-logo": "QiTa/IPTV_ZaoJiao.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "动画": {
+    "tvg-logo": "QiTa/IPTV_DongHua.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "好学生": {
+    "tvg-logo": "QiTa/IPTV_HaoXueSheng.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "鉴赏": {
+    "tvg-logo": "QiTa/IPTV_JianShang.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "墨宝": {
+    "tvg-logo": "QiTa/IPTV_MoBao.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "光影": {
+    "tvg-logo": "QiTa/IPTV_GuangYing.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "台球": {
+    "tvg-logo": "QiTa/IPTV_TaiQiu.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "爱生活": {
+    "tvg-logo": "QiTa/IPTV_AiShengHuo.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "武术": {
+    "tvg-logo": "QiTa/IPTV_WuShu.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "高网": {
+    "tvg-logo": "QiTa/IPTV_GaoWang.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "足球": {
+    "tvg-logo": "QiTa/IPTV_ZuQiu.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "武侠剧场": {
+    "tvg-logo": "QiTa/IPTV_WuXiaJuChang.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "喜剧影院": {
+    "tvg-logo": "QiTa/IPTV_XiJuYingYuan.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "动作影院": {
+    "tvg-logo": "QiTa/IPTV_DongZuoYingYuan.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "家庭影院": {
+    "tvg-logo": "QiTa/IPTV_JiaTingYingYuan.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "星影": {
+    "tvg-logo": "QiTa/IPTV_XingYing.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
   "IPTV5＋高清": {
+    "tvg-logo": "QiTa/IPTV5+.png",
     "group-title": "轮播",
     "zz-definition": "HD"
   },
