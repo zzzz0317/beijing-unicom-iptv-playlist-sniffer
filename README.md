@@ -32,7 +32,7 @@
 
 ## 大概的使用说明
 1. 复制 `config.example.json` 到 `config.json`，修改里面需要改的路径
-2. 复制 `tvg_mapper.example.json` 到 `tvg_mapper.json`，该文件的作用是覆盖最终节目单中的一些EPG信息，可以不要
+2. 如果需要自定义 EPG 映射信息，复制 `tvg_mapper.example.json` 到 `tvg_mapper.json` 并进行您的修改，该文件的作用是覆盖最终节目单中的一些EPG信息，如不创建此文件将默认使用 `tvg_mapper.example.json`
 3. 把 `systemd` 文件夹中的服务都装上，注意可能需要修改路径，sniffer服务要root用户执行，其他自己试，大概不用非得root
 4. `crontab -e` `0 2 * * * /usr/bin/python3 /root/beijing-unicom-iptv-playlist-sniffer/epg.py > /root/beijing-unicom-iptv-playlist-sniffer/epg.log 2>&1`
 

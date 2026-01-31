@@ -64,9 +64,16 @@ if config_playlist_epg_url == "":
 tvg_mapper = {}
 if not epg_disable:
     tvg_mapper_path = os.path.join(DIR_SCRIPT, "tvg_mapper.json")
+    tvg_mapper_example_path = os.path.join(DIR_SCRIPT, "tvg_mapper.example.json")
     if os.path.exists(tvg_mapper_path):
         with open(tvg_mapper_path, "r", encoding="utf-8") as f_tvg_mapper:
             tvg_mapper = json.load(f_tvg_mapper)
+    elif os.path.exists(tvg_mapper_example_path):
+        print("Warning: EPG is enabled but tvg_mapper.json not found, using tvg_mapper.example.json instead.")
+        with open(tvg_mapper_example_path, "r", encoding="utf-8") as f_tvg_mapper_example:
+            tvg_mapper = json.load(f_tvg_mapper_example)
+    else:
+        print("Warning: EPG is enabled but tvg_mapper.json and tvg_mapper.example.json not found! EPG info will be incomplete!")
 
 print("config_playlist_watcher_no_exit:", config_playlist_watcher_no_exit)
 print("config_playlist_watcher_interval:", config_playlist_watcher_interval)
