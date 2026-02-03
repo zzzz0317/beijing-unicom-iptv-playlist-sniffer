@@ -90,10 +90,12 @@
     "zz-definition": "HD"
   },
   "聚鲨环球精选": {
+    "tvg-logo": "QiTa/GouWu_JuShaHuanQiuJingXuan.png",
     "group-title": "购物",
     "zz-definition": "HD"
   },
   "央广购物": {
+    "tvg-logo": "QiTa/GouWu_YangGuangGouWu.png",
     "group-title": "购物",
     "zz-definition": "HD"
   },
@@ -143,10 +145,12 @@
     "zz-definition": "HD"
   },
   "家有购物精选": {
+    "tvg-logo": "QiTa/GouWu_JiaYouGouWu.png",
     "group-title": "购物",
     "zz-definition": "HD"
   },
   "优购物": {
+    "tvg-logo": "QiTa/GouWu_YouGouWu.png",
     "group-title": "购物",
     "zz-definition": "HD"
   },
@@ -190,10 +194,12 @@
     "zz-definition": "HD"
   },
   "家有购物": {
+    "tvg-logo": "QiTa/GouWu_JiaYouGouWu.png",
     "group-title": "购物",
     "zz-definition": "HD"
   },
   "央广购物精选": {
+    "tvg-logo": "QiTa/GouWu_YangGuangGouWu.png",
     "group-title": "购物",
     "zz-definition": "HD"
   },
@@ -223,6 +229,7 @@
     "zz-definition": "HD"
   },
   "聚鲨环球": {
+    "tvg-logo": "QiTa/GouWu_JuShaHuanQiuJingXuan.png",
     "group-title": "购物",
     "zz-definition": "HD"
   },
@@ -755,26 +762,37 @@
     "zz-definition": "HD"
   },
   "房山电视台": {
+    "tvg-logo": "QiTa/QuXian_FangShan.png",
     "group-title": "区县",
     "zz-definition": "HD"
   },
   "北京朝阳": {
+    "tvg-logo": "QiTa/QuXian_ChaoYang.png",
     "group-title": "区县",
     "zz-definition": "HD"
   },
   "密云电视台": {
+    "tvg-logo": "QiTa/QuXian_MiYun.png",
     "group-title": "区县",
     "zz-definition": "HD"
   },
   "通州电视台": {
+    "tvg-logo": "QiTa/QuXian_TongZhou.png",
     "group-title": "区县",
     "zz-definition": "HD"
   },
   "延庆电视台": {
+    "tvg-logo": "QiTa/QuXian_YanQing.png",
     "group-title": "区县",
     "zz-definition": "SD"
   },
   "门头沟电视台": {
+    "tvg-logo": "QiTa/QuXian_MenTouGou.png",
+    "group-title": "区县",
+    "zz-definition": "HD"
+  },
+  "平谷电视台": {
+    "tvg-logo": "QiTa/QuXian_PingGu.png",
     "group-title": "区县",
     "zz-definition": "HD"
   },
