@@ -9,6 +9,7 @@ import os
 import sys
 import json
 import datetime
+import hashlib
 import pytz
 import xml.etree.ElementTree as ET
 import gzip
@@ -159,34 +160,36 @@ from_id_dict = {}
 new_programmes = []
 
 for channel in config_epg_internal:
+    tvg_from = channel["tvg_from"]
+    tvg_to = channel["tvg_to"]
     tvg_from_id = channel["tvg_from_id"]
     tvg_to_id = channel["tvg_to_id"]
     from_raw_channel = next((ch for ch in raw_channel_list if ch.get("userChannelID") == tvg_from_id), None)
     to_raw_channel = next((ch for ch in raw_channel_list if ch.get("userChannelID") == tvg_to_id), None)
     if from_raw_channel is None:
-        print(f"from channel {tvg_from_id} ({channel['tvg_from']}) not found, skip")
+        print(f"from channel {tvg_from_id} ({tvg_from}) not found, skip")
         continue
-    if from_raw_channel.get("channelName") != channel["tvg_from"]:
-        print(f"from channel {tvg_from_id}'s channelName not match {channel['tvg_from']}, skip")
+    if from_raw_channel.get("channelName") != tvg_from:
+        print(f"from channel {tvg_from_id}'s channelName not match {tvg_from}, skip")
         continue
     if to_raw_channel is None:
-        print(f"to channel {tvg_to_id} ({channel['tvg_to']}) not found, skip")
+        print(f"to channel {tvg_to_id} ({tvg_to}) not found, skip")
         continue
-    if to_raw_channel.get("channelName") != channel["tvg_to"]:
-        print(f"to channel {tvg_to_id}'s channelName not match {channel['tvg_to']}, skip")
+    if to_raw_channel.get("channelName") != tvg_to:
+        print(f"to channel {tvg_to_id}'s channelName not match {tvg_to}, skip")
         continue
     if tvg_from_id not in from_id_dict:
         from_id_dict[tvg_from_id] = []
     from_id_dict[tvg_from_id].append(tvg_to_id)
-    print(f"add internal epg mapping: from channel {tvg_from_id} ({channel['tvg_from']}) to channel {tvg_to_id} ({channel['tvg_to']})")
+    print(f"add internal epg mapping: from channel {tvg_from_id} ({tvg_from}) to channel {tvg_to_id} ({tvg_to})")
     # 清理目标频道已有的 EPG 数据
     if tvg_to_id in channel_with_epg_list:
         programme_list = [p for p in programme_list if p["channel"] != str(tvg_to_id)]
-        print(f"channel {tvg_to_id} ({channel['tvg_to']}) in channel_with_epg_list, clear its programme in programme_list for rewrite")
+        print(f"channel {tvg_to_id} ({tvg_to}) in channel_with_epg_list, clear its programme in programme_list for rewrite")
     # 添加频道到频道列表
     if not any(ch.get("channel_num") == str(tvg_to_id) for ch in channel_list.values()):
-        channel_list[tvg_to_id] = {"channel_num": str(tvg_to_id), "channel_name": channel["tvg_to"]}
-        print(f"channel {tvg_to_id} ({channel['tvg_to']}) not in channel_list, add it for internal epg")
+        channel_list[tvg_to_id] = {"channel_num": str(tvg_to_id), "channel_name": tvg_to}
+        print(f"channel {tvg_to_id} ({tvg_to}) not in channel_list, add it for internal epg")
     # 如果 tvg_to_id 不在 channel_with_epg_list 中，则添加到 channel_with_epg_list 中，表示它已经有 EPG 数据了（虽然还没有，但后面会添加）
     if tvg_to_id not in channel_with_epg_list:
         channel_with_epg_list.append(tvg_to_id)
@@ -219,7 +222,11 @@ print("Processing external EPG mapping...")
 
 for epg in config_epg_external:
     url = epg["url"]
-    epg_name = epg["name"]
+    # 用于 name 不存在时给缓存文件命名
+    hmd5 = hashlib.md5()
+    hmd5.update(url.encode("utf-8"))
+    url_md5 = hmd5.hexdigest()
+    epg_name = epg.get("name", url_md5)
     print(f"Get {epg_name} EPG data from {url}")
     status_code, ext_epg_data = get_remote_content(url, encoding=None)
     if status_code != 200:
@@ -233,29 +240,30 @@ for epg in config_epg_external:
     ext_epg_cache_data = {}
     ext_id_dict = {}
     for channel in epg["channel"]:
-        tvg_id_ext = channel["tvg_id_ext"]
-        tvg_id_iptv = channel["tvg_id_iptv"]
+        tvg_name = channel['tvg_name']
+        tvg_id_ext = int(channel["tvg_id_ext"])
+        tvg_id_iptv = int(channel["tvg_id_iptv"])
         raw_channel = next((channel for channel in raw_channel_list if channel.get("userChannelID") == tvg_id_iptv), None)
         if raw_channel == None:
-            print(f"channel {tvg_id_iptv} ({channel['tvg_name']}) not found, skip")
+            print(f"channel {tvg_id_iptv} ({tvg_name}) not found, skip")
             continue
-        if raw_channel.get("channelName") != channel["tvg_name"]:
-            print(f"channel {tvg_id_iptv} ({channel['tvg_name']})'s channelName not match {channel['tvg_name']}, skip")
+        if raw_channel.get("channelName") != tvg_name:
+            print(f"channel {tvg_id_iptv} ({tvg_name})'s channelName not match {tvg_name}, skip")
             continue
         ext_programmes = ext_epg_data.findall('programme')
         ext_has_epg = any(p.get('channel') == str(tvg_id_ext) for p in ext_programmes)
         if ext_has_epg:
-            if channel["tvg_id_ext"] not in ext_id_dict:
-                ext_id_dict[channel["tvg_id_ext"]] = []
-            ext_id_dict[channel["tvg_id_ext"]].append(tvg_id_iptv)
-            print(f"add external epg mapping: from external {tvg_id_ext} to channel {tvg_id_iptv} ({channel['tvg_name']})")
+            if tvg_id_ext not in ext_id_dict:
+                ext_id_dict[tvg_id_ext] = []
+            ext_id_dict[tvg_id_ext].append(tvg_id_iptv)
+            print(f"add external epg mapping: from external {tvg_id_ext} to channel {tvg_id_iptv} ({tvg_name})")
             if tvg_id_iptv in channel_with_epg_list:
                 # 清除 programme_list 中 tvg_id_iptv 已有的 EPG 数据
                 programme_list = [p for p in programme_list if p["channel"] != str(tvg_id_iptv)]
-                print(f"channel {tvg_id_iptv} ({channel['tvg_name']}) in channel_with_epg_list, clear its programme in programme_list for rewrite")
+                print(f"channel {tvg_id_iptv} ({tvg_name}) in channel_with_epg_list, clear its programme in programme_list for rewrite")
             if [idkey for idkey, channel in channel_list.items() if channel.get("channel_num") == str(tvg_id_iptv)] == []:
-                channel_list[tvg_id_iptv] = {"channel_num": str(tvg_id_iptv), "channel_name": channel["tvg_name"]}
-                print(f"channel {tvg_id_iptv} ({channel['tvg_name']}) not in channel_list, add it for external epg")
+                channel_list[tvg_id_iptv] = {"channel_num": str(tvg_id_iptv), "channel_name": tvg_name}
+                print(f"channel {tvg_id_iptv} ({tvg_name}) not in channel_list, add it for external epg")
             # 如果 tvg_id_iptv 不在 channel_with_epg_list 中，则添加到 channel_with_epg_list 中，表示它已经有 EPG 数据了（虽然还没有，但后面会添加）
             if tvg_id_iptv not in channel_with_epg_list:
                 channel_with_epg_list.append(tvg_id_iptv)
