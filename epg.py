@@ -9,7 +9,6 @@ import os
 import sys
 import json
 import datetime
-import hashlib
 import pytz
 import xml.etree.ElementTree as ET
 import gzip
@@ -222,11 +221,6 @@ print("Processing external EPG mapping...")
 
 for epg in config_epg_external:
     url = epg["url"]
-    # 用于 name 不存在时给缓存文件命名
-    hmd5 = hashlib.md5()
-    hmd5.update(url.encode("utf-8"))
-    url_md5 = hmd5.hexdigest()
-    epg_name = epg.get("name", url_md5)
     print(f"Get {epg_name} EPG data from {url}")
     status_code, ext_epg_data = get_remote_content(url, encoding=None)
     if status_code != 200:
@@ -277,8 +271,8 @@ for epg in config_epg_external:
             for i in range(config_epg_offset_start, epg.get("cache_offset", config_epg_cache_external_offset)):
                 datestr = datetime_now + datetime.timedelta(days=i)
                 datestr = get_time_str(datestr, "%Y%m%d")
-                filename = f"{channel_code}_{datestr}_{epg_name}.json"
                 if config_epg_cache_external:
+                    filename = f"{channel_code}_{datestr}_{epg['name']}.json"
                     cache_filename = os.path.join(config_epg_cache_external_path, filename)
                     if os.path.exists(cache_filename):
                         with open(cache_filename, "r", encoding="utf-8") as f_cache:
@@ -327,10 +321,10 @@ for epg in config_epg_external:
 
     for ext_epg_cache_data_channel in ext_epg_cache_data:
         for ext_epg_cache_data_date in ext_epg_cache_data[ext_epg_cache_data_channel]:
-            filename = f"{ext_epg_cache_data_channel}_{ext_epg_cache_data_date}_{epg_name}.json"
             if config_epg_cache_external:
                 if not os.path.exists(config_epg_cache_external_path):
                     os.makedirs(config_epg_cache_external_path)
+                filename = f"{ext_epg_cache_data_channel}_{ext_epg_cache_data_date}_{epg['name']}.json"
                 cache_filename = os.path.join(config_epg_cache_external_path, filename)
                 with open(cache_filename, "w", encoding="utf-8") as f_cache:
                     f_cache.write(json.dumps(ext_epg_cache_data[ext_epg_cache_data_channel][ext_epg_cache_data_date], ensure_ascii=False, indent=2))
