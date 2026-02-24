@@ -221,7 +221,7 @@ print("Processing external EPG mapping...")
 
 for epg in config_epg_external:
     url = epg["url"]
-    print(f"Get {epg_name} EPG data from {url}")
+    print(f"Get EPG data from {url}")
     status_code, ext_epg_data = get_remote_content(url, encoding=None)
     if status_code != 200:
         print(f"Get EPG data from {url} failed ({status_code})")
