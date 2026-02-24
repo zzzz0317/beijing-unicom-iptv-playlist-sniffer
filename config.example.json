@@ -100,14 +100,76 @@
   "epg_cache": true,
   "epg_cache_path": "epg_cache",
   "epg_cache_offset": -2,
+  "epg_cache_external": true,
+  "epg_cache_external_path": "epg_cache_external",
+  "epg_cache_external_offset": 0,
+  "epg_internal": [
+    {
+      "tvg_from": "湖南卫视高清",
+      "tvg_to": "湖南卫视4K超高清",
+      "tvg_from_id": 41,
+      "tvg_to_id": 405
+    },
+    {
+      "tvg_from": "江苏卫视高清",
+      "tvg_to": "江苏卫视4K超高清",
+      "tvg_from_id": 44,
+      "tvg_to_id": 407
+    },
+    {
+      "tvg_from": "东方卫视高清",
+      "tvg_to": "东方卫视4K超高清",
+      "tvg_from_id": 45,
+      "tvg_to_id": 409
+    },
+    {
+      "tvg_from": "浙江卫视高清",
+      "tvg_to": "浙江卫视4K超高清",
+      "tvg_from_id": 46,
+      "tvg_to_id": 410
+    },
+    {
+      "tvg_from": "山东卫视高清",
+      "tvg_to": "山东卫视4K超高清",
+      "tvg_from_id": 50,
+      "tvg_to_id": 411
+    },
+    {
+      "tvg_from": "四川卫视",
+      "tvg_to": "四川卫视4K超高清",
+      "tvg_from_id": 142,
+      "tvg_to_id": 412
+    }
+  ],
   "epg_external": [
     {
+      "name": "51zmt",
       "url": "http://epg.51zmt.top:8000/e.xml.gz",
       "channel": [
         {
           "tvg_name": "CCTV-5+",
-          "tvg_id_iptv": "18",
-          "tvg_id_ext": "6"
+          "tvg_id_iptv": 18,
+          "tvg_id_ext": 6
+        },
+        {
+          "tvg_name": "黑龙江卫视高清",
+          "tvg_id_iptv": 53,
+          "tvg_id_ext": 46
+        },
+        {
+          "tvg_name": "宁夏卫视高清",
+          "tvg_id_iptv": 71,
+          "tvg_id_ext": 53
+        },
+        {
+          "tvg_name": "吉林卫视高清",
+          "tvg_id_iptv": 78,
+          "tvg_id_ext": 51
+        },
+        {
+          "tvg_name": "青海卫视",
+          "tvg_id_iptv": 157,
+          "tvg_id_ext": 59
         }
       ]
     }

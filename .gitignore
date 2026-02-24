@@ -9,6 +9,7 @@ playlist_data.json
 playlist_zz.json
 epg.xml
 epg_cache/
+epg_cache_external/
 cc.xml
 *.pyc
 .idea
