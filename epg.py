@@ -9,7 +9,6 @@ import os
 import sys
 import json
 import datetime
-import hashlib
 import pytz
 import xml.etree.ElementTree as ET
 import gzip
@@ -220,11 +219,8 @@ print("Processing external EPG mapping...")
 
 for epg in config_epg_external:
     url = epg["url"]
-    # 用于缓存文件命名的 md5 值
-    hmd5 = hashlib.md5()
-    hmd5.update(url.encode("utf-8"))
-    url_md5 = hmd5.hexdigest()
-    print(f"Get EPG data from {url}")
+    epg_name = epg["name"]
+    print(f"Get {epg_name} EPG data from {url}")
     status_code, ext_epg_data = get_remote_content(url, encoding=None)
     if status_code != 200:
         print(f"Get EPG data from {url} failed ({status_code})")
@@ -273,7 +269,7 @@ for epg in config_epg_external:
             for i in range(config_epg_offset_start, epg.get("cache_offset", config_epg_cache_external_offset)):
                 datestr = datetime_now + datetime.timedelta(days=i)
                 datestr = get_time_str(datestr, "%Y%m%d")
-                filename = f"{channel_code}_{datestr}_{url_md5}.json"
+                filename = f"{channel_code}_{datestr}_{epg_name}.json"
                 if config_epg_cache_external:
                     cache_filename = os.path.join(config_epg_cache_external_path, filename)
                     if os.path.exists(cache_filename):
@@ -323,7 +319,7 @@ for epg in config_epg_external:
 
     for ext_epg_cache_data_channel in ext_epg_cache_data:
         for ext_epg_cache_data_date in ext_epg_cache_data[ext_epg_cache_data_channel]:
-            filename = f"{ext_epg_cache_data_channel}_{ext_epg_cache_data_date}_{url_md5}.json"
+            filename = f"{ext_epg_cache_data_channel}_{ext_epg_cache_data_date}_{epg_name}.json"
             if config_epg_cache_external:
                 if not os.path.exists(config_epg_cache_external_path):
                     os.makedirs(config_epg_cache_external_path)

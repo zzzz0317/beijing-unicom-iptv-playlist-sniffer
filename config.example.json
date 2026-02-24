@@ -136,6 +136,7 @@
   ],
   "epg_external": [
     {
+      "name": "51zmt",
       "url": "http://epg.51zmt.top:8000/e.xml.gz",
       "channel": [
         {
