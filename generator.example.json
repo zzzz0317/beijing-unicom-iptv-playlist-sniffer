@@ -5,7 +5,8 @@
         "bjunicom-multicast-httpproxy",
         "bjunicom-rtsp",
         "bjunicom-rtsp-httpproxy",
-        "bjunicom-rtsp-ts2hls"
+        "bjunicom-rtsp-ts2hls",
+        "bjunicom-rtsp-ts2hls-httpproxy"
     ],
     "keyLiveDefaults": [
         "bjunicom-multicast-httpproxy",
@@ -15,6 +16,7 @@
         "bjunicom-rtsp",
         "bjunicom-rtsp-httpproxy",
         "bjunicom-rtsp-ts2hls",
+        "bjunicom-rtsp-ts2hls-httpproxy",
         "none"
     ],
     "keyTimeshiftDefaults": [

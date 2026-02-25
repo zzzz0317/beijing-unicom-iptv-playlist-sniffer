@@ -14,6 +14,7 @@ CONFIG_DEFAULT_KEY_LIVE = ["bjunicom-multicast"]
 CONFIG_DEFAULT_KEY_TIMESHIFT = ["bjunicom-rtsp"]
 CONFIG_DEFAULT_PROXY_RTP = "http://iptv.local:8080/rtp/"
 CONFIG_DEFAULT_PROXY_RTSP = "http://iptv.local:8080/rtsp/"
+CONFIG_DEFAULT_PROXY_HTTP = "http://iptv.local:8080/http/"
 CONFIG_DEFAULT_TAG_INCLUDE = []
 CONFIG_DEFAULT_TAG_EXCLUDE = ["ignore"]
 CONFIG_DEFAULT_BASE_URL = "https://raw.githubusercontent.com/zzzz0317/beijing-unicom-iptv-playlist/refs/heads/main"
@@ -34,11 +35,14 @@ def convert_http_proxy(source_info: dict, rtp_proxy_url: str, rtsp_proxy_url: st
     result_info["type"] = "http"
     return result_info
 
-def convert_rtsp_ts2hls(source_info: dict):
+def convert_rtsp_ts2hls(source_info: dict, http_proxy_url: str = ""):
     result_info = copy.deepcopy(source_info)
     if result_info["type"] == "rtsp":
         if result_info["addr"].endswith(".smil"):
-            result_info["addr"] = "http://" + source_info["addr"][7:] + "/index.m3u8?fmt=ts2hls"
+            if http_proxy_url:
+                result_info["addr"] = f"{http_proxy_url}{source_info['addr'][7:]}/index.m3u8?fmt=ts2hls"
+            else:
+                result_info["addr"] = "http://" + source_info["addr"][7:] + "/index.m3u8?fmt=ts2hls"
     else:
         raise Exception(f"Unsupported ts2hls format: " + result_info["type"])
     result_info["type"] = "http"
@@ -50,6 +54,7 @@ def generate_m3u_playlist(
     key_timeshift: list[str], 
     rtp_proxy_url: str = "",
     rtsp_proxy_url: str = "",
+    http_proxy_url: str = "",
     multi_source: bool = False, 
     tag_include: list[str] = [],
     tag_exclude: list[str] = ["ignore"],
@@ -96,6 +101,13 @@ def generate_m3u_playlist(
             for k in key_live:
                 if k in playlist_data_previous[channel_name]["live"].keys():
                     channel["live"][k] = playlist_data_previous[channel_name]["live"][k]
+                elif k.endswith("-ts2hls-httpproxy"):
+                    kk = k[:-17]
+                    if kk in playlist_data_previous[channel_name]["live"].keys():
+                        channel["live"][k] = convert_rtsp_ts2hls(
+                            playlist_data_previous[channel_name]["live"][kk],
+                            http_proxy_url
+                        )
                 elif k.endswith("-httpproxy"):
                     kk = k[:-10]
                     if kk in playlist_data_previous[channel_name]["live"].keys():
@@ -114,6 +126,13 @@ def generate_m3u_playlist(
             for k in key_timeshift:
                 if k in playlist_data_previous[channel_name]["timeshift"].keys():
                     channel["timeshift"][k] = playlist_data_previous[channel_name]["timeshift"][k]
+                elif k.endswith("-ts2hls-httpproxy"):
+                    kk = k[:-17]
+                    if kk in playlist_data_previous[channel_name]["timeshift"].keys():
+                        channel["timeshift"][k] = convert_rtsp_ts2hls(
+                            playlist_data_previous[channel_name]["timeshift"][kk],
+                            http_proxy_url
+                        )
                 elif k.endswith("-httpproxy"):
                     kk = k[:-10]
                     if kk in playlist_data_previous[channel_name]["timeshift"].keys():
@@ -248,9 +267,11 @@ def generate_m3u_from_http_get_params(
             host_url = f"{scheme}://{host}:{port}"
         rtp_proxy_url = f"{host_url}/{args.get("rtp", "rtp").strip("/")}/"
         rtsp_proxy_url = f"{host_url}/{args.get("rtsp", "rtsp").strip("/")}/"
+        http_proxy_url = f"{host_url}/{args.get("http", "http").strip("/")}/"
     else:
         rtp_proxy_url = args.get("rtp") or CONFIG_DEFAULT_PROXY_RTP
         rtsp_proxy_url = args.get("rtsp") or CONFIG_DEFAULT_PROXY_RTSP
+        http_proxy_url = args.get("http") or CONFIG_DEFAULT_PROXY_HTTP
     multi_source = args.get("multisource", "0") in ["1", "true", "True", "TRUE"]
     tag_include = args.get("include", None)
     tag_exclude = args.get("exclude", None)
@@ -283,6 +304,7 @@ def generate_m3u_from_http_get_params(
         key_timeshift=key_timeshift,
         rtp_proxy_url=rtp_proxy_url,
         rtsp_proxy_url=rtsp_proxy_url,
+        http_proxy_url=http_proxy_url,
         multi_source=multi_source,
         tag_include=tag_include,
         tag_exclude=tag_exclude,
@@ -370,6 +392,7 @@ if __name__ == "__main__":
     parser_convert.add_argument("--key-timeshift", nargs="+", default=CONFIG_DEFAULT_KEY_TIMESHIFT, help="Keys for timeshift sources to include.")
     parser_convert.add_argument("--rtp-proxy-url", default=CONFIG_DEFAULT_PROXY_RTP, help="RTP proxy URL.")
     parser_convert.add_argument("--rtsp-proxy-url", default=CONFIG_DEFAULT_PROXY_RTSP, help="RTSP proxy URL.")
+    parser_convert.add_argument("--http-proxy-url", default=CONFIG_DEFAULT_PROXY_HTTP, help="HTTP proxy URL, for ts2hls-httpproxy use.")
     parser_convert.add_argument("--multi-source", action="store_true", help="Enable multi source mode.")
     parser_convert.add_argument("--tag-include", nargs="+", default=CONFIG_DEFAULT_TAG_INCLUDE, help="Only include channels with these tags.")
     parser_convert.add_argument("--tag-exclude", nargs="+", default=CONFIG_DEFAULT_TAG_EXCLUDE, help="Exclude channels with these tags.")
@@ -391,6 +414,7 @@ if __name__ == "__main__":
             key_timeshift=args.key_timeshift,
             rtp_proxy_url=args.rtp_proxy_url,
             rtsp_proxy_url=args.rtsp_proxy_url,
+            http_proxy_url=args.http_proxy_url,
             multi_source=args.multi_source,
             tag_include=args.tag_include,
             tag_exclude=args.tag_exclude,
