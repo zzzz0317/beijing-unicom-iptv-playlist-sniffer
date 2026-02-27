@@ -510,6 +510,14 @@ SPDX-License-Identifier: AGPL-3.0-only
                     <div id="rtspProxyWarning" class="help-text error" style="display: none;">⚠️ 警告：已配置代理服务器，RTSP 地址应使用路径格式（如 /rtsp/）而非完整 URL</div>
                 </div>
 
+                <!-- http Proxy URL -->
+                <div class="form-group">
+                    <label for="httpProxy">HTTP 代理地址 (http)</label>
+                    <input type="text" id="httpProxy" placeholder="http://iptv.local:8080/http/" autocomplete="on" name="httpProxy">
+                    <div class="help-text">可选，留空使用默认值</div>
+                    <div id="httpProxyWarning" class="help-text error" style="display: none;">⚠️ 警告：已配置代理服务器，HTTP 地址应使用路径格式（如 /http/）而非完整 URL</div>
+                </div>
+
                 <!-- Multi Source -->
                 <div class="form-group">
                     <div class="checkbox-group">
@@ -603,7 +611,8 @@ SPDX-License-Identifier: AGPL-3.0-only
                 "bjunicom-multicast-httpproxy",
                 "bjunicom-rtsp",
                 "bjunicom-rtsp-httpproxy",
-                "bjunicom-rtsp-ts2hls"
+                "bjunicom-rtsp-ts2hls",
+                "bjunicom-rtsp-ts2hls-httpproxy"
             ],
             keyLiveDefaults: [
                 "bjunicom-multicast-httpproxy",
@@ -613,6 +622,7 @@ SPDX-License-Identifier: AGPL-3.0-only
                 "bjunicom-rtsp",
                 "bjunicom-rtsp-httpproxy",
                 "bjunicom-rtsp-ts2hls",
+                "bjunicom-rtsp-ts2hls-httpproxy",
                 "none"
             ],
             keyTimeshiftDefaults: [
@@ -768,21 +778,26 @@ SPDX-License-Identifier: AGPL-3.0-only
             const proxyHost = document.getElementById('proxyHost');
             const rtpProxy = document.getElementById('rtpProxy');
             const rtspProxy = document.getElementById('rtspProxy');
+            const httpProxy = document.getElementById('httpProxy');
             const rtpWarning = document.getElementById('rtpProxyWarning');
             const rtspWarning = document.getElementById('rtspProxyWarning');
+            const httpWarning = document.getElementById('httpProxyWarning');
 
             function validateProxyUrls() {
                 const hostValue = proxyHost.value.trim();
                 const rtpValue = rtpProxy.value.trim();
                 const rtspValue = rtspProxy.value.trim();
+                const httpValue = httpProxy.value.trim();
 
                 // 更新 placeholder
                 if (hostValue) {
                     rtpProxy.placeholder = '/rtp/';
                     rtspProxy.placeholder = '/rtsp/';
+                    httpProxy.placeholder = '/http/';
                 } else {
                     rtpProxy.placeholder = 'http://iptv.local:8080/rtp/';
                     rtspProxy.placeholder = 'http://iptv.local:8080/rtsp/';
+                    httpProxy.placeholder = 'http://iptv.local:8080/http/';
                 }
 
                 // 检查 RTP 代理
@@ -798,11 +813,19 @@ SPDX-License-Identifier: AGPL-3.0-only
                 } else {
                     rtspWarning.style.display = 'none';
                 }
+
+                // 检查 HTTP 代理
+                if (hostValue && httpValue && (httpValue.startsWith('http://') || httpValue.startsWith('https://'))) {
+                    httpWarning.style.display = 'block';
+                } else {
+                    httpWarning.style.display = 'none';
+                }
             }
 
             proxyHost.addEventListener('input', validateProxyUrls);
             rtpProxy.addEventListener('input', validateProxyUrls);
             rtspProxy.addEventListener('input', validateProxyUrls);
+            httpProxy.addEventListener('input', validateProxyUrls);
         }
 
         // 添加直播源
@@ -986,6 +1009,12 @@ SPDX-License-Identifier: AGPL-3.0-only
                 params.append('rtsp', rtspProxy);
             }
 
+            // HTTP Proxy
+            const httpProxy = document.getElementById('httpProxy').value.trim();
+            if (httpProxy) {
+                params.append('http', httpProxy);
+            }
+
             // Multi Source
             if (document.getElementById('multiSource').checked) {
                 params.append('multisource', '1');
@@ -1082,6 +1111,7 @@ SPDX-License-Identifier: AGPL-3.0-only
             document.getElementById('timeshiftWarning').style.display = 'none';
             document.getElementById('rtpProxyWarning').style.display = 'none';
             document.getElementById('rtspProxyWarning').style.display = 'none';
+            document.getElementById('httpProxyWarning').style.display = 'none';
             initializeForm();
         }
 
@@ -1096,6 +1126,7 @@ SPDX-License-Identifier: AGPL-3.0-only
                 proxyPort: document.getElementById('proxyPort').value.trim(),
                 rtpProxy: document.getElementById('rtpProxy').value.trim(),
                 rtspProxy: document.getElementById('rtspProxy').value.trim(),
+                httpProxy: document.getElementById('httpProxy').value.trim(),
                 multiSource: document.getElementById('multiSource').checked,
                 tagInclude: document.getElementById('tagInclude').value.trim(),
                 tagExclude: document.getElementById('tagExclude').value.trim(),
@@ -1166,11 +1197,15 @@ SPDX-License-Identifier: AGPL-3.0-only
                 if (formData.rtspProxy !== undefined) {
                     document.getElementById('rtspProxy').value = formData.rtspProxy;
                 }
+                if (formData.httpProxy !== undefined) {
+                    document.getElementById('httpProxy').value = formData.httpProxy;
+                }
                 
                 // 触发 input 事件以更新代理验证警告
                 document.getElementById('proxyHost').dispatchEvent(new Event('input'));
                 document.getElementById('rtpProxy').dispatchEvent(new Event('input'));
                 document.getElementById('rtspProxy').dispatchEvent(new Event('input'));
+                document.getElementById('httpProxy').dispatchEvent(new Event('input'));
                 
                 // 恢复复选框
                 if (formData.multiSource !== undefined) {
