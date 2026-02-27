@@ -685,6 +685,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
             // 填充直播源选项
             const liveSelect = document.getElementById('liveSelect');
+            liveSelect.innerHTML = '<option value="">-- 选择要添加的直播源 --</option>';
             config.keyLiveOptions.forEach(option => {
                 const opt = document.createElement('option');
                 opt.value = option;
@@ -699,6 +700,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
             // 填充时移源选项
             const timeshiftSelect = document.getElementById('timeshiftSelect');
+            timeshiftSelect.innerHTML = '<option value="">-- 选择要添加的时移源 --</option>';
             config.keyTimeshiftOptions.forEach(option => {
                 const opt = document.createElement('option');
                 opt.value = option;
