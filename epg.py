@@ -228,7 +228,11 @@ for epg in config_epg_external:
         continue
     if url.endswith(".gz"):
         print("EPG is gzip compressed")
-        ext_epg_data = gzip.decompress(ext_epg_data)
+        try:
+            ext_epg_data = gzip.decompress(ext_epg_data)
+        except:
+            print(f"Failed to decompress EPG data from {url}")
+            continue
     ext_epg_data = ext_epg_data.decode("utf-8")
     ext_epg_data = ET.fromstring(ext_epg_data)
     ext_epg_cache_data = {}
