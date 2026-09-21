@@ -226,7 +226,8 @@ for epg in config_epg_external:
     if status_code != 200:
         print(f"Get EPG data from {url} failed ({status_code})")
         continue
-    if url.endswith(".gz"):
+    # Detect compression from the response body, not the URL suffix.
+    if ext_epg_data.startswith(b"\x1f\x8b"):
         print("EPG is gzip compressed")
         try:
             ext_epg_data = gzip.decompress(ext_epg_data)
