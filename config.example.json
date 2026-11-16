@@ -105,6 +105,18 @@
   "epg_cache_external_offset": 0,
   "epg_internal": [
     {
+      "tvg_from": "四川卫视",
+      "tvg_to": "四川卫视高清",
+      "tvg_from_id": 142,
+      "tvg_to_id": 54
+    },
+    {
+      "tvg_from": "海南卫视",
+      "tvg_to": "海南卫视高清",
+      "tvg_from_id": 158,
+      "tvg_to_id": 60
+    },
+    {
       "tvg_from": "湖南卫视高清",
       "tvg_to": "湖南卫视4K超高清",
       "tvg_from_id": 41,
