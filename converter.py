@@ -8,11 +8,12 @@
 import os
 import sys
 import json
+import datetime
 import time
 import argparse
 import urllib.request
 
-from util import calculate_file_hash, sort_dict_keys, get_remote_content
+from util import calculate_file_hash, sort_dict_keys, get_time_str, get_remote_content
 
 DIR_SCRIPT = os.path.dirname(os.path.realpath(sys.argv[0]))
 DIR_RUNNING = os.getcwd()
@@ -184,34 +185,6 @@ while True:
 
     if need_update_playlist:
         print("need_update_playlist is True, time to update playlist!")
-        epg_channel_map = {}
-        if config_playlist_extract_channel_info_from_epg:
-            try:
-                url_epggroup = f"{config_epg_server_url}/epggroup/201.json"
-                print("Fetching epg group data from", url_epggroup)
-                status_code, data_epggroup = get_remote_content(url_epggroup)
-                if status_code != 200:
-                    raise Exception(f"Fetch epg group data failed with status code {status_code}")
-                data_epggroup = json.loads(data_epggroup)
-                # more / for prevent relative path issue
-                url_epgpage = f"{config_epg_server_url}/{data_epggroup['group_channel']}"
-                print("Fetching epg page data from", url_epgpage)
-                status_code, data_epgpage = get_remote_content(url_epgpage)
-                if status_code != 200:
-                    raise Exception(f"Fetch epg page data failed with status code {status_code}")
-                data_epgpage = json.loads(data_epgpage)
-                url_epgcategory = f"{config_epg_server_url}/{data_epgpage['elements'][0]['items'][0]['datalink']}"
-                print("Fetching epg category data from", url_epgcategory)
-                status_code, data_epgcategory = get_remote_content(url_epgcategory)
-                if status_code != 200:
-                    raise Exception(f"Fetch epg category data failed with status code {status_code}")
-                data_epgcategory = json.loads(data_epgcategory)
-                for channel in data_epgcategory.get("epgCategorydtl", []):
-                    epg_channel_map[channel["code"]] = {
-                        "title": channel.get("title", "")
-                    }
-            except Exception as e:
-                print("Fetch epg data error:", e.__class__.__name__, e)
         with open(config_playlist_raw_path, "r", encoding="utf-8") as f_raw_playlist_save:
             channel_list = json.load(f_raw_playlist_save)
         channel_list = sorted(channel_list, key = lambda i: i['userChannelID'])
@@ -235,6 +208,19 @@ while True:
                     channel_rtsp_url = None
             channel_name = channel["channelName"].strip()
             channel_timeshift = channel.get("timeShift", False)
+            if config_playlist_extract_channel_info_from_epg and channel_id_sys is not None and channel_name not in config_playlist_ignore_channel_list:
+                datestr = get_time_str(datetime.datetime.now(), "%Y%m%d")
+                url = f"{config_epg_server_url}/schedules/{channel_id_sys}_{datestr}.json"
+                status_code, day_epg_data = get_remote_content(url)
+                if status_code == 200:
+                    day_epg_data = json.loads(day_epg_data)
+                    channel_info = day_epg_data.get("channel", {})
+                    channel_name_from_epg = channel_info.get("title", None)
+                else:
+                    print(f"Failed to get EPG data for channel {channel_name} from {url}, status code: {status_code}")
+                    channel_name_from_epg = None
+            else:
+                channel_name_from_epg = None
             zz_playlist.append({
                 "channel_id": channel_id,
                 "channel_id_sys": channel_id_sys,
@@ -242,7 +228,8 @@ while True:
                 "channel_name": channel_name,
                 "channel_rtsp_url": channel_rtsp_url,
                 "channel_support_timeshift": channel_support_timeshift,
-                "channel_timeshift": channel_timeshift
+                "channel_timeshift": channel_timeshift,
+                "channel_name_from_epg": channel_name_from_epg
             })
         for channel_name, channel_data in config_playlist_additional.items():
             zz_playlist.append({"channel_id": channel_data["channel_id"], "igmp_ip_port": channel_data["igmp_ip_port"], "channel_name": channel_name})
@@ -255,7 +242,7 @@ while True:
                 channel_name = channel["channel_name"]
                 channel_id_sys = channel.get("channel_id_sys", None)
                 channel_id_user = channel.get("channel_id", None)
-                channel_name_from_epg = epg_channel_map.get(channel_id_sys, {}).get("title", None)
+                channel_name_from_epg = channel.get("channel_name_from_epg", None)
                 channel_logo = tvg_mapper.get(channel["channel_name"], {}).get("tvg-logo", None)
                 channel_group_title = tvg_mapper.get(channel["channel_name"], {}).get("group-title", None)
                 channel_definition = tvg_mapper.get(channel["channel_name"], {}).get("zz-definition", None)
@@ -347,9 +334,7 @@ while True:
                 #continue
             channel_name_from_epg = None
             channel_id_sys = channel.get("channel_id_sys", None)
-            if config_playlist_extract_channel_info_from_epg and channel_id_sys is not None:
-                if channel_id_sys in epg_channel_map.keys():
-                    channel_name_from_epg = epg_channel_map[channel_id_sys].get("title", None)
+            channel_name_from_epg = channel.get("channel_name_from_epg", None)
             tvg_mapper_channel = tvg_mapper.get(channel["channel_name"], {})
             info_line = f'#EXTINF:-1 channel-number="{channel["channel_id"]}"'
             tvg_id = channel["channel_id"]
